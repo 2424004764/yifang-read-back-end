@@ -2,11 +2,11 @@
 
 namespace app\controllers;
 
+use app\common\BaseController;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
 
-class SiteController extends Controller
+class SiteController extends BaseController
 {
     /**
      * {@inheritdoc}
@@ -58,6 +58,13 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    public function actionAb()
+    {
+        $app = \Yii::$app;
+        $flag = $app instanceof \yii\web\Application;
+        var_dump($flag);
     }
 
     public function actionError()

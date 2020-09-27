@@ -1,5 +1,6 @@
 <?php
 
+$this->title = \Yii::$app->name;
 ?>
 <h1>What is it？</h1>
 
