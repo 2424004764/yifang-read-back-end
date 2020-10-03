@@ -8,9 +8,6 @@ use yii\filters\VerbFilter;
 
 class SiteController extends BaseController
 {
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
