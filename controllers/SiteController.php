@@ -68,4 +68,12 @@ class SiteController extends BaseController
     {
         return 'error111';
     }
+
+    public function actionTestApi()
+    {
+        return array(
+            'code'  => 200,
+            'msg'   =>  'success'
+        );
+    }
 }
