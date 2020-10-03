@@ -19,7 +19,7 @@ Thumbs.db
 
 # composer vendor dir
 /vendor
-!/vendor/yiisoft/yii2/base/Application.php
+!vendor/yiisoft/yii2/base/Application.php
 
 # composer itself is not needed
 composer.phar
