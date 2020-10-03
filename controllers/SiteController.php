@@ -71,9 +71,6 @@ class SiteController extends BaseController
 
     public function actionTestApi()
     {
-        return array(
-            'code'  => 200,
-            'msg'   =>  'success'
-        );
+        $this->jsonSuccess();
     }
 }
