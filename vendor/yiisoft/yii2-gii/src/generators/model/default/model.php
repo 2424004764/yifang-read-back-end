@@ -20,7 +20,6 @@ echo "<?php\n";
 namespace <?= $generator->ns ?>;
 
 use Yii;
-use app\common\BaseAR;
 
 /**
  * This is the model class for table "<?= $generator->generateTableName($tableName) ?>".
@@ -34,9 +33,8 @@ use app\common\BaseAR;
  * @property <?= $relation[1] . ($relation[2] ? '[]' : '') . ' $' . lcfirst($name) . "\n" ?>
 <?php endforeach; ?>
 <?php endif; ?>
- * BaseAR 继承了 \yii\db\ActiveRecord
  */
-class <?= $className ?> extends BaseAR
+class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . "\n" ?>
 {
     /**
      * {@inheritdoc}
