@@ -43,5 +43,8 @@ phpunit.phar
 /backend/web/index-test.php
 /backend/web/robots.txt
 
+# 配置文件
+/config
+
 
 Jenkins.md
