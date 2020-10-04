@@ -57,13 +57,6 @@ class SiteController extends BaseController
         return $this->render('index');
     }
 
-    public function actionAb()
-    {
-        $app = \Yii::$app;
-        $flag = $app instanceof \yii\web\Application;
-        var_dump($flag);
-    }
-
     public function actionError()
     {
         return 'error111';
