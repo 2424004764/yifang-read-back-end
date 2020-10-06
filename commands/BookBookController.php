@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace app\commands;
 
 use Yii;
 use app\common\entity\BookBookEntity;

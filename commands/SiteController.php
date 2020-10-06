@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace app\commands;
 
 use app\common\BaseController;
 use yii\filters\AccessControl;
