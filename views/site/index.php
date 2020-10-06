@@ -15,3 +15,7 @@ $this->title = \Yii::$app->name;
 <p>api 文档使用docker 安装的yapi</p>
 
 <p>网关使用kong  http服务器是nginx，PHP版本7.4，mysql5.7，持续构建使用jenkins</p>
+
+<p>系统架构如下</p>
+
+<img src="http://cdn.fologde.com/kong-nginx-swoole.png" alt="">
