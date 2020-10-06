@@ -18,4 +18,4 @@ $this->title = \Yii::$app->name;
 
 <p>系统架构如下</p>
 
-<img src="http://cdn.fologde.com/kong-nginx-swoole.png" alt="">
+<img src="http://cdn.fologde.com/kong-nginx-swoole.png" width="550px" alt="">
