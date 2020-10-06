@@ -35,6 +35,27 @@ $config = [
         ],
     ],
     */
+    'controllerMap' =>  [
+        'swoole-backend' => [
+            'class' => feehi\console\SwooleController::className(),
+            'rootDir' => __DIR__.'/..',//yii2项目根路径
+            'app' => '',
+            'host' => '127.0.0.1',
+            'port' => 9501,
+            'web' => 'web',//默认为web。rootDir app web目的是拼接yii2的根目录，如果你的应用为basic，那么app为空即可。
+            'debug' => true,//默认开启debug，上线应置为false
+            'env' => 'dev',//默认为dev，上线应置为prod
+            'type'  =>  'basic',
+            'swooleConfig' => [
+                'reactor_num' => 2,
+                'worker_num' => 4,
+                'daemonize' => false,
+                'log_file' => __DIR__ . '/../runtime/logs/swoole.log',
+                'log_level' => 0,
+                'pid_file' => __DIR__ . '/../runtime/server.pid',
+            ],
+        ]
+    ],
 ];
 
 if (YII_ENV_DEV) {
