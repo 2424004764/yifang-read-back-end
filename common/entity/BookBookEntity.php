@@ -3,6 +3,7 @@
 namespace app\common\entity;
 
 use Yii;
+use yii\db\Exception;
 
 /**
  * This is the model class for table "book_book".
@@ -29,6 +30,19 @@ class BookBookEntity extends \app\common\BaseAR
     {
         return 'book_book';
     }
+
+
+    /**
+     * 不同的场景校验不同的字段
+     * @return array|array[]
+     */
+//    public function scenarios()
+//    {
+//        return [
+//            'add'   =>  [],
+//            'update'=>  []
+//        ];
+//    }
 
     /**
      * {@inheritdoc}

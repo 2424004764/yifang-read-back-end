@@ -53,4 +53,13 @@ class BookClassEntity extends \app\common\BaseAR
             'create_on' => '添加时间',
         ];
     }
+
+    /**
+     * 获取所有分类
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function getAll()
+    {
+        return self::find()->all();
+    }
 }

@@ -12,6 +12,8 @@ use Yii;
  * @property int $user_id 用户id
  * @property int $score 评分分数 1-10
  * @property string $create_on 评分时间
+ * @property string $comment 评分内容
+ * @property int $up_count 评分点赞人数
  */
 class BookScoreEntity extends \app\common\BaseAR
 {
@@ -29,8 +31,9 @@ class BookScoreEntity extends \app\common\BaseAR
     public function rules()
     {
         return [
-            [['book_id', 'user_id', 'score'], 'integer'],
+            [['book_id', 'user_id', 'score', 'up_count'], 'integer'],
             [['create_on'], 'safe'],
+            [['comment'], 'string'],
         ];
     }
 
@@ -45,6 +48,8 @@ class BookScoreEntity extends \app\common\BaseAR
             'user_id' => '用户id',
             'score' => '评分分数 1-10',
             'create_on' => '评分时间',
+            'comment' => '评分内容',
+            'up_count' => '评分点赞人数',
         ];
     }
 }

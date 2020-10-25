@@ -7,9 +7,7 @@ use Yii;
 /**
  * This is the model class for table "book_chapter_content".
  *
- * @property int $chapter_content_id 书籍内容表id主键
  * @property int $chapter_id 书籍章节id
- * @property int $book_id 书籍id
  * @property string $chapter_content 章节内容 最多 65535 个字符
  * @property string $create_on 添加时间
  */
@@ -29,10 +27,11 @@ class BookChapterContentEntity extends \app\common\BaseAR
     public function rules()
     {
         return [
-            [['chapter_id', 'book_id'], 'integer'],
-            [['chapter_content'], 'required'],
+            [['chapter_id', 'chapter_content'], 'required'],
+            [['chapter_id'], 'integer'],
             [['chapter_content'], 'string'],
             [['create_on'], 'safe'],
+            [['chapter_id'], 'unique'],
         ];
     }
 
@@ -42,9 +41,7 @@ class BookChapterContentEntity extends \app\common\BaseAR
     public function attributeLabels()
     {
         return [
-            'chapter_content_id' => '书籍内容表id主键',
             'chapter_id' => '书籍章节id',
-            'book_id' => '书籍id',
             'chapter_content' => '章节内容 最多 65535 个字符',
             'create_on' => '添加时间',
         ];

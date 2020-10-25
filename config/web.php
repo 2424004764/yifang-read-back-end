@@ -40,6 +40,14 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                [
+                    'class'     =>  'yii\log\FileTarget',
+                    'levels'    =>  ['error', 'warning','info'],
+                    'logVars'   =>  [],
+                    'categories'=>  ['yii\db\*','app\models\*'],
+                    //表示写入到文件
+                    'logFile'=>'@runtime/../runtime/logs/YIISQL_'.date('y_m_d').'.log',
+                ]
             ],
         ],
         'db' => $db,

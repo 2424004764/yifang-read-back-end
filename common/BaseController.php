@@ -6,21 +6,26 @@
 
 namespace app\common;
 
+use yii\helpers\Json;
 use yii\web\Controller;
 
 class BaseController extends Controller
 {
     /**
      * 直接输出json格式字符串
-     * @param array $data
-     * @param int $code
+     * @param array $data 返回的数据
+     * @param int $code 返回的状态码
+     * @param string $msg 返回的消息
+     * @return array
      */
-    public function jsonSuccess($data = [], $code = 200)
+    public function outPutJson($data = [], $code = 200, $msg = '')
     {
-        echo json_encode(array(
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return array(
             'code'  =>  $code,
-            'data'  =>  $data
-        ));
+            'data'  =>  $data,
+            'msg'   =>  $msg
+        );
     }
 
     /**
