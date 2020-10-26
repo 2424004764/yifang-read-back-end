@@ -13,6 +13,8 @@ namespace app\common\train\error;
 class ErrorMsg
 {
 
+    public static $SUCCESS = 'success';
+
     /**
      * 定义错误描述信息
      * @var array
@@ -36,6 +38,6 @@ class ErrorMsg
      * @return string
      */
     public static function getDefaultMsg() {
-        return '服务器错误';
+        return '服务器错误 500';
     }
 }

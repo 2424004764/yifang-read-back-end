@@ -2,6 +2,10 @@
 
 namespace app\controllers;
 
+use app\common\services\BookClassService;
+use app\common\train\error\ErrorCode;
+use app\common\train\error\ErrorInfo;
+use app\common\train\error\ErrorMsg;
 use Yii;
 use app\common\entity\BookClassEntity;
 use app\common\searchs\BookClassSearch;
@@ -15,6 +19,14 @@ use yii\filters\VerbFilter;
  */
 class BookClassController extends BaseController
 {
+
+    private $_bookClassService = null; // 控制器对应的服务类
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->_bookClassService = new BookClassService;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -124,5 +136,16 @@ class BookClassController extends BaseController
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionGetClass()
+    {
+        $page = (int)\Yii::$app->request->get('page', 10);
+        $size = (int)\Yii::$app->request->get('size', 1);
+        $data = $this->_bookClassService->getItem($page, $size);
+        if(false == $data){
+            return $this->outPutJson([], ErrorInfo::getErrCode(), ErrorInfo::getErrMsg());
+        }
+        return $this->outPutJson($data, ErrorCode::SUCCESS, ErrorMsg::$SUCCESS);
     }
 }
