@@ -22,11 +22,11 @@ class BaseAR extends ActiveRecord
 
     /**
      * 统一的添加方法
-     * @param $entity
+     * @param $entity BaseAR
      * @return BaseAR
      * @throws \Exception
      */
-    public static function add($entity)
+    public static function add(BaseAR $entity)
     {
         if(!($entity instanceof BaseAR)){
             throw new \Exception("提交的Entity父类必须是BaseAR");

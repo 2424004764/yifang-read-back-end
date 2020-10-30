@@ -39,7 +39,7 @@ class BookBookEntity extends \app\common\BaseAR
 //    public function scenarios()
 //    {
 //        return [
-//            'add'   =>  [],
+//            'insert'   =>  [],
 //            'update'=>  []
 //        ];
 //    }
