@@ -10,6 +10,7 @@
 namespace app\common\repository;
 use app\common\BaseAR;
 use app\common\train\error\ErrorTrain;
+use Faker\Provider\Base;
 
 class BaseRepository
 {
@@ -39,20 +40,18 @@ class BaseRepository
     }
 
     /**
-     * @param $entity
+     * @param $entity BaseAR 查询条件
      * @param $where
      * @param $field
      * @param $order
-     * @param $size
-     * @param $offset
      * @return array|\yii\db\ActiveRecord[]
      * @throws \Exception
      */
     public function getItem($entity, $where = [], $field = null,
-        $order = [], $size = null, $offset = null)
+        $order = [])
     {
         try {
-            return $this->_baseEntity->getItem($entity, $where, $field, $order, $size, $offset);
+            return $this->_baseEntity->getItem($entity, $where, $field, $order);
         }catch (\Exception $exception){
             throw new \Exception($exception->getMessage());
         }

@@ -17,6 +17,13 @@ use Yii;
  */
 class BookClassEntity extends \app\common\BaseAR
 {
+
+    // 查询条件
+    /**@var int $page 当前页**/
+    public int $page;
+    /**@var int $size 页大小**/
+    public int $size;
+
     /**
      * {@inheritdoc}
      */
@@ -35,6 +42,8 @@ class BookClassEntity extends \app\common\BaseAR
             [['create_on'], 'safe'],
             [['class_id_name'], 'string', 'max' => 50],
             [['class_cover_img'], 'string', 'max' => 255],
+            // 查询条件参数
+            [['page', 'size'], 'integer']
         ];
     }
 
@@ -51,6 +60,7 @@ class BookClassEntity extends \app\common\BaseAR
             'order' => '排序  可拖动，当托动到另一个分类的前面时，设置当前排序的值为拖动到的分类的值加一即可 不可手动设置',
             'status' => '状态 0正常 1禁用',
             'create_on' => '添加时间',
+            'page'  =>  "page"
         ];
     }
 

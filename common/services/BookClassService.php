@@ -23,10 +23,11 @@ class BookClassService extends BaseService
         $this->_bookClassRepository = new BookClassRepository;
     }
 
-    public function getItem($page, $size)
+    public function getItem($entity)
     {
-        $entity = new BookClassEntity;
         try {
+            // 发起查询前  效验参数
+
             return $this->_bookClassRepository->getItem($entity);
         } catch (\Exception $e) {
             return self::setAndReturn(ErrorCode::FAILURE, $e->getMessage());

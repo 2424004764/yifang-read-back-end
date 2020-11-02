@@ -144,9 +144,13 @@ class BookClassController extends BaseController
      */
     public function actionGetClass()
     {
-        $page = (int)\Yii::$app->request->get('page', 10);
-        $size = (int)\Yii::$app->request->get('size', 1);
-        $data = $this->_bookClassService->getItem($page, $size);
+        $page = (int)\Yii::$app->request->get('page', 1);
+        $size = (int)\Yii::$app->request->get('size', 10);
+
+        $entity = new BookClassEntity;
+        $entity->page = $page;
+        $entity->size = $size;
+        $data = $this->_bookClassService->getItem($entity);
         if(false == $data){
             return $this->outPutJson([], ErrorInfo::getErrCode(), ErrorInfo::getErrMsg());
         }

@@ -50,19 +50,17 @@ class BaseAR extends ActiveRecord
      * @param $where array 查询条件
      * @param $field string 需要返回的字段 不穿 返回全部字段
      * @param $order array 排序方式
-     * @param $size int 每次返回多少数据
-     * @param $offset int 页码
      * @return array|ActiveRecord[]
      */
     public function getItem(self $entity, $where, $field,
-        $order, $size, $offset)
+        $order)
     {
         $query = $entity::find();
         if($where)$query->with($where);
         if($field)$query->select($field);
         if($order)$query->orderBy($order);
-        if($size)$query->limit($size);
-        if($offset)$query->offset(($size - 1) * $offset);
+        if($entity->page)$query->offset(($entity->page - 1) * $entity->size);
+        if($entity->size)$query->limit($entity->size);
         return $query->all();
     }
 
