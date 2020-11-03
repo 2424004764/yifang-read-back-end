@@ -3,7 +3,6 @@
 namespace app\common\entity;
 
 use Yii;
-use yii\db\Exception;
 
 /**
  * This is the model class for table "book_book".
@@ -11,6 +10,7 @@ use yii\db\Exception;
  * @property int $book_id 书籍主键
  * @property string $book_name 书籍名字
  * @property string $book_cover_imgs 封面图 最多5张，每张图片地址字符串长度最大为300
+ * @property string $book_desc 书籍描述
  * @property int $book_word_count 书籍的总字数 包含书籍简介
  * @property int $book_favorites_count 书籍收藏人数 加队列处理
  * @property int $book_click_count 书籍点击数 可以重复  加队列处理
@@ -31,19 +31,6 @@ class BookBookEntity extends \app\common\BaseAR
         return 'book_book';
     }
 
-
-    /**
-     * 不同的场景校验不同的字段
-     * @return array|array[]
-     */
-//    public function scenarios()
-//    {
-//        return [
-//            'insert'   =>  [],
-//            'update'=>  []
-//        ];
-//    }
-
     /**
      * {@inheritdoc}
      */
@@ -54,6 +41,7 @@ class BookBookEntity extends \app\common\BaseAR
             [['create_on'], 'safe'],
             [['book_name'], 'string', 'max' => 100],
             [['book_cover_imgs'], 'string', 'max' => 1500],
+            [['book_desc'], 'string', 'max' => 255],
         ];
     }
 
@@ -66,6 +54,7 @@ class BookBookEntity extends \app\common\BaseAR
             'book_id' => '书籍主键',
             'book_name' => '书籍名字',
             'book_cover_imgs' => '封面图 最多5张，每张图片地址字符串长度最大为300',
+            'book_desc' => '书籍描述',
             'book_word_count' => '书籍的总字数 包含书籍简介',
             'book_favorites_count' => '书籍收藏人数 加队列处理',
             'book_click_count' => '书籍点击数 可以重复  加队列处理',
