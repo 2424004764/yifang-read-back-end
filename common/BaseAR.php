@@ -5,6 +5,7 @@
  */
 
 namespace app\common;
+use app\common\utTrait\QueryParams;
 use yii\db\ActiveRecord;
 
 
@@ -46,21 +47,18 @@ class BaseAR extends ActiveRecord
 
     /**
      * 可复用的查找方法
-     * @param BaseAR $entity 需要查询的entity
-     * @param $where array 查询条件
-     * @param $field string 需要返回的字段 不穿 返回全部字段
-     * @param $order array 排序方式
+     *  @param $queryParams QueryParams 查询条件
+     * @param $queryEntity BaseAR 要查询的Entity
      * @return array|ActiveRecord[]
      */
-    public function getItem(self $entity, $where, $field,
-        $order)
+    public function getItem($queryParams, $queryEntity)
     {
-        $query = $entity::find();
-        if($where)$query->with($where);
-        if($field)$query->select($field);
-        if($order)$query->orderBy($order);
-        if($entity->page)$query->offset(($entity->page - 1) * $entity->size);
-        if($entity->size)$query->limit($entity->size);
+        $query = $queryEntity::find();
+        if($queryParams->where)$query->with($queryParams->where);
+        if($queryParams->field)$query->select($queryParams->field);
+        if($queryParams->orderBy)$query->orderBy($queryParams->orderBy);
+        if($queryParams->offset)$query->offset(($queryParams->offset - 1) * $queryParams->limit);
+        if($queryParams->limit)$query->limit($queryParams->limit);
         return $query->all();
     }
 

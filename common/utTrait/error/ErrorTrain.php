@@ -7,7 +7,7 @@
  * Time: 22:43
  */
 
-namespace app\common\train\error;
+namespace app\common\utTrait\error;
 trait ErrorTrain{
     /**
      * @param string $errCode 错误码

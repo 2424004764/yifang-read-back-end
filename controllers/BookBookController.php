@@ -125,4 +125,13 @@ class BookBookController extends BaseController
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+
+    public function getBookList()
+    {
+        $page = (int)\Yii::$app->request->get('page', 1);
+        $size = (int)\Yii::$app->request->get('size', 10);
+
+
+    }
 }

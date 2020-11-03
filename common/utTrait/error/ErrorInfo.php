@@ -7,7 +7,7 @@
  * Time: 22:50
  */
 
-namespace app\common\train\error;
+namespace app\common\utTrait\error;
 
 
 class ErrorInfo

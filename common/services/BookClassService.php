@@ -12,7 +12,7 @@ namespace app\common\services;
 
 use app\common\entity\BookClassEntity;
 use app\common\repository\BookClassRepository;
-use app\common\train\error\ErrorCode;
+use app\common\utTrait\error\ErrorCode;
 
 class BookClassService extends BaseService
 {
@@ -23,12 +23,11 @@ class BookClassService extends BaseService
         $this->_bookClassRepository = new BookClassRepository;
     }
 
-    public function getItem($entity)
+    public function getItem($queryParams)
     {
         try {
-            // 发起查询前  效验参数
-
-            return $this->_bookClassRepository->getItem($entity);
+            $queryEntity = new BookClassEntity;
+            return $this->_bookClassRepository->getItem($queryParams, $queryEntity);
         } catch (\Exception $e) {
             return self::setAndReturn(ErrorCode::FAILURE, $e->getMessage());
         }

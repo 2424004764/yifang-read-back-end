@@ -1,7 +1,7 @@
 <?php
 namespace app\common\services;
 
-use app\common\train\error\ErrorTrain;
+use app\common\utTrait\error\ErrorTrain;
 
 class BaseService
 {

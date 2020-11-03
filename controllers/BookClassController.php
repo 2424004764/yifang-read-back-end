@@ -2,10 +2,11 @@
 
 namespace app\controllers;
 
+use app\common\uTtrait\QueryParams;
 use app\common\services\BookClassService;
-use app\common\train\error\ErrorCode;
-use app\common\train\error\ErrorInfo;
-use app\common\train\error\ErrorMsg;
+use app\common\utTrait\error\ErrorCode;
+use app\common\utTrait\error\ErrorInfo;
+use app\common\utTrait\error\ErrorMsg;
 use Yii;
 use app\common\entity\BookClassEntity;
 use app\common\searchs\BookClassSearch;
@@ -147,10 +148,10 @@ class BookClassController extends BaseController
         $page = (int)\Yii::$app->request->get('page', 1);
         $size = (int)\Yii::$app->request->get('size', 10);
 
-        $entity = new BookClassEntity;
-        $entity->page = $page;
-        $entity->size = $size;
-        $data = $this->_bookClassService->getItem($entity);
+        $queryParams = new QueryParams();
+        $queryParams->limit($size);
+        $queryParams->offset($page);
+        $data = $this->_bookClassService->getItem($queryParams);
         if(false == $data){
             return $this->outPutJson([], ErrorInfo::getErrCode(), ErrorInfo::getErrMsg());
         }
