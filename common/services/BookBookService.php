@@ -10,6 +10,7 @@
 namespace app\common\services;
 
 
+use app\common\entity\BookBookEntity;
 use app\common\repository\BookBookRepository;
 
 class BookBookService extends BaseService
@@ -20,5 +21,6 @@ class BookBookService extends BaseService
     {
         parent::__construct();
         $this->_bookBookRepository = new BookBookRepository;
+        $this->Entity = new BookBookEntity;
     }
 }
