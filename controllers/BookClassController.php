@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\common\uTtrait\QueryParams;
+use app\common\utTrait\QueryParams;
 use app\common\services\BookClassService;
 use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\error\ErrorInfo;
