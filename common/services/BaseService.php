@@ -1,6 +1,7 @@
 <?php
 namespace app\common\services;
 
+use app\common\BaseAR;
 use app\common\entity\BookBookEntity;
 use app\common\entity\BookClassEntity;
 use app\common\repository\BaseRepository;
@@ -12,6 +13,8 @@ class BaseService
     use ErrorTrain;
 
     private BaseRepository $_baseRepository;
+
+    protected BaseAR $Entity; // 由子类定义该操作哪个Entity
 
     public function __construct()
     {
@@ -26,8 +29,7 @@ class BaseService
     public function getItem($queryParams)
     {
         try {
-            $queryEntity = new BookBookEntity;
-            return $this->_baseRepository->getItem($queryParams, $queryEntity);
+            return $this->_baseRepository->getItem($queryParams, $this->Entity);
         } catch (\Exception $e) {
             return self::setAndReturn(ErrorCode::FAILURE, $e->getMessage());
         }

@@ -10,6 +10,7 @@
 namespace app\common\services;
 
 
+use app\common\entity\BookClassEntity;
 use app\common\repository\BookClassRepository;
 
 class BookClassService extends BaseService
@@ -20,6 +21,7 @@ class BookClassService extends BaseService
     {
         parent::__construct();
         $this->_bookClassRepository = new BookClassRepository;
+        $this->Entity = new BookClassEntity; // 初始化查询的Entity
     }
 
 }
