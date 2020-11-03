@@ -150,6 +150,15 @@ class BookBookController extends BaseController
         return $this->uniReturnJson($this->_bookBookService->getItem($queryParams));
     }
 
+    /**
+     * 根据书籍id获取书籍详情
+     * @return array
+     */
+    public function actionGetBookDetailById()
+    {
+        $book_id = (int)\Yii::$app->request->get('book_id', 0);
 
+        return $this->uniReturnJson($this->_bookBookService->getItemDetail($book_id));
+    }
 
 }

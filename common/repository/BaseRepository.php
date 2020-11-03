@@ -16,7 +16,7 @@ class BaseRepository
 {
     use ErrorTrain;
 
-    private $_baseEntity = null; // 所有 entity 的爸爸
+    private BaseAR $_baseEntity; // 所有 entity 的爸爸
 
     public function __construct()
     {
@@ -49,6 +49,23 @@ class BaseRepository
     {
         try {
             return $this->_baseEntity->getItem($QueryParams, $queryEntity);
+        }catch (\Exception $exception){
+            throw new \Exception($exception->getMessage());
+        }
+    }
+
+    /**
+     * 根据条件查询一条记录
+     * @param $where array 条件
+     * @param $queryEntity
+     * @return array|\yii\db\ActiveRecord|null
+     * @throws \Exception
+     */
+    public function getItemDetail($where, $queryEntity)
+    {
+        try {
+            // 组装查询条件
+            return $this->_baseEntity->getItemDetail($where, $queryEntity);
         }catch (\Exception $exception){
             throw new \Exception($exception->getMessage());
         }

@@ -62,4 +62,16 @@ class BaseAR extends ActiveRecord
         return $query->all();
     }
 
+
+    /**
+     * 根据条件查询一条记录
+     * @param $where array 条件
+     * @param BaseAR $queryEntity
+     * @return array|ActiveRecord|null
+     */
+    public function getItemDetail($where, BaseAR $queryEntity)
+    {
+        return $queryEntity::find()->where($where)->one();
+    }
+
 }
