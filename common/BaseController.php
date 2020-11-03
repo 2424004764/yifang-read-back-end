@@ -40,4 +40,17 @@ class BaseController extends Controller
             'data'  =>  $data
         ]));
     }
+
+    /**
+     * 统一获取分页参数
+       效验后返回
+     * @return int[]
+     */
+    public function uniGetPaging()
+    {
+        $page = (int)\Yii::$app->request->get('page', 1);
+        $size = (int)\Yii::$app->request->get('size', 10);
+
+        return [$page, $size];
+    }
 }

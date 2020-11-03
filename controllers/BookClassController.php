@@ -21,7 +21,7 @@ use yii\filters\VerbFilter;
 class BookClassController extends BaseController
 {
 
-    private $_bookClassService = null; // 控制器对应的服务类
+    private BookClassService $_bookClassService; // 控制器对应的服务类
     public function __construct($id, $module, $config = [])
     {
         parent::__construct($id, $module, $config);
@@ -145,9 +145,7 @@ class BookClassController extends BaseController
      */
     public function actionGetClass()
     {
-        $page = (int)\Yii::$app->request->get('page', 1);
-        $size = (int)\Yii::$app->request->get('size', 10);
-
+        list($page, $size) = $this->uniGetPaging();
         $queryParams = new QueryParams();
         $queryParams->limit($size);
         $queryParams->offset($page);

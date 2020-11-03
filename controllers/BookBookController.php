@@ -2,6 +2,11 @@
 
 namespace app\controllers;
 
+use app\common\services\BookBookService;
+use app\common\utTrait\error\ErrorCode;
+use app\common\utTrait\error\ErrorInfo;
+use app\common\utTrait\error\ErrorMsg;
+use app\common\utTrait\QueryParams;
 use Yii;
 use app\common\entity\BookBookEntity;
 use app\common\searchs\BookBookSearch;
@@ -15,6 +20,15 @@ use yii\filters\VerbFilter;
  */
 class BookBookController extends BaseController
 {
+
+    private BookBookService $_bookBookService; // 控制器对应的服务类
+
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->_bookBookService = new BookBookService;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -126,12 +140,20 @@ class BookBookController extends BaseController
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-
+    /**
+     * 获取书籍列表
+     * @return array
+     */
     public function getBookList()
     {
-        $page = (int)\Yii::$app->request->get('page', 1);
-        $size = (int)\Yii::$app->request->get('size', 10);
-
-
+        list($page, $size) = $this->uniGetPaging();
+        $queryParams = new QueryParams();
+        $queryParams->limit($size);
+        $queryParams->offset($page);
+        $data = $this->_bookBookService->getItem($queryParams);
+        if(false == $data){
+            return $this->outPutJson([], ErrorInfo::getErrCode(), ErrorInfo::getErrMsg());
+        }
+        return $this->outPutJson($data, ErrorCode::SUCCESS, ErrorMsg::$SUCCESS);
     }
 }

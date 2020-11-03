@@ -10,26 +10,16 @@
 namespace app\common\services;
 
 
-use app\common\entity\BookClassEntity;
 use app\common\repository\BookClassRepository;
-use app\common\utTrait\error\ErrorCode;
 
 class BookClassService extends BaseService
 {
-    private $_bookClassRepository = null; // 服务对应的操作数据库的类
+    private BookClassRepository $_bookClassRepository; // 服务对应的操作数据库的类
 
     public function __construct()
     {
+        parent::__construct();
         $this->_bookClassRepository = new BookClassRepository;
     }
 
-    public function getItem($queryParams)
-    {
-        try {
-            $queryEntity = new BookClassEntity;
-            return $this->_bookClassRepository->getItem($queryParams, $queryEntity);
-        } catch (\Exception $e) {
-            return self::setAndReturn(ErrorCode::FAILURE, $e->getMessage());
-        }
-    }
 }
