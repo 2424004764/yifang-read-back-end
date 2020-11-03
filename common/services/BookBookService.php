@@ -10,7 +10,15 @@
 namespace app\common\services;
 
 
-class BookBookService
-{
+use app\common\repository\BookBookRepository;
 
+class BookBookService extends BaseService
+{
+    private BookBookRepository $_bookBookRepository; // 服务对应的操作数据库的类
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->_bookBookRepository = new BookBookRepository;
+    }
 }

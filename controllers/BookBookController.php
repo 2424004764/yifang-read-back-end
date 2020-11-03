@@ -144,7 +144,7 @@ class BookBookController extends BaseController
      * 获取书籍列表
      * @return array
      */
-    public function getBookList()
+    public function actionGetBookList()
     {
         list($page, $size) = $this->uniGetPaging();
         $queryParams = new QueryParams();

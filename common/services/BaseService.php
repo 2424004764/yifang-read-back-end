@@ -1,6 +1,7 @@
 <?php
 namespace app\common\services;
 
+use app\common\entity\BookBookEntity;
 use app\common\entity\BookClassEntity;
 use app\common\repository\BaseRepository;
 use app\common\utTrait\error\ErrorCode;
@@ -25,7 +26,7 @@ class BaseService
     public function getItem($queryParams)
     {
         try {
-            $queryEntity = new BookClassEntity;
+            $queryEntity = new BookBookEntity;
             return $this->_baseRepository->getItem($queryParams, $queryEntity);
         } catch (\Exception $e) {
             return self::setAndReturn(ErrorCode::FAILURE, $e->getMessage());
