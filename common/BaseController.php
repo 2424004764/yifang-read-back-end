@@ -6,6 +6,9 @@
 
 namespace app\common;
 
+use app\common\utTrait\error\ErrorCode;
+use app\common\utTrait\error\ErrorInfo;
+use app\common\utTrait\error\ErrorMsg;
 use yii\helpers\Json;
 use yii\web\Controller;
 
@@ -52,5 +55,13 @@ class BaseController extends Controller
         $size = (int)\Yii::$app->request->get('size', 10);
 
         return [$page, $size];
+    }
+
+    public function uniReturnJson($data)
+    {
+        if(false == $data){
+            return $this->outPutJson([], ErrorInfo::getErrCode(), ErrorInfo::getErrMsg());
+        }
+        return $this->outPutJson($data, ErrorCode::SUCCESS, ErrorMsg::$SUCCESS);
     }
 }

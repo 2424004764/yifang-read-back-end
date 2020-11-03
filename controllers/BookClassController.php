@@ -4,9 +4,6 @@ namespace app\controllers;
 
 use app\common\utTrait\QueryParams;
 use app\common\services\BookClassService;
-use app\common\utTrait\error\ErrorCode;
-use app\common\utTrait\error\ErrorInfo;
-use app\common\utTrait\error\ErrorMsg;
 use Yii;
 use app\common\entity\BookClassEntity;
 use app\common\searchs\BookClassSearch;
@@ -149,10 +146,6 @@ class BookClassController extends BaseController
         $queryParams = new QueryParams();
         $queryParams->limit($size);
         $queryParams->offset($page);
-        $data = $this->_bookClassService->getItem($queryParams);
-        if(false == $data){
-            return $this->outPutJson([], ErrorInfo::getErrCode(), ErrorInfo::getErrMsg());
-        }
-        return $this->outPutJson($data, ErrorCode::SUCCESS, ErrorMsg::$SUCCESS);
+        return $this->uniReturnJson($this->_bookClassService->getItem($queryParams));
     }
 }
