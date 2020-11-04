@@ -75,4 +75,9 @@ class BookBookEntity extends \app\common\BaseAR
     {
         return $this->hasOne(BookDetailEntity::class, ['book_id'  =>  'book_id']);
     }
+
+    public function getAuthorDetail()
+    {
+        return $this->hasOne(BookAuthorDetailEntity::class, ['book_id'  =>  'book_id']);
+    }
 }

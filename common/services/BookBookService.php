@@ -39,11 +39,13 @@ class BookBookService extends BaseService
                 'book_id'       =>  $id
             ];
             $book =  $this->_bookBookRepository->getItemDetail($where, $this->Entity);
-            
-            return array_merge(
-                $book->toArray(),
-                ['book_detail'   =>  $book->detail]
-            );
+
+            $with_data = [
+                'book_detail'   =>  $book->detail,
+                'author_detail'   =>  $book->authorDetail
+            ];
+
+            return array_merge($book->toArray(), $with_data);
         } catch (\Exception $e) {
             return self::setAndReturn(ErrorCode::FAILURE, $e->getMessage());
         }
