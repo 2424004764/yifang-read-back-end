@@ -41,8 +41,9 @@ class BookBookService extends BaseService
             $book =  $this->_bookBookRepository->getItemDetail($where, $this->Entity);
 
             $with_data = [
-                'book_detail'   =>  $book->detail,
-                'author_detail'   =>  $book->authorDetail
+                'book_detail'       =>  $book->detail, // 关联书籍详情
+                'author_detail'     =>  $book->authorDetail, // 关联作者i详情
+                'class_detail'      =>  $book->classDetail, // 关联分类
             ];
 
             return array_merge($book->toArray(), $with_data);

@@ -76,8 +76,21 @@ class BookBookEntity extends \app\common\BaseAR
         return $this->hasOne(BookDetailEntity::class, ['book_id'  =>  'book_id']);
     }
 
+    /**
+     * 关联作者详情
+     * @return \yii\db\ActiveQuery
+     */
     public function getAuthorDetail()
     {
         return $this->hasOne(BookAuthorDetailEntity::class, ['book_id'  =>  'book_id']);
+    }
+
+    /**
+     * 关联分类
+     * @return \yii\db\ActiveQuery
+     */
+    public function getClassDetail()
+    {
+        return $this->hasOne(BookClassEntity::class, ['book_class_id'   =>  'book_class_id']);
     }
 }
