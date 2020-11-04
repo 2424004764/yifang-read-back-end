@@ -66,4 +66,13 @@ class BookBookEntity extends \app\common\BaseAR
             'create_on' => '发布时间',
         ];
     }
+
+    /**
+     * 关联书籍详情 一对一
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDetail()
+    {
+        return $this->hasOne(BookDetailEntity::class, ['book_id'  =>  'book_id']);
+    }
 }

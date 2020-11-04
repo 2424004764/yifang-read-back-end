@@ -16,7 +16,15 @@
     2.书签
     3.笔记
 
-只提供接口，后台（vue + element-ui）和前端（uniapp）独立
+只提供接口，后台（vue + element-ui）和前端（uniapp）独立。
+打算等前端的阅读功能完善了，再动后台管理的东西
+目前适配H5、app、微信小程序（主）。其它端暂时没有测试
+万事开头难，现在准备使用以前未使用过的controller、service、repository、entity的架构，
+对各种查询方法、数据库操作有点不知道放那一层了
+controller用来调度service
+service用来处理业务逻辑、调用repository
+repository用来操作数据库
+entity是表映射类文件
 
 # yifang-read-back-end
 阅读程序后端，使用 进程常驻的swoole + 高性能的yii2框架+ 关系型数据库MySQL5.7 + 正在学习 全文分布式检索引擎elasticsearch

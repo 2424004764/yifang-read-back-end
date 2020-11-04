@@ -54,8 +54,15 @@ class BaseAR extends ActiveRecord
     public function getItem($queryParams, $queryEntity)
     {
         $query = $queryEntity::find();
-        if($queryParams->where)$query->with($queryParams->where);
-        if($queryParams->field)$query->select($queryParams->field);
+        if($queryParams->where)$query->where($queryParams->where);
+        if($queryParams->field){
+            $field = $queryParams->field;
+        }else{
+            // 如果没有指定要返回的字段 则使用entity 的 attributeLabels
+            // 避免select *
+            $field = join(", ", array_keys($queryEntity->getAttributes()));
+        }
+        $query->select($field);
         if($queryParams->orderBy)$query->orderBy($queryParams->orderBy);
         if($queryParams->offset)$query->offset(($queryParams->offset - 1) * $queryParams->limit);
         if($queryParams->limit)$query->limit($queryParams->limit);

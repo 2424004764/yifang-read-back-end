@@ -22,5 +22,5 @@ class QueryParams
      * @var string 要查询的字段
      * 默认查询所有字段
      */
-    public string $field = '*';
+    public string $field = '';
 }

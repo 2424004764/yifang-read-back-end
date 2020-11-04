@@ -12,6 +12,4 @@ namespace app\common\repository;
 class BookBookRepository extends BaseRepository
 {
 
-
-
 }

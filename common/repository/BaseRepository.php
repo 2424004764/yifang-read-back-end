@@ -16,7 +16,7 @@ class BaseRepository
 {
     use ErrorTrain;
 
-    private BaseAR $_baseEntity; // 所有 entity 的爸爸
+    private BaseAR $_baseEntity; // 所有 entity 的爸爸 由service定义
 
     public function __construct()
     {
