@@ -50,7 +50,10 @@ class utilValidatorsForm
     // 使用 ParamValidateType 类传递参数
     // 键名统一使用驼峰形式命名
     public static array $RULES_NAME = [
-        'int'   =>  ['integer'],
+        'int'   =>  [
+            ['integer'],
+            ['filter', 'filter' => 'intval']
+        ],
         'bookId'   =>  [
             ['integer'],
             ['string'],
@@ -87,11 +90,25 @@ class utilValidatorsForm
                 if(empty($rule))continue;
                 $value = $value->value;
                 // 有公用效验字段的规则需要不同的效验方法
+                // $validateType 如 int、bookId
                 foreach ($rule as $validateType){
-                    // 单独进行效验
+                    $getRule = function () use ($validateType) {
+                        // 单独进行效验
+                        $tem_rules = [];
+                        // $index 并不是索引
+                        foreach ($validateType as $index => $option){
+                            if(is_numeric($index)){
+                                $tem_rules[] = $option;
+                            }else{
+                                $tem_rules[$index] = $option;
+                            }
+                        }
+                        return $tem_rules;
+                    };
                     $rules = [
-                        [[$field], ...$validateType]
+                        [[$field], ]
                     ];
+                    $rules[0] = array_merge($rules[0], $getRule());
                     $data = [$field => $value];
                     if(!$validateResult($data, $rules)){
                         return  false;
@@ -105,6 +122,9 @@ class utilValidatorsForm
                  * @see \app\common\utilValidatorsForm::$RULES
                  */
                 if(!isset(self::$RULES[$field]))continue;
+                /**
+                 * @params $rule 格式:'string', 'max' => 128 or 'trim'
+                 */
                 $rule = self::$RULES[$field];
                 $rules = [
                     [[$field], ...$rule]

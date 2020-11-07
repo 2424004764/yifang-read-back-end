@@ -141,13 +141,13 @@ class BookChapterController extends BaseController
     // 根据书籍id获取该书籍的章节信息 每次100条
     public function actionGetChapterList()
     {
-        list($page, $size) = $this->uniGetPaging(1, 100);
+        $ps = $this->uniGetPaging(1, 100);
         $params = $this->getRequestParams(['book_id'=>"bookId"]);
         $queryParams = new QueryParams();
-        $queryParams->limit($size);
-        $queryParams->offset($page);
+        $queryParams->limit($ps['page']);
+        $queryParams->offset($ps['size']);
         $queryParams->where([
-            'book_id'   =>  $params['book_id']
+            'book_id'   =>  $params['bookId']
         ]);
 
         return $this->uniReturnJson($this->_bookChapterService->getItem($queryParams));
