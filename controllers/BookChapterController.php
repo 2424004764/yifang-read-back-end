@@ -144,10 +144,10 @@ class BookChapterController extends BaseController
         $ps = $this->uniGetPaging(1, 100);
         $params = $this->getRequestParams(['book_id'=>"bookId"]);
         $queryParams = new QueryParams();
-        $queryParams->limit($ps['page']);
-        $queryParams->offset($ps['size']);
+        $queryParams->limit($ps['size']);
+        $queryParams->offset($ps['page']);
         $queryParams->where([
-            'book_id'   =>  $params['bookId']
+            'book_id'   =>  $params['book_id']
         ]);
 
         return $this->uniReturnJson($this->_bookChapterService->getItem($queryParams));

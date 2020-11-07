@@ -82,11 +82,11 @@ class BaseController extends Controller
      */
     public function uniGetPaging($defaultPage = 1, $defaultSize = 10)
     {
-        $a = $this->getRequestParams(['page'=>"int", 'size'=>"int"]);
-        empty($page) && ($page = $defaultPage);
-        empty($size) && ($size = $defaultSize);
+        $ps = $this->getRequestParams(['page' => 'int', 'size' => 'int']);
+        empty($ps['page']) && ($ps['page'] = $defaultPage);
+        empty($ps['size']) && ($ps['size'] = $defaultSize);
 
-        return [$page, $size];
+        return $ps;
     }
 
     /**

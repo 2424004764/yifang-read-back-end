@@ -36,16 +36,6 @@ class utilValidatorsForm
 //        ];
 //    }
 
-    /**
-     * 可以公用一套效验规则的机制
-     * 可以在控制器中就指定类型  如果不指定类型  则还是按给定的参数名效验
-     * @var array|\string[][] 字段效验规则
-     */
-    public static array $RULES = [
-        // 未指定参数效验名
-        'page'  =>  ['integer']
-    ];
-
     // 指定了参数效验名
     // 使用 ParamValidateType 类传递参数
     // 键名统一使用驼峰形式命名
@@ -56,7 +46,7 @@ class utilValidatorsForm
         ],
         'bookId'   =>  [
             ['integer'],
-            ['string'],
+            ['filter', 'filter' => 'intval']
         ]
     ];
 
@@ -71,7 +61,7 @@ class utilValidatorsForm
     public static function validateParams($fields = [])
     {
 
-        $validateResult = function ($data, $rules){
+        $validateResult = function (&$data, $rules){
             $model = DynamicModel::validateData($data, $rules);
             if($model->hasErrors()){
                 $error =  join(", ", array_values($model->getFirstErrors()));
@@ -79,7 +69,7 @@ class utilValidatorsForm
                 return self::setAndReturn(ErrorCode::PARAM_VALIDATE_FAIL,
                     $error);
             }
-            return true;
+            return $model->toArray();
         };
 
         foreach ($fields as $field => &$value){
@@ -110,31 +100,14 @@ class utilValidatorsForm
                     ];
                     $rules[0] = array_merge($rules[0], $getRule());
                     $data = [$field => $value];
-                    if(!$validateResult($data, $rules)){
+                    $result = $validateResult($data, $rules);
+                    if(!$result){
                         return  false;
                     }
-                }
-            }else{
-                /**
-                 * 未指定共用效验属性
-                 * 如果参数的效验规则未设置 则不效验 只是根据字段进行效验 且
-                 * 字段必需在 下面数组 中定义
-                 * @see \app\common\utilValidatorsForm::$RULES
-                 */
-                if(!isset(self::$RULES[$field]))continue;
-                /**
-                 * @params $rule 格式:'string', 'max' => 128 or 'trim'
-                 */
-                $rule = self::$RULES[$field];
-                $rules = [
-                    [[$field], ...$rule]
-                ];
-                $data = [$field => $value];
-                if(!$validateResult($data, $rules)){
-                    return  false;
+                    // 因为 'filter' => 'intval' 的需要覆盖原数据
+                    $fields = array_merge($fields, $result);
                 }
             }
-
         }
 
         return $fields;
