@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\common\services\BookChapterContentService;
+use app\common\utTrait\QueryParams;
 use Yii;
 use app\common\entity\BookChapterContentEntity;
 use app\common\searchs\BookChapterContentSearch;
@@ -15,6 +17,17 @@ use yii\filters\VerbFilter;
  */
 class BookChapterContentController extends BaseController
 {
+    /**
+     * @var mixed
+     */
+    private BookChapterContentService $_bookChapterContentService;
+
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->_bookChapterContentService = new BookChapterContentService;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -124,5 +137,18 @@ class BookChapterContentController extends BaseController
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+
+
+    public function actionGetChapterContent()
+    {
+        $params = $this->getRequestParams(['chapter_id'=>"bookId"]);
+        $queryParams = new QueryParams();
+        $queryParams->where([
+            'chapter_id'   =>  $params['chapter_id']
+        ]);
+
+        return $this->uniReturnJson($this->_bookChapterContentService->getItem($queryParams));
     }
 }

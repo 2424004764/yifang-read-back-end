@@ -138,7 +138,10 @@ class BookChapterController extends BaseController
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    // 根据书籍id获取该书籍的章节信息 每次100条
+    /**
+     * 根据书籍id获取该书籍的章节信息 每次100条
+     * @return array
+     */
     public function actionGetChapterList()
     {
         $ps = $this->uniGetPaging(1, 100);
@@ -152,4 +155,5 @@ class BookChapterController extends BaseController
 
         return $this->uniReturnJson($this->_bookChapterService->getItem($queryParams));
     }
+
 }
