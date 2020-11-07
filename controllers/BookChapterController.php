@@ -141,7 +141,7 @@ class BookChapterController extends BaseController
     public function actionGetChapterList()
     {
         list($page, $size) = $this->uniGetPaging(1, 100);
-        $params = $this->getRequestParams(['book_id'=>"bookId", 'name'=>'', 'age']);
+        $params = $this->getRequestParams(['book_id'=>"bookId"]);
         $queryParams = new QueryParams();
         $queryParams->limit($size);
         $queryParams->offset($page);

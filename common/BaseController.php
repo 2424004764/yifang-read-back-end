@@ -76,6 +76,7 @@ class BaseController extends Controller
      * @param int $defaultPage 默认页码
      * @param int $defaultSize 默认每页多少数据
      * @return int[]
+     * @throws InvalidConfigException
      */
     public function uniGetPaging($defaultPage = 1, $defaultSize = 10)
     {
