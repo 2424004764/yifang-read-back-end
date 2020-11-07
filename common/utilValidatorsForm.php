@@ -86,11 +86,10 @@ class utilValidatorsForm
             $model = DynamicModel::validateData($data, $rules);
             if($model->hasErrors()){
                 $error =  join(", ", array_values($model->getFirstErrors()));
+
                 return ErrorInfo::setAndReturn(ErrorCode::setCode(ErrorCode::PARAM_VALIDATE_FAIL),
                     $error);
             }
-            // 当前字段效验没有错误
-
         }
 
         return $fields;

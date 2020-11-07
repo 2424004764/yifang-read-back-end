@@ -54,6 +54,7 @@ class BaseController extends Controller
             \yii::$app->response->send();
             exit();
         }
+
         return $result;
     }
 
@@ -76,21 +77,12 @@ class BaseController extends Controller
      * @param int $defaultPage 默认页码
      * @param int $defaultSize 默认每页多少数据
      * @return int[]
-     * @throws InvalidConfigException
      */
     public function uniGetPaging($defaultPage = 1, $defaultSize = 10)
     {
-        $page = \Yii::$app->request->get('page', $defaultPage);
-        $size = \Yii::$app->request->get('size', $defaultSize);
-
-        if(!$this->_utilValidators->validateParams([
-            'page'  =>  new ParamValidateType($page, 'int'),
-            'size'  =>  new ParamValidateType($size, 'int')
-        ])){
-            $this->setIsNowReturn(true);
-            return $this->outPutJson([], ErrorCode::$ERROR_CODE,
-                ErrorInfo::getErrMsg());
-        }
+        list($page, $size) = $this->getRequestParams(['page', 'size']);
+        empty($page) && ($page = $defaultPage);
+        empty($size) && ($size = $defaultSize);
 
         return [$page, $size];
     }

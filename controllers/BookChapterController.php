@@ -8,6 +8,7 @@ use Yii;
 use app\common\entity\BookChapterEntity;
 use app\common\searchs\BookChapterSearch;
 use app\common\BaseController;
+use yii\base\InvalidConfigException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -145,6 +146,7 @@ class BookChapterController extends BaseController
         $queryParams = new QueryParams();
         $queryParams->limit($size);
         $queryParams->offset($page);
+
         return $this->uniReturnJson($this->_bookChapterService->getItem($queryParams));
     }
 }
