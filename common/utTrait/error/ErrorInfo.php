@@ -9,7 +9,11 @@
 
 namespace app\common\utTrait\error;
 
-
+/**
+ * 操作Error 但是需要通过 ErrorTrait来实际操
+ * Class ErrorInfo
+ * @package app\common\utTrait\error
+ */
 class ErrorInfo
 {
     private static int $errCode;
@@ -47,8 +51,8 @@ class ErrorInfo
     /**
      * 设置返回内容
      * @param int $errCode 错误码
+     * @param string $msg  自定义错误信息 如果为空  则去错误码对应的错误消息
      * @param string $logMsg 日志信息内容
-     * @param string $msg  自定义错误信息
      * @return boolean
      */
     public static function setAndReturn($errCode,  $msg = NULL, $logMsg = NULL)

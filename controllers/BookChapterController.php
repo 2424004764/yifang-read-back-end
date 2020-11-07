@@ -146,6 +146,9 @@ class BookChapterController extends BaseController
         $queryParams = new QueryParams();
         $queryParams->limit($size);
         $queryParams->offset($page);
+        $queryParams->where([
+            'book_id'   =>  $params['book_id']
+        ]);
 
         return $this->uniReturnJson($this->_bookChapterService->getItem($queryParams));
     }

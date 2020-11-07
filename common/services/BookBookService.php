@@ -46,7 +46,7 @@ class BookBookService extends BaseService
 
             return array_merge($book->toArray(), $with_data);
         } catch (\Exception $e) {
-            return self::setAndReturn(ErrorCode::FAILURE, $e->getMessage());
+            return self::setAndReturn(ErrorCode::SYSTEM_ERROR, $e->getMessage());
         }
     }
 }

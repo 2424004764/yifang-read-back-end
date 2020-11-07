@@ -7,16 +7,19 @@
  * Time: 22:43
  */
 
+/**
+ * todo 只能用该trait声明错误
+ */
 namespace app\common\utTrait\error;
 trait ErrorTrain{
     /**
      * @param string $errCode 错误码
-     * @param string $logMessage 日志信息
      * @param string $errMessage 重写提示信息，用于直接返回前端信息
+     * @param string $logMessage 日志信息
      * @return bool
      */
-    public static function setAndReturn($errCode, $logMessage = '', $errMessage='') {
-        ErrorInfo::setAndReturn($errCode, $logMessage, $errMessage);
+    public static function setAndReturn($errCode, $errMessage='', $logMessage = '') {
+        ErrorInfo::setAndReturn($errCode, $errMessage, $logMessage);
         return false;
     }
 

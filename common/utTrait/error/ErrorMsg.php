@@ -9,7 +9,11 @@
 
 namespace app\common\utTrait\error;
 
-
+/**
+ * 单纯用来放错误码对应的错误消息
+ * Class ErrorMsg
+ * @package app\common\utTrait\error
+ */
 class ErrorMsg
 {
 
@@ -27,7 +31,7 @@ class ErrorMsg
     ];
 
     /**
-     * 获取错误描述信息
+     * 只能根据错误码获取错误描述信息
      * @param $errCode
      * @return string
      */

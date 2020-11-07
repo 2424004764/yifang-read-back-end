@@ -10,13 +10,14 @@
 
 namespace app\common;
 
-
 use app\common\utTrait\error\ErrorCode;
-use app\common\utTrait\error\ErrorInfo;
+use app\common\utTrait\error\ErrorTrain;
 use yii\base\DynamicModel;
 
 class utilValidatorsForm
 {
+
+    use ErrorTrain;
 
     /**
      * 指定验证规则
@@ -87,7 +88,7 @@ class utilValidatorsForm
             if($model->hasErrors()){
                 $error =  join(", ", array_values($model->getFirstErrors()));
 
-                return ErrorInfo::setAndReturn(ErrorCode::setCode(ErrorCode::PARAM_VALIDATE_FAIL),
+                return self::setAndReturn(ErrorCode::PARAM_VALIDATE_FAIL,
                     $error);
             }
         }

@@ -9,12 +9,14 @@ namespace app\common;
 use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\error\ErrorInfo;
 use app\common\utTrait\error\ErrorMsg;
+use app\common\utTrait\error\ErrorTrain;
 use yii\base\InvalidConfigException;
-use yii\helpers\Json;
 use yii\web\Controller;
 
 class BaseController extends Controller
 {
+
+    use ErrorTrain;
 
     public bool $isNowReturn = false; // 是否立即返回数据到浏览器 比如某些错误信息要直接返回
     public utilValidatorsForm $_utilValidators; // 效验器|验证器
@@ -102,8 +104,8 @@ class BaseController extends Controller
         $method = strtolower($method);
         if(!in_array($method, ['get', 'post'])){
             $this->setIsNowReturn(true);
-            return $this->outPutJson([], ErrorCode::setCode(ErrorCode::REQUEST_METHOD_FAIL),
-                ErrorCode::getMsg());
+            return $this->outPutJson([], ErrorCode::REQUEST_METHOD_FAIL,
+                ErrorMsg::getErrMsg(ErrorCode::REQUEST_METHOD_FAIL)." 仅支持get、post");
         }
         if(empty($paramsField)){
             return [];
@@ -125,7 +127,8 @@ class BaseController extends Controller
 
             if(!empty($type)){
                 // 类型不为空  说明需要使用共用效验字段
-                $value = new ParamValidateType($value, 'int');
+                $value = new ParamValidateType($value, $type);
+                $field = $type;
             }
             $params[$field] = $value;
             unset($value);
@@ -140,8 +143,8 @@ class BaseController extends Controller
             }
         } catch (InvalidConfigException $e) {
             $this->setIsNowReturn(true);
-            return $this->outPutJson([], ErrorCode::setCode(ErrorCode::SYSTEM_ERROR),
-                ErrorCode::getMsg());
+            return $this->outPutJson([], ErrorCode::SYSTEM_ERROR,
+                $e->getMessage());
         }
         return $validateData;
     }
@@ -153,8 +156,9 @@ class BaseController extends Controller
      */
     public function uniReturnJson($data)
     {
-        if(false == $data){
-            return $this->outPutJson([], ErrorInfo::getErrCode(), ErrorInfo::getErrMsg());
+        if(false === $data){
+            // 说明有错误
+            return $this->outPutJson([], self::getErrCode(), self::getErrMsg());
         }
         return $this->outPutJson($data, ErrorCode::SUCCESS, ErrorMsg::$SUCCESS);
     }

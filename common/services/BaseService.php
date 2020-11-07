@@ -31,7 +31,7 @@ class BaseService
         try {
             return $this->_baseRepository->getItem($queryParams, $this->Entity);
         } catch (\Exception $e) {
-            return self::setAndReturn(ErrorCode::FAILURE, $e->getMessage());
+            return self::setAndReturn(ErrorCode::SYSTEM_ERROR, $e->getMessage());
         }
     }
 }
