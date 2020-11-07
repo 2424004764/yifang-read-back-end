@@ -82,7 +82,7 @@ class BaseController extends Controller
      */
     public function uniGetPaging($defaultPage = 1, $defaultSize = 10)
     {
-        list($page, $size) = $this->getRequestParams(['page'=>"int", 'size'=>"int"]);
+        $a = $this->getRequestParams(['page'=>"int", 'size'=>"int"]);
         empty($page) && ($page = $defaultPage);
         empty($size) && ($size = $defaultSize);
 
@@ -115,10 +115,6 @@ class BaseController extends Controller
 
         // 获取指定的参数
         foreach ($paramsField as $field => &$type){
-            if(is_numeric($field)) {
-                $field = $type;
-                $type = null;
-            }
             if('get' === $method){
                 $value = \Yii::$app->request->get($field);
             }else{
@@ -127,8 +123,7 @@ class BaseController extends Controller
 
             if(!empty($type)){
                 // 类型不为空  说明需要使用共用效验字段
-                $value = new ParamValidateType($value, $type);
-                $field = $type;
+                $value = new ParamValidateType($value, $type, $field);
             }
             $params[$field] = $value;
             unset($value);

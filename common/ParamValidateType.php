@@ -18,12 +18,14 @@ namespace app\common;
  */
 class ParamValidateType
 {
-    public  $value; // 参数值
+    public $value; // 参数值
     public string $type; // 效验类型
+    public string $name; // 参数名称
 
-    public function __construct($value, $type)
+    public function __construct($value, $type, $name)
     {
         $this->value = $value;
         $this->type = $type;
+        $this->name = $name;
     }
 }
