@@ -45,6 +45,7 @@ class utilValidatorsForm
             ['filter', 'filter' => 'intval']
         ],
         'bookId'   =>  [
+            ['required'],
             ['integer'],
             ['filter', 'filter' => 'intval']
         ]
