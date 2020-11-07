@@ -9,13 +9,33 @@ namespace app\common;
 use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\error\ErrorInfo;
 use app\common\utTrait\error\ErrorMsg;
+use yii\base\InvalidConfigException;
 use yii\helpers\Json;
 use yii\web\Controller;
 
 class BaseController extends Controller
 {
+
+    public bool $isNowReturn = false; // 是否立即返回数据到浏览器 比如某些错误信息要直接返回
+    public utilValidatorsForm $_utilValidators; // 效验器|验证器
+
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->_utilValidators = new utilValidatorsForm;
+    }
+
     /**
-     * 直接输出json格式字符串
+     * 对 $isNowReturn 进行设置
+     * @param $isNowReturn
+     */
+    public function setIsNowReturn($isNowReturn)
+    {
+        $this->isNowReturn = $isNowReturn;
+    }
+
+    /**
+     * 直接输出json格式字符串 到浏览器
      * @param array $data 返回的数据
      * @param int $code 返回的状态码
      * @param string $msg 返回的消息
@@ -24,11 +44,17 @@ class BaseController extends Controller
     public function outPutJson($data = [], $code = 200, $msg = '')
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return array(
+        $result = array(
             'code'  =>  $code,
             'data'  =>  $data,
             'msg'   =>  $msg
         );
+        if($this->isNowReturn){
+            \Yii::$app->response->data = $result;
+            \yii::$app->response->send();
+            exit();
+        }
+        return $result;
     }
 
     /**
@@ -46,17 +72,92 @@ class BaseController extends Controller
 
     /**
      * 统一获取分页参数
-       效验后返回
+     * 效验后返回
+     * @param int $defaultPage 默认页码
+     * @param int $defaultSize 默认每页多少数据
      * @return int[]
      */
-    public function uniGetPaging()
+    public function uniGetPaging($defaultPage = 1, $defaultSize = 10)
     {
-        $page = (int)\Yii::$app->request->get('page', 1);
-        $size = (int)\Yii::$app->request->get('size', 10);
+        $page = \Yii::$app->request->get('page', $defaultPage);
+        $size = \Yii::$app->request->get('size', $defaultSize);
+
+        if(!$this->_utilValidators->validateParams([
+            'page'  =>  new ParamValidateType($page, 'int'),
+            'size'  =>  new ParamValidateType($size, 'int')
+        ])){
+            $this->setIsNowReturn(true);
+            return $this->outPutJson([], ErrorCode::$ERROR_CODE,
+                ErrorInfo::getErrMsg());
+        }
 
         return [$page, $size];
     }
 
+    /**
+     * 获取参数并验证
+     * @param array $paramsField 值需要在
+     * \app\common\utilValidatorsForm::$RULES_NAME中定义名字和效验规则
+     * 格式：['page'=>'int']  效验page参数的格式为int，而int被定义为['integer']
+     * 支持 ['book_id'=>"book_id", 'name'=>'', 'age'] 自动识别
+     * @param string $method 请求方式
+     * @return array
+     */
+    public function getRequestParams($paramsField = [], $method = 'get')
+    {
+//        效验请求方式  只支持get、post
+        $method = strtolower($method);
+        if(!in_array($method, ['get', 'post'])){
+            $this->setIsNowReturn(true);
+            return $this->outPutJson([], ErrorCode::setCode(ErrorCode::REQUEST_METHOD_FAIL),
+                ErrorCode::getMsg());
+        }
+        if(empty($paramsField)){
+            return [];
+        }
+
+        $params = [];
+
+        // 获取指定的参数
+        foreach ($paramsField as $field => &$type){
+            if(is_numeric($field)) {
+                $field = $type;
+                $type = null;
+            }
+            if('get' === $method){
+                $value = \Yii::$app->request->get($field);
+            }else{
+                $value = \Yii::$app->request->post($field);
+            }
+
+            if(!empty($type)){
+                // 类型不为空  说明需要使用共用效验字段
+                $value = new ParamValidateType($value, 'int');
+            }
+            $params[$field] = $value;
+            unset($value);
+        }
+        try {
+            // 开始效验
+            $validateData = utilValidatorsForm::validateParams($params);
+            if (!$validateData) {
+                $this->setIsNowReturn(true);
+                return $this->outPutJson([], ErrorInfo::getErrCode(),
+                    ErrorInfo::getErrMsg());
+            }
+        } catch (InvalidConfigException $e) {
+            $this->setIsNowReturn(true);
+            return $this->outPutJson([], ErrorCode::setCode(ErrorCode::SYSTEM_ERROR),
+                ErrorCode::getMsg());
+        }
+        return $validateData;
+    }
+
+    /**
+     * 统一返回方法
+     * @param $data array|false 需要返回的数据
+     * @return array 构建好的返回数据
+     */
     public function uniReturnJson($data)
     {
         if(false == $data){

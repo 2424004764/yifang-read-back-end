@@ -12,20 +12,33 @@ namespace app\common\utTrait\error;
 
 class ErrorInfo
 {
-    private static $errCode = '';
-    private static $errMsg = '';
-    private static $logMsg = '';
+    private static int $errCode;
+    private static ?string $errMsg;
+    private static ?string $logMsg;
 
+    /**
+     * 获取设置的错误码
+     * @return int
+     */
     public static function getErrCode()
     {
         return self::$errCode;
     }
 
+    /**
+     * 获取错误消息
+     * @return string
+     */
     public static function getErrMsg()
     {
         return self::$errMsg;
     }
 
+    /**
+     * TODO 看需不需要记录出错的日志
+     * 错误日志内容
+     * @return string
+     */
     public static function getLogMsg()
     {
         return self::$logMsg;
@@ -33,12 +46,12 @@ class ErrorInfo
 
     /**
      * 设置返回内容
-     * @param string $errCode 错误码
+     * @param int $errCode 错误码
      * @param string $logMsg 日志信息内容
      * @param string $msg  自定义错误信息
      * @return boolean
      */
-    public static function setAndReturn($errCode, $logMsg = '',$msg='')
+    public static function setAndReturn($errCode,  $msg = NULL, $logMsg = NULL)
     {
         self::$errCode = $errCode;
         self::$logMsg = 'errorCode:'.$errCode.','.$logMsg;

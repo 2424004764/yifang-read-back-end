@@ -13,15 +13,17 @@ namespace app\common\utTrait\error;
 class ErrorMsg
 {
 
-    public static $SUCCESS = 'success';
+    public static string $SUCCESS = 'success'; // 定义请求成功的返回消息
 
     /**
      * 定义错误描述信息
      * @var array
      */
-    public static $errMsg = [
+    public static array $errMsg = [
         ErrorCode::PARAM_EMPTY => '参数错误',
         ErrorCode::PARAM_VALIDATE_FAIL => '参数效验失败',
+        ErrorCode::REQUEST_METHOD_FAIL => '请求方式错误',
+        ErrorCode::SYSTEM_ERROR => '系统错误',
     ];
 
     /**

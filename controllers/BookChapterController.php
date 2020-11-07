@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\common\services\BookChapterService;
+use app\common\utTrait\QueryParams;
 use Yii;
 use app\common\entity\BookChapterEntity;
 use app\common\searchs\BookChapterSearch;
@@ -15,6 +17,15 @@ use yii\filters\VerbFilter;
  */
 class BookChapterController extends BaseController
 {
+
+    private BookChapterService $_bookChapterService; //服务对应的操作数据库的类
+
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->_bookChapterService = new BookChapterService;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -124,5 +135,16 @@ class BookChapterController extends BaseController
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    // 根据书籍id获取该书籍的章节信息 每次100条
+    public function actionGetChapterList()
+    {
+        list($page, $size) = $this->uniGetPaging(1, 100);
+        $params = $this->getRequestParams(['book_id'=>"bookId", 'name'=>'', 'age']);
+        $queryParams = new QueryParams();
+        $queryParams->limit($size);
+        $queryParams->offset($page);
+        return $this->uniReturnJson($this->_bookChapterService->getItem($queryParams));
     }
 }

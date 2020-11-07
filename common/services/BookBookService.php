@@ -13,8 +13,6 @@ namespace app\common\services;
 use app\common\entity\BookBookEntity;
 use app\common\repository\BookBookRepository;
 use app\common\utTrait\error\ErrorCode;
-use app\common\utTrait\error\ErrorInfo;
-use app\common\utTrait\error\ErrorMsg;
 
 class BookBookService extends BaseService
 {
