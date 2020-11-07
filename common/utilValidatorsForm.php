@@ -51,17 +51,34 @@ class utilValidatorsForm
     // 键名统一使用驼峰形式命名
     public static array $RULES_NAME = [
         'int'   =>  ['integer'],
-        'bookId'   =>  ['string', 'required']
+        'bookId'   =>  [
+            ['integer'],
+            ['string'],
+        ]
     ];
 
 
     /**
+     * 关于父类 rules效验规则说明：
+     * @see \yii\base\Model::rules
      * @param array $fields 需要效验的字段
      * @return int|array
      * @throws \yii\base\InvalidConfigException
      */
     public static function validateParams($fields = [])
     {
+
+        $validateResult = function ($data, $rules){
+            $model = DynamicModel::validateData($data, $rules);
+            if($model->hasErrors()){
+                $error =  join(", ", array_values($model->getFirstErrors()));
+
+                return self::setAndReturn(ErrorCode::PARAM_VALIDATE_FAIL,
+                    $error);
+            }
+            return true;
+        };
+
         foreach ($fields as $field => &$value){
             // 如果使用 ParamValidateType 指定了共用的效验字段
             if($value instanceof ParamValidateType){
@@ -69,6 +86,17 @@ class utilValidatorsForm
                 // 如果规则不存在  则不效验
                 if(empty($rule))continue;
                 $value = $value->value;
+                // 有公用效验字段的规则需要不同的效验方法
+                foreach ($rule as $validateType){
+                    // 单独进行效验
+                    $rules = [
+                        [[$field], ...$validateType]
+                    ];
+                    $data = [$field => $value];
+                    if(!$validateResult($data, $rules)){
+                        return  false;
+                    }
+                }
             }else{
                 /**
                  * 未指定共用效验属性
@@ -78,19 +106,15 @@ class utilValidatorsForm
                  */
                 if(!isset(self::$RULES[$field]))continue;
                 $rule = self::$RULES[$field];
+                $rules = [
+                    [[$field], ...$rule]
+                ];
+                $data = [$field => $value];
+                if(!$validateResult($data, $rules)){
+                    return  false;
+                }
             }
 
-            $data = [$field => $value];
-            $rules = [
-                [[$field], ...$rule]
-            ];
-            $model = DynamicModel::validateData($data, $rules);
-            if($model->hasErrors()){
-                $error =  join(", ", array_values($model->getFirstErrors()));
-
-                return self::setAndReturn(ErrorCode::PARAM_VALIDATE_FAIL,
-                    $error);
-            }
         }
 
         return $fields;
