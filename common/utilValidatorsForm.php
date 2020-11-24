@@ -39,33 +39,44 @@ class utilValidatorsForm
     // 指定了参数效验名
     // 使用 ParamValidateType 类传递参数
     // 键名统一使用驼峰形式命名
-    public static array $RULES_NAME = [
-        'int'   =>  [
-            ['integer'],
-            ['filter', 'filter' => 'intval']
-        ],
-        'bookId'   =>  [
-            ['required'], ['integer'],
-            ['filter', 'filter' => 'intval']
-        ],
-        // 往后统一使用大写的形式
-        'NICKNAME'  =>  [ // 昵称
-            ['string', 'length' => [1, 20]]
-        ],
-        'EMAIL' =>  [ // 邮箱
-            ['email']
-        ],
-        'PASSWORD'  =>  [ // 密码
-            ['string', 'length' => [1, 30]]
-        ],
-        'CONFIRM_PASSWORD'  =>  [ // 二次确认密码
-            ['compare', 'compareAttribute' => 'PASSWORD']
-        ],
-        'DATE'  =>  [ // 日期
-            ['date']
-        ]
-    ];
-
+    private static function getRulesName()
+    {
+        return [
+            'int'   =>  [
+                ['integer'],
+                ['filter', 'filter' => 'intval']
+            ],
+            'bookId'   =>  [
+                ['required'], ['integer'],
+                ['filter', 'filter' => 'intval']
+            ],
+            // 往后统一使用大写的形式
+            'NICKNAME'  =>  [ // 昵称
+                ['string', 'length' => [1, 20]],
+                // 定义为匿名函数的行内验证器 $attribute 就是控制器传入的字段名 如这里就是user_nickname
+                [function($attribute, $params){
+                    // 验证姓名有效性
+                    if(!UtilValidate::checkNameAllowSpace($this->$attribute)){
+                        $this->addError($attribute, '昵称不符格式~');
+                        return false;
+                    }
+                    return true;
+                }]
+            ],
+            'EMAIL' =>  [ // 邮箱
+                ['email']
+            ],
+            'PASSWORD'  =>  [ // 密码
+                ['string', 'length' => [1, 30]]
+            ],
+            'CONFIRM_PASSWORD'  =>  [ // 二次确认密码
+                ['compare', 'compareAttribute' => 'PASSWORD']
+            ],
+            'DATE'  =>  [ // 日期
+                ['date']
+            ]
+        ];
+    }
 
     /**
      * 关于父类 rules效验规则说明：
@@ -91,7 +102,7 @@ class utilValidatorsForm
         foreach ($fields as $field => &$value){
             // 如果使用 ParamValidateType 指定了共用的效验字段
             if($value instanceof ParamValidateType){
-                $rule = self::$RULES_NAME[$value->type];
+                $rule = self::getRulesName()[$value->type];
                 // 如果规则不存在  则不效验
                 if(empty($rule))continue;
                 $value = $value->value;
