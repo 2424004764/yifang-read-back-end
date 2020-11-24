@@ -157,8 +157,8 @@ class BookBookController extends BaseController
      */
     public function actionGetBookDetailById()
     {
-        $book_id = (int)\Yii::$app->request->get('book_id', 0);
-        return $this->uniReturnJson($this->_bookBookService->getItemDetail($book_id));
+        $params = $this->getRequestParams(['book_id'=>"bookId"]);
+        return $this->uniReturnJson($this->_bookBookService->getItemDetail($params['book_id']));
     }
 
 }

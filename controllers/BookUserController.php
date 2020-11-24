@@ -125,4 +125,16 @@ class BookUserController extends BaseController
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    // 注册
+    public function actionRegister()
+    {
+        $params = $this->getRequestParams([
+            "user_nickname"     =>  "NICKNAME",
+            'bind_email'        =>  'EMAIL',
+            'password'          =>  'PASSWORD',
+            'confirm_password'          =>  'CONFIRM_PASSWORD',
+            'birthday'          =>  'DATE'
+        ]);
+    }
 }

@@ -28,3 +28,26 @@ entity是表映射类文件
 
 # yifang-read-back-end
 阅读程序后端，使用 进程常驻的swoole + 高性能的yii2框架+ 关系型数据库MySQL5.7 + 正在学习 全文分布式检索引擎elasticsearch
+
+2020年11月21日13:09:09   
+现在已完成的功能：
+* 前端传入的参数可进行单个效验，有错误就返回
+* 基础的菜单、书籍列表、书籍详情、书籍章节、章节内容详情接口
+* 基本的数据表   
+
+分层设计：
+* 控制层：Controller：负责调用Service
+* 服务层：Service：负责处理业务逻辑
+* 仓库层：Repository：负责对数据库操作
+* 实体层：Entity：和表一一对应   
+一个请求常规流程是：先到Controller层，Controller对传递的参数先进行效验，效验不通过则直接返回错误信息   
+不往下执行，参数效验完后，调用对应的Service处理，Service在对数据做完处理后，再去调用相应Repository，Repository再去调用相应的Entity的操作数据库的方法   
+所有的对数据库的操作都放在Repository中统一管理，而我对每个Repository都继承了一个父Repository，这个父Repository实现了一个通过的查找数据的方法，这样就不必再每个子Repository中写一遍获取Item的方法了   
+相应的基础的Controller、Service、Entity都有一个自己的父类，在父类中实现了一些基础方法   
+比如在基础的Controller中，就实现了通用的向前端返回json数据的方法   
+在上文中有讲到在Controller层中对参数进行效验，效验的方法是对现有的效验类DynamicModel类的扩展   
+对每个单个字段的效验方式，仅仅是配置上的小区别 可参看：\app\common\utilValidatorsForm
+
+***   
+2020年11月24日17:36:32   
+需要接入单元测试

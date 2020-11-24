@@ -45,9 +45,24 @@ class utilValidatorsForm
             ['filter', 'filter' => 'intval']
         ],
         'bookId'   =>  [
-            ['required'],
-            ['integer'],
+            ['required'], ['integer'],
             ['filter', 'filter' => 'intval']
+        ],
+        // 往后统一使用大写的形式
+        'NICKNAME'  =>  [ // 昵称
+            ['string', 'length' => [1, 20]]
+        ],
+        'EMAIL' =>  [ // 邮箱
+            ['email']
+        ],
+        'PASSWORD'  =>  [ // 密码
+            ['string', 'length' => [1, 30]]
+        ],
+        'CONFIRM_PASSWORD'  =>  [ // 二次确认密码
+            ['compare', 'compareAttribute' => 'PASSWORD']
+        ],
+        'DATE'  =>  [ // 日期
+            ['date']
         ]
     ];
 
