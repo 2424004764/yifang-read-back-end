@@ -63,6 +63,9 @@ entity是表映射类文件
    opcache.revalidate_freq=60   
    opcache.enable_cli=1   
 
-配置文件php.ini 的1767行左右   
+配置文件php.ini 的1767行左右  
+效果   可以看到 除了第一次请求115ms  后面的请求基本在30ms左右
+![](http://cdn.fologde.com/Image10.png)    
+![](http://cdn.fologde.com/Image11.png)
 
 ***
