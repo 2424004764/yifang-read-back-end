@@ -50,4 +50,19 @@ entity是表映射类文件
 
 ***   
 2020年11月24日17:36:32   
-需要接入单元测试
+需要接入单元测试   
+***
+2020年11月25日11:42:50   
+开启php-fpm opcache   
+请求时间由300ms降至40ms   
+配置如下：   
+   zend_extension="opcache.so"   
+   opcache.memory_consumption=128   
+   opcache.interned_strings_buffer=8   
+   opcache.max_accelerated_files=4000   
+   opcache.revalidate_freq=60   
+   opcache.enable_cli=1   
+
+配置文件php.ini 的1767行左右   
+
+***
