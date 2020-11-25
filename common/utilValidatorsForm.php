@@ -36,6 +36,13 @@ class utilValidatorsForm
 //        ];
 //    }
 
+    /**
+     * @var $temp_var array 用于存储一些不关联其他字段的效验属性
+     * 如密码和再次确认密码的效验  在这里是无法效验的
+     * 所以需要这个变量作为中间变量
+     */
+    public static array $temp_var = [];
+
     // 指定了参数效验名
     // 使用 ParamValidateType 类传递参数
     // 键名统一使用驼峰形式命名
@@ -54,26 +61,38 @@ class utilValidatorsForm
             'NICKNAME'  =>  [ // 昵称
                 ['string', 'length' => [1, 20]],
                 // 定义为匿名函数的行内验证器 $attribute 就是控制器传入的字段名 如这里就是user_nickname
+                // $this->$attribute 就是当前属性的值
+                // 只要不$this->addError 则表示成功
                 [function($attribute, $params){
                     // 验证姓名有效性
                     if(!UtilValidate::checkNameAllowSpace($this->$attribute)){
                         $this->addError($attribute, '昵称不符格式~');
-                        return false;
                     }
-                    return true;
                 }]
             ],
             'EMAIL' =>  [ // 邮箱
+                ['required'],
                 ['email']
             ],
             'PASSWORD'  =>  [ // 密码
-                ['string', 'length' => [1, 30]]
+                ['required'],
+                ['string', 'length' => [1, 30]],
+                // 将密码保存起来 好二次验证密码  因为DynamicModel 是单次验证，所以和rules不一样
+                // 因为只有验证password时才会验证
+                [function($attribute, $params){
+                    utilValidatorsForm::$temp_var['password'] = $this->$attribute;
+                }]
             ],
             'CONFIRM_PASSWORD'  =>  [ // 二次确认密码
-                ['compare', 'compareAttribute' => 'PASSWORD']
+                ['required'],
+                [function($attribute, $params){
+                    if($this->$attribute != utilValidatorsForm::$temp_var['password']){
+                        $this->addError($attribute, '两次密码对比不匹配~');
+                    }
+                }]
             ],
             'DATE'  =>  [ // 日期
-                ['date']
+                ['date', 'format'=>'yyyy-MM-dd']
             ]
         ];
     }
