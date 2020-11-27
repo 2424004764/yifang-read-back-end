@@ -30,7 +30,7 @@ class BookUserService extends BaseService
      * @param array $params
      * @return \app\common\BaseAR|bool|void
      */
-    public function insert($params)
+    public function register($params)
     {
 
         $passwordHasher = new PasswordHash(8,false);

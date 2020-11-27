@@ -148,6 +148,6 @@ class BookUserController extends BaseController
             'sex'               =>  'SEX'
         ]);
         // 数据验证后
-        return $this->uniReturnJson($this->_bookUserService->insert($params));
+        return $this->uniReturnJson($this->_bookUserService->register($params));
     }
 }
