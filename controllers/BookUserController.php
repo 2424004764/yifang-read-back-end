@@ -140,12 +140,12 @@ class BookUserController extends BaseController
     public function actionRegister()
     {
         $params = $this->getRequestParams([
-            "user_nickname"     =>  "NICKNAME",
-            'bind_email'        =>  'EMAIL',
-            'password'          =>  'PASSWORD',
-            'confirm_password'          =>  'CONFIRM_PASSWORD',
-            'birthday'          =>  'DATE',
-            'sex'               =>  'SEX'
+            "nikenamne"     =>  "NICKNAME",
+            'email'         =>  'EMAIL',
+            'password'      =>  'PASSWORD',
+            'againPassword'          =>  'CONFIRM_PASSWORD',
+            'birthday'      =>  'DATE',
+            'sex'           =>  'SEX'
         ]);
         // 数据验证后
         return $this->uniReturnJson($this->_bookUserService->register($params));
