@@ -17,6 +17,8 @@ use yii\filters\VerbFilter;
 class BookUserController extends BaseController
 {
 
+    public $enableCsrfValidation = false;
+
     private BookUserService $_bookUserService; //服务对应的操作数据库的类
 
     public function __construct($id, $module, $config = [])
@@ -146,7 +148,7 @@ class BookUserController extends BaseController
             'againPassword' =>  'CONFIRM_PASSWORD',
             'birthday'      =>  'DATE',
             'sex'           =>  'SEX'
-        ]);
+        ], 'post');
         // 数据验证后
         $user = $this->_bookUserService->register($params);
         if(false === $user){
