@@ -10,6 +10,7 @@
 
 namespace app\common;
 
+use app\common\entity\BookUserEntity;
 use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\error\ErrorTrain;
 use yii\base\DynamicModel;
@@ -73,6 +74,14 @@ class utilValidatorsForm
             'EMAIL' =>  [ // 邮箱
                 ['required'],
                 ['email']
+            ],
+            'ONLY_EMAIL' =>  [ // 在用户表唯一邮箱
+                ['required'],
+                ['email'],
+                // targetAttribute 在用户表中的字段
+                // targetClass 用户表entity
+                ['unique', 'targetAttribute' => 'bind_email',
+                    'targetClass' => BookUserEntity::class]
             ],
             'PASSWORD'  =>  [ // 密码
                 ['required'],

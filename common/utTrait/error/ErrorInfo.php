@@ -35,7 +35,7 @@ class ErrorInfo
      */
     public static function getErrMsg()
     {
-        return self::$errMsg;
+        return empty(self::$errMsg) ? 'error' : self::$errMsg;
     }
 
     /**

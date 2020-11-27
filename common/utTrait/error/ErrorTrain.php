@@ -25,7 +25,7 @@ trait ErrorTrain{
 
     public static function getErrCode() {
         $errCode = ErrorInfo::getErrCode();
-        if ($errCode == '') {
+        if (empty($errCode)) {
             $errCode = ErrorCode::SUCCESS;
         }
 
