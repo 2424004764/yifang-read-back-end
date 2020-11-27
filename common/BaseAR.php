@@ -24,7 +24,7 @@ class BaseAR extends ActiveRecord
     /**
      * 统一的添加方法
      * @param $entity BaseAR
-     * @return BaseAR
+     * @return BaseAR 新增成功后的entity实体
      * @throws \Exception
      */
     public static function add(BaseAR $entity)

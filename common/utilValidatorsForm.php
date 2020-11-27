@@ -93,7 +93,10 @@ class utilValidatorsForm
             ],
             'DATE'  =>  [ // 日期
                 ['date', 'format'=>'yyyy-MM-dd']
-            ]
+            ],
+            'SEX'   =>  [ // 性别
+                ['in', 'range' => [0, 1, 2]]
+            ],
         ];
     }
 

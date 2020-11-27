@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\common\services\BookUserService;
 use Yii;
 use app\common\entity\BookUserEntity;
 use app\common\searchs\BookUserSearch;
@@ -15,6 +16,15 @@ use yii\filters\VerbFilter;
  */
 class BookUserController extends BaseController
 {
+
+    private BookUserService $_bookUserService; //服务对应的操作数据库的类
+
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->_bookUserService = new BookUserService;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -134,7 +144,10 @@ class BookUserController extends BaseController
             'bind_email'        =>  'EMAIL',
             'password'          =>  'PASSWORD',
             'confirm_password'          =>  'CONFIRM_PASSWORD',
-            'birthday'          =>  'DATE'
+            'birthday'          =>  'DATE',
+            'sex'               =>  'SEX'
         ]);
+        // 数据验证后
+        return $this->uniReturnJson($this->_bookUserService->insert($params));
     }
 }

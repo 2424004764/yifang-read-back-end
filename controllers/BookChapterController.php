@@ -8,7 +8,6 @@ use Yii;
 use app\common\entity\BookChapterEntity;
 use app\common\searchs\BookChapterSearch;
 use app\common\BaseController;
-use yii\base\InvalidConfigException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

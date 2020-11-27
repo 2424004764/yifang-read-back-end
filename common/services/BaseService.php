@@ -34,4 +34,18 @@ class BaseService
             return self::setAndReturn(ErrorCode::SYSTEM_ERROR, $e->getMessage());
         }
     }
+
+    /**
+     * 统一的添加方法
+     * @param BaseAR $entity 填充好数据的entity
+     * @return BaseAR|bool
+     */
+    public function insert(BaseAR $entity)
+    {
+        try {
+            return $this->_baseRepository->add($entity);
+        } catch (\Exception $e) {
+            return self::setAndReturn(ErrorCode::SYSTEM_ERROR, $e->getMessage());
+        }
+    }
 }
