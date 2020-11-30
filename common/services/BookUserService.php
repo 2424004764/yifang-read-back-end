@@ -18,6 +18,8 @@ class BookUserService extends BaseService
 {
 
     public string $name_prefix = "一方书友"; // 昵称为空时填充的昵称前缀
+    // 默认头像 不直接插入到数据库，会占用数据库存储空间  会保证根目录在web下
+    public string $default_head_img = '/img/default_head_img.png';
 
     private BookUserRepository $_bookUserRepository; // 服务对应的操作数据库的类
 
@@ -40,6 +42,7 @@ class BookUserService extends BaseService
         $password = $passwordHasher->HashPassword($params['password']); // 生成密码
 
         $this->Entity->user_nickname = $params['nickname'];
+        $this->Entity->user_headimg = UtilFunction::getDomain().$this->default_head_img;
         !empty($params['sex']) && $this->Entity->sex = $params['sex'];
         !empty($params['birthday']) && $this->Entity->birthday = $params['birthday'];
         $this->Entity->password = $password;

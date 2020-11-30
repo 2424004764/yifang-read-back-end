@@ -31,4 +31,13 @@ class UtilFunction
 
         return $randomString;
     }
+
+    /**
+     * 获取域名
+     * @return string
+     */
+    public static function getDomain()
+    {
+        return $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'];
+    }
 }
