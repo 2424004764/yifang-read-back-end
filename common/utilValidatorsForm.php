@@ -69,7 +69,10 @@ class utilValidatorsForm
                     if(!UtilValidate::checkNameAllowSpace($this->$attribute)){
                         $this->addError($attribute, '昵称不符格式~');
                     }
-                }]
+                }],
+                // 昵称唯一
+                ['unique', 'targetAttribute' => 'user_nickname',
+                    'targetClass' => BookUserEntity::class]
             ],
             'EMAIL' =>  [ // 邮箱
                 ['required'],

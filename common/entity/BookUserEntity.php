@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "book_user".
  *
  * @property int $user_id 用户表ID主键  保留1-100000  正常注册的id从100001开始  作为登陆账号
- * @property string $user_nikename 用户昵称
+ * @property string $user_nickname 用户昵称
  * @property string $user_headimg 用户头像
  * @property int $sex 性别 0 未知 1男 2女
  * @property int $status 状态 0正常 1禁用
@@ -37,7 +37,7 @@ class BookUserEntity extends \app\common\BaseAR
         return [
             [['status', 'birthday_type'], 'integer'],
             [['birthday', 'create_on'], 'safe'],
-            [['user_nikename'], 'string', 'max' => 50],
+            [['user_nickname'], 'string', 'max' => 50],
             [['user_headimg', 'password_salt', 'password', 'bind_email'], 'string', 'max' => 255],
             [['sex'], 'integer', 'min' => 0, 'max' => 2]
         ];
@@ -50,7 +50,7 @@ class BookUserEntity extends \app\common\BaseAR
     {
         return [
             'user_id' => '用户表ID主键  保留1-100000  正常注册的id从100001开始  作为登陆账号',
-            'user_nikename' => '用户昵称',
+            'user_nickname' => '用户昵称',
             'user_headimg' => '用户头像',
             'sex' => '性别 0 未知 1男 2女',
             'status' => '状态 0正常 1禁用',
