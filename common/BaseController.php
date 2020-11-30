@@ -112,9 +112,8 @@ class BaseController extends Controller
         }
 
         $params = [];
-
         // 获取指定的参数
-        foreach ($paramsField as $field => &$type){
+        foreach ($paramsField as $field => $type){
             if('get' === $method){
                 $value = \Yii::$app->request->get($field);
             }else{
