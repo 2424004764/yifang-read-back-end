@@ -36,7 +36,7 @@ class BookUserService extends BaseService
         $passwordHasher = new PasswordHash(8,false);
         $password = $passwordHasher->HashPassword($params['password']); // 生成密码
 
-        $this->Entity->user_nikename = $params['nickname'];
+        $this->Entity->user_nickname = $params['nickname'];
         !empty($params['sex']) && $this->Entity->sex = $params['sex'];
         !empty($params['birthday']) && $this->Entity->birthday = $params['birthday'];
         $this->Entity->password = $password;
