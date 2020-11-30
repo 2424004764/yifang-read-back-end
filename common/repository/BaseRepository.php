@@ -70,4 +70,20 @@ class BaseRepository
             throw new \Exception($exception->getMessage());
         }
     }
+
+    /**
+     * 修改
+     * @param BaseAR $entity
+     * @return bool
+     * @throws \Exception
+     */
+    public function save(BaseAR $entity)
+    {
+        try {
+            // 组装查询条件
+            return $entity->save();
+        }catch (\Exception $exception){
+            throw new \Exception($exception->getMessage());
+        }
+    }
 }

@@ -145,7 +145,7 @@ class BaseController extends Controller
 
     /**
      * 统一返回方法
-     * @param $data array|false 需要返回的数据
+     * @param $data array|false|BaseAR 需要返回的数据
      * @return array 构建好的返回数据
      */
     public function uniReturnJson($data)

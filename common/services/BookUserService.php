@@ -16,6 +16,9 @@ use Hautelook\Phpass\PasswordHash; // 使用 https://packagist.org/packages/haut
 
 class BookUserService extends BaseService
 {
+
+    public string $name_prefix = "一方书友"; // 昵称为空时填充的昵称前缀
+
     private BookUserRepository $_bookUserRepository; // 服务对应的操作数据库的类
 
     public function __construct()

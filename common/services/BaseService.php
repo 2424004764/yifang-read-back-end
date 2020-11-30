@@ -48,4 +48,22 @@ class BaseService
             return self::setAndReturn(ErrorCode::SYSTEM_ERROR, $e->getMessage());
         }
     }
+
+    /**
+     * entity 修改
+     * @param $params
+     * @return bool
+     */
+    public function save($params)
+    {
+        foreach ($params as $field => $value){
+            $this->Entity->$field = $value;
+        }
+        try {
+            return $this->_baseRepository->save($this->Entity);
+        } catch (\Exception $e) {
+            return self::setAndReturn(ErrorCode::SYSTEM_ERROR, $e->getMessage());
+        }
+    }
+
 }

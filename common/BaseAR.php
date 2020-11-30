@@ -81,4 +81,5 @@ class BaseAR extends ActiveRecord
         return $queryEntity::find()->where($where)->one();
     }
 
+
 }
