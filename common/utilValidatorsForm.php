@@ -52,15 +52,15 @@ class utilValidatorsForm
         return [
             'int'   =>  [
                 ['integer'],
-                ['filter', 'filter' => 'intval']
+                ['filter', 'filter' => 'intval', 'message'  =>  '格式错误~']
             ],
             'bookId'   =>  [
-                ['required'], ['integer'],
-                ['filter', 'filter' => 'intval']
+                ['required'], ['integer',  'message'  =>  '格式错误~'],
+                ['filter', 'filter' => 'intval',]
             ],
             // 往后统一使用大写的形式
             'NICKNAME'  =>  [ // 昵称
-                ['string', 'length' => [1, 20]],
+                ['string', 'length' => [1, 20], 'tooLong' => '昵称长度最大为20个字符~'],
                 // 定义为匿名函数的行内验证器 $attribute 就是控制器传入的字段名 如这里就是user_nickname
                 // $this->$attribute 就是当前属性的值
                 // 只要不$this->addError 则表示成功
@@ -70,13 +70,14 @@ class utilValidatorsForm
                         $this->addError($attribute, '昵称不符格式~');
                     }
                 }],
-                // 昵称唯一
+                // 昵称唯一 不为空时才效验
                 ['unique', 'targetAttribute' => 'user_nickname',
-                    'targetClass' => BookUserEntity::class]
+                    'targetClass' => BookUserEntity::class,
+                    'message'   =>  '昵称已被注册~']
             ],
             'EMAIL' =>  [ // 邮箱
                 ['required'],
-                ['email']
+                ['email', 'message'   =>  '邮箱地址无效~']
             ],
             'ONLY_EMAIL' =>  [ // 在用户表唯一邮箱
                 ['required'],
@@ -84,11 +85,13 @@ class utilValidatorsForm
                 // targetAttribute 在用户表中的字段
                 // targetClass 用户表entity
                 ['unique', 'targetAttribute' => 'bind_email',
-                    'targetClass' => BookUserEntity::class]
+                    'targetClass' => BookUserEntity::class,
+                    'message' => '邮箱已被注册~']
             ],
             'PASSWORD'  =>  [ // 密码
                 ['required'],
-                ['string', 'length' => [1, 30]],
+                ['string', 'length' => [6, 50], 'tooShort' => '密码位数最少6位~',
+                    'tooLong' => '密码位数最多50位~', 'message' => '密码必需是字符串~'],
                 // 将密码保存起来 好二次验证密码  因为DynamicModel 是单次验证，所以和rules不一样
                 // 因为只有验证password时才会验证
                 [function($attribute, $params){
