@@ -28,6 +28,8 @@ class ErrorMsg
         ErrorCode::PARAM_VALIDATE_FAIL => '参数效验失败',
         ErrorCode::REQUEST_METHOD_FAIL => '请求方式错误',
         ErrorCode::SYSTEM_ERROR => '系统错误',
+        ErrorCode::USER_DISABLE => '用户已被禁用',
+        ErrorCode::USER_ACCOUNT_NOT_EXIST => '用户不存在',
     ];
 
     /**

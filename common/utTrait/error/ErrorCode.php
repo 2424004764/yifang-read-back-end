@@ -22,15 +22,20 @@ class ErrorCode
     const FAILURE = -1;   // 表示失败
 
     /**
-     * 请求|参数相关范围为 100 ~ 1100
+     * 请求|参数相关范围为 1 ~ 1999
      */
-    const PARAM_EMPTY = 100; // 参数错误
-    const PARAM_VALIDATE_FAIL = 101; // 参数效验失败
-    const REQUEST_METHOD_FAIL = 103; // 请求方式错误
+    const PARAM_EMPTY = 1; // 参数错误
+    const PARAM_VALIDATE_FAIL = 2; // 参数效验失败
+    const REQUEST_METHOD_FAIL = 3; // 请求方式错误
 
     /**
-     * 系统范围的错误 1101 ~ 1201
+     * 系统范围的错误 2000 ~ 3999
      */
-    const SYSTEM_ERROR = 1101; // 系统错误
+    const SYSTEM_ERROR = 1000; // 系统错误
 
+    /**
+     * 用户相关错误  4000 ~ 5999
+     */
+    const USER_DISABLE = 4000; // 用户已被禁用
+    const USER_ACCOUNT_NOT_EXIST = 4001; // 用户不存在
 }

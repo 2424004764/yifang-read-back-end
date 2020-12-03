@@ -14,6 +14,8 @@ use app\common\entity\BookUserEntity;
 use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\error\ErrorTrain;
 use yii\base\DynamicModel;
+use yii\validators\EmailValidator;
+use app\common\AdditionalCacheData;
 
 class utilValidatorsForm
 {
@@ -82,16 +84,15 @@ class utilValidatorsForm
             'ONLY_EMAIL' =>  [ // 在用户表唯一邮箱
                 ['required'],
                 ['email'],
-                // targetAttribute 在用户表中的字段
-                // targetClass 用户表entity
+                // targetClass 用户表entity targetAttribute 在用户表中的字段
                 ['unique', 'targetAttribute' => 'bind_email',
                     'targetClass' => BookUserEntity::class,
                     'message' => '邮箱已被注册~']
             ],
             'PASSWORD'  =>  [ // 密码
-                ['required'],
+                ['required', 'message' => '密码怎么能是空的~'],
                 ['string', 'length' => [6, 50], 'tooShort' => '密码位数最少6位~',
-                    'tooLong' => '密码位数最多50位~', 'message' => '密码必需是字符串~'],
+                    'tooLong' => '密码位数最多50位~'],
                 // 将密码保存起来 好二次验证密码  因为DynamicModel 是单次验证，所以和rules不一样
                 // 因为只有验证password时才会验证
                 [function($attribute, $params){
@@ -111,6 +112,22 @@ class utilValidatorsForm
             ],
             'SEX'   =>  [ // 性别
                 ['in', 'range' => [0, 1, 2]]
+            ],
+            'ID_OR_EMAIL'   =>  [ // 一方书号或者邮箱
+                ['required', 'message' => '你输入空账号干嘛~'],
+                // 输入的账号要么是uid  要么是邮箱，否则不通过验证
+                [function($attribute, $params){
+                    if(!is_numeric($this->$attribute)){
+                        // 如果又不是邮箱  则提示账号密码错误
+                        if(!(new EmailValidator())->validate($this->$attribute)){
+                            $this->addError($attribute, '你输入的账号和密码肯定有问题~');
+                        }else{
+                            AdditionalCacheData::$ID_OR_EMAIL = 2;
+                        }
+                    }else{
+                        AdditionalCacheData::$ID_OR_EMAIL = 1;
+                    }
+                }],
             ],
         ];
     }

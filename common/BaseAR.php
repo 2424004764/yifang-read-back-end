@@ -55,8 +55,8 @@ class BaseAR extends ActiveRecord
     {
         $query = $queryEntity::find();
         if($queryParams->where)$query->where($queryParams->where);
-        if($queryParams->field){
-            $field = $queryParams->field;
+        if($queryParams->select){
+            $field = $queryParams->select;
         }else{
             // 如果没有指定要返回的字段 则使用entity 的 attributeLabels
             // 避免select *

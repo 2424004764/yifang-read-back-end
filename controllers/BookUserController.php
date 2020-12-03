@@ -167,4 +167,16 @@ class BookUserController extends BaseController
         unset($user['password']);
         return $this->uniReturnJson($user);
     }
+    
+    // 登录
+    public function actionLogin()
+    {
+        $params = $this->getRequestParams([
+            'idOrEmail' =>  'ID_OR_EMAIL',
+            'password'  =>  'PASSWORD'
+        ], 'post');
+        $result = $this->_bookUserService->login($params);
+
+        return $this->uniReturnJson($result);
+    }
 }
