@@ -138,7 +138,10 @@ class BookUserController extends BaseController
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    // 注册
+    /**
+     * 注册
+     * @return array
+     */
     public function actionRegister()
     {
         $params = $this->getRequestParams([
@@ -167,8 +170,12 @@ class BookUserController extends BaseController
         unset($user['password']);
         return $this->uniReturnJson($user);
     }
-    
-    // 登录
+
+    /**
+     * 登录
+     * @return array
+     * @throws \Exception
+     */
     public function actionLogin()
     {
         $params = $this->getRequestParams([
