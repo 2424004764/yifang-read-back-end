@@ -41,7 +41,10 @@ class BookUserService extends BaseService
      * @return string
      */
     public function generateDefaultAvatar(){
-        return UtilFunction::getDomain().$this->default_head_img;
+        // 根据域名拼接本地图片文件
+//        return UtilFunction::getDomain().$this->default_head_img;
+
+        return $this->default_head_img;
     }
 
     /**
