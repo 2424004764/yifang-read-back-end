@@ -21,8 +21,8 @@ class BookUserService extends BaseService
 {
 
     public string $name_prefix = "一方书友"; // 昵称为空时填充的昵称前缀
-    // 默认头像 不直接插入到数据库，会占用数据库存储空间  会保证根目录在web下
-    public string $default_head_img = '/img/default_head_img.png';
+    // 默认头像 不直接插入到数据库
+    public string $default_head_img = 'http://cdn.fologde.com//yifangread/default_head_img.png';
 
     public static int $STATUS_ENABLE = 0; // 状态正常
     public static int $STATUS_DISABLE = 1; // 用户已禁用
