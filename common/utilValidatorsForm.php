@@ -15,7 +15,6 @@ use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\error\ErrorTrain;
 use yii\base\DynamicModel;
 use yii\validators\EmailValidator;
-use app\common\AdditionalCacheData;
 
 class utilValidatorsForm
 {
@@ -82,8 +81,8 @@ class utilValidatorsForm
                 ['email', 'message'   =>  '邮箱地址无效~']
             ],
             'ONLY_EMAIL' =>  [ // 在用户表唯一邮箱
-                ['required'],
-                ['email'],
+                ['required', 'message' => '邮箱不能为空！'],
+                ['email', 'message'   =>  '邮箱地址无效~'],
                 // targetClass 用户表entity targetAttribute 在用户表中的字段
                 ['unique', 'targetAttribute' => 'bind_email',
                     'targetClass' => BookUserEntity::class,
@@ -122,9 +121,11 @@ class utilValidatorsForm
                         if(!(new EmailValidator())->validate($this->$attribute)){
                             $this->addError($attribute, '你输入的账号和密码肯定有问题~');
                         }else{
+                            // 是邮箱
                             AdditionalCacheData::$ID_OR_EMAIL = 2;
                         }
                     }else{
+                        // 是uid
                         AdditionalCacheData::$ID_OR_EMAIL = 1;
                     }
                 }],
