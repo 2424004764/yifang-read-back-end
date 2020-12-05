@@ -9,6 +9,9 @@ return [
         'host'  =>  'smtp.163.com',
         'username' => 'yifangread@163.com',
         'password' => 'JWEFJOETBREVTCNT',
-        'port' => '25',
+        'port' => '465',
+        // Secure Sockets Layer (SSL) https
+        //Transport Layer Security (TLS) http
+        'encryption' => 'ssl',
     ],
 ];

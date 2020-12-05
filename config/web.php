@@ -38,7 +38,7 @@ $config = [
                 'username' => $params['smtp']['username'],
                 'password' => $params['smtp']['password'],
                 'port' => $params['smtp']['port'],
-//                'encryption' => 'tls',
+                'encryption' => $params['smtp']['encryption'],
             ],
         ],
         'log' => [
@@ -75,7 +75,9 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => [
+            '127.0.0.1', '120.235.52.248'
+        ],
     ];
 
     $config['bootstrap'][] = 'gii';
