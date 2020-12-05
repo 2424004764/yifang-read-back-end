@@ -83,7 +83,7 @@ class BookUserService extends BaseService
     /**
      * 登录
      * @param array $params
-     * @return array|bool
+     * @return array|bool|BookUserEntity
      * @throws \Exception
      */
     public function login(array $params)
@@ -109,7 +109,8 @@ class BookUserService extends BaseService
                 return self::setAndReturn(ErrorCode::SYSTEM_ERROR);
         }
         $user = $this->_bookUserRepository->getItem($queryParams, $this->Entity);
-        $user = isset($user[0]) ? $user[0] : [];
+        /** @var BookUserEntity $user */
+        $user = isset($user[0]) ? $user[0] : false;
 
         if($user){
             if($user->status == self::$STATUS_DISABLE){
@@ -118,8 +119,12 @@ class BookUserService extends BaseService
             if(!$passwordHasher->CheckPassword($params['password'], $user->password)){
                 return self::setAndReturn(ErrorCode::USER_ACCOUNT_NOT_EXIST);
             }
+            // 如果用户头像为空  则返回一张默认头像图片地址
+            empty($user->user_headimg) && $user->user_headimg = $this->generateDefaultAvatar();
+
+            unset($user->password);
         }
-        unset($user->password);
+
         return $user;
     }
 
