@@ -37,7 +37,15 @@ class BookUserService extends BaseService
     }
 
     /**
-     * 插入一条数据  组装好填充数据的entity
+     * 生成默认头像
+     * @return string
+     */
+    public function generateDefaultAvatar(){
+        return UtilFunction::getDomain().$this->default_head_img;
+    }
+
+    /**
+     * 注册
      * @param array $params
      * @return \app\common\BaseAR|bool|void
      */
@@ -48,13 +56,28 @@ class BookUserService extends BaseService
         $password = $passwordHasher->HashPassword($params['password']); // 生成密码
 
         $this->Entity->user_nickname = $params['nickname'];
-        $this->Entity->user_headimg = UtilFunction::getDomain().$this->default_head_img;
         !empty($params['sex']) && $this->Entity->sex = $params['sex'];
         !empty($params['birthday']) && $this->Entity->birthday = $params['birthday'];
         $this->Entity->password = $password;
         $this->Entity->bind_email = $params['email'];
 
-        return parent::insert($this->Entity);
+        // 是否需要自动生成昵称
+        /** @var BookUserEntity|null $user 创建之后的user entity */
+        if( false !== ($user = parent::insert($this->Entity)) ){
+            // 如果昵称为空  则自动生成昵称
+            if(empty($params['nickname'])){
+                $nickname = $this->name_prefix.$user->user_id;
+                $this->Entity->user_nickname = $nickname;
+                $user = false !== $this->save() ? $this->Entity : false;
+            }
+            // 注册默认是没有头像的  所以返回一张默认的头像
+            $user->user_headimg = $this->generateDefaultAvatar();
+
+            // 将密码删除后返回
+            unset($user['password']);
+        }
+
+        return $user;
     }
 
     /**

@@ -158,16 +158,7 @@ class BookUserController extends BaseController
         if(false === $user){
             return $this->uniReturnJson($user);
         }
-        // 如果昵称为空  则自动生成昵称
-        if(empty($params['nickname'])){
-            $params['nickname'] = $this->_bookUserService->name_prefix.$user->user_id;
-            $update_data = [
-                'user_id'   =>  $user->user_id,
-                'user_nickname' =>  $params['nickname']
-            ];
-            $this->_bookUserService->save($update_data);
-        }
-        unset($user['password']);
+
         return $this->uniReturnJson($user);
     }
 

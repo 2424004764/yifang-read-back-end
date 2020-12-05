@@ -50,15 +50,11 @@ class BaseService
     }
 
     /**
-     * entity 修改
-     * @param $params
+     * entity 修改 在相应的service中修改entity即可
      * @return bool
      */
-    public function save($params)
+    public function save()
     {
-        foreach ($params as $field => $value){
-            $this->Entity->$field = $value;
-        }
         try {
             return $this->_baseRepository->save($this->Entity);
         } catch (\Exception $e) {
