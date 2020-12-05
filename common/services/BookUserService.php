@@ -121,7 +121,8 @@ class BookUserService extends BaseService
             }
             // 如果用户头像为空  则返回一张默认头像图片地址
             empty($user->user_headimg) && $user->user_headimg = $this->generateDefaultAvatar();
-
+            
+            // 将密码删除后返回
             unset($user->password);
         }
 
