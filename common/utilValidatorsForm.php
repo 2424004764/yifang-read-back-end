@@ -68,7 +68,7 @@ class utilValidatorsForm
                 [function($attribute, $params){
                     // 验证姓名有效性
                     if(!UtilValidate::checkNameAllowSpace($this->$attribute)){
-                        $this->addError($attribute, '昵称不符格式~');
+                        $this->addError($attribute, '昵称不符格式~ 可能是包含特殊字符~');
                     }
                 }],
                 // 昵称唯一 不为空时才效验
