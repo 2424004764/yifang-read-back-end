@@ -40,4 +40,27 @@ class UtilFunction
     {
         return $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'];
     }
+
+    /**
+     * 往邮箱发送一封邮件
+     * @param $toEmail string 要发送的邮箱
+     * @param $subject string 标题
+     * @param  $content string 内容 HTML格式
+     */
+    public static function toEmailSend($toEmail, $subject, $content)
+    {
+        try {
+            $from   =   \Yii::$app->getComponents()['mailer']['transport']['username'];
+            $body   =   $content;
+            $mailer =   \Yii::$app->mailer->compose();
+
+            $mailer->setFrom($from);
+            $mailer->setTo($toEmail);
+            $mailer->setSubject($subject);
+            $mailer->setHtmlBody($body);
+            $mailer->send();
+        }catch (\Exception $exception){
+            \Yii::warning("给 {$toEmail} 发送邮箱失败：".$exception->getMessage());
+        }
+    }
 }
