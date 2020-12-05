@@ -68,4 +68,8 @@ entity是表映射类文件
 ![](http://cdn.fologde.com/Image10.png)    
 ![](http://cdn.fologde.com/Image11.png)
 
-***
+***   
+2020年12月5日20:24:56  
+完成注册、登录、注册成功发送邮箱   
+***   
+
