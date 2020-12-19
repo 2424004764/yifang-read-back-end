@@ -10,6 +10,7 @@
 
 namespace app\common;
 
+use app\common\entity\BookBookshelfEntity;
 use app\common\entity\BookUserEntity;
 use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\error\ErrorTrain;
@@ -57,7 +58,11 @@ class utilValidatorsForm
             ],
             'bookId'   =>  [
                 ['required'], ['integer',  'message'  =>  '格式错误~'],
-                ['filter', 'filter' => 'intval',]
+                ['filter', 'filter' => function($attribute){
+                    $attribute = trim($attribute);
+                    $attribute = intval($attribute);
+                    return $attribute;
+                },]
             ],
             // 往后统一使用大写的形式
             'NICKNAME'  =>  [ // 昵称
@@ -130,6 +135,14 @@ class utilValidatorsForm
                     }
                 }],
             ],
+            'BOOK_ID_IS_EXIST'  =>  [ // 书籍id是否在数据库存在
+                ['required'],
+                // 判断用户的book_id 在书架是否存在
+                ['exist',
+                    'targetClass' => BookBookshelfEntity::class,
+                    'targetAttribute' => 'book_id'
+                ]
+            ]
         ];
     }
 

@@ -9,6 +9,7 @@
 
 namespace app\common\repository;
 use app\common\BaseAR;
+use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\QueryParams;
 use app\common\utTrait\error\ErrorTrain;
 
@@ -74,16 +75,31 @@ class BaseRepository
     /**
      * 修改
      * @param BaseAR $entity
-     * @return bool
+     * @return bool|string
      * @throws \Exception
      */
     public function save(BaseAR $entity)
     {
         try {
-            // 组装查询条件
-            return $entity->save();
+            if(!$entity->save()){
+                // 保存失败
+                return self::setAndReturn(ErrorCode::SYSTEM_ERROR,
+                    current($entity->getFirstErrors()));
+            }
+            return true;
         }catch (\Exception $exception){
             throw new \Exception($exception->getMessage());
         }
+    }
+
+    /**
+     * 是否存在数据
+     * @param QueryParams $queryParams
+     * @param BaseAR $entity
+     * @return bool
+     */
+    public function isExist($queryParams, $entity)
+    {
+        return $entity::find()->where($queryParams->where)->exists();
     }
 }

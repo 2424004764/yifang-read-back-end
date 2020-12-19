@@ -38,4 +38,10 @@ class ErrorCode
      */
     const USER_DISABLE = 4000; // 用户已被禁用
     const USER_ACCOUNT_NOT_EXIST = 4001; // 用户不存在
+
+    /**
+     * bookShelf 6000 ~ 6199
+     */
+    const BOOKSHELF_IS_EXIST = 6000; // 已加入书架
+    const BOOKSHELF_SAVE_FAIL = 6001; // 保存书架失败
 }

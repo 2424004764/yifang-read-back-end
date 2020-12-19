@@ -30,6 +30,8 @@ class ErrorMsg
         ErrorCode::SYSTEM_ERROR => '系统错误',
         ErrorCode::USER_DISABLE => '用户已被禁用',
         ErrorCode::USER_ACCOUNT_NOT_EXIST => '用户不存在',
+        ErrorCode::BOOKSHELF_IS_EXIST => '已加入书架',
+
     ];
 
     /**
