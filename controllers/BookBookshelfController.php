@@ -46,6 +46,30 @@ class BookBookshelfController extends BaseController
         return $this->uniReturnJson($data);
     }
 
+    /**
+     * 是否已加入书架
+     * @return array
+     * @throws \Exception
+     */
+    public function actionIsJoinBookShelf(){
+        // 只验证是否必填、整型、函数过滤
+        $params = $this->getRequestParams([
+            'book_id' => "bookId",
+            'user_id' => 'bookId'
+        ]);
+        $queryParams = new QueryParams();
+        $queryParams->where($params);
+
+        $result = $this->_bookBookShelfService->isExistBookshelf($queryParams);
+
+        $data = [];
+        if(is_numeric($result)){
+            $data['is_join'] = $result;
+        }
+
+        return $this->uniReturnJson($data);
+    }
+
     // 获取书籍列表
     public function actionGetList()
     {

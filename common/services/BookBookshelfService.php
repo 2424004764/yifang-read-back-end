@@ -35,7 +35,12 @@ class BookBookshelfService extends BaseService
      */
     public function isExistBookshelf($queryParams)
     {
-        return $this->_bookBookshelfRepository->isExist($queryParams, $this->Entity);
+        try {
+            return (int)$this->_bookBookshelfRepository->isExist($queryParams, $this->Entity);
+        }catch (\Exception $exception){
+            return self::setAndReturn(ErrorCode::SYSTEM_ERROR,
+                $exception->getMessage());
+        }
     }
 
     /**
