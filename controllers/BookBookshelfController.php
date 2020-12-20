@@ -26,7 +26,7 @@ class BookBookshelfController extends BaseController
     }
 
     /**
-     * 加入书架
+     * 加入|移除书架
      * 需要判断是否已加入
      * @return array
      * @throws \Exception

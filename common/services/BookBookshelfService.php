@@ -44,22 +44,22 @@ class BookBookshelfService extends BaseService
     }
 
     /**
-     * 加入书架
+     * 加入|移除书架
      * @param QueryParams $queryParams
      * @return bool
      * @throws \Exception
      */
     public function joinBookShelf($queryParams)
     {
-        if($this->isExistBookshelf($queryParams)){
-            return self::setAndReturn(ErrorCode::BOOKSHELF_IS_EXIST);
-        }
-        // 开始加入书架
-        $bookShelfEntity = new BookBookshelfEntity();
-        $bookShelfEntity->setAttributes($queryParams->where);
-
         try {
-            return $this->_bookBookshelfRepository->save($bookShelfEntity);
+            if($this->isExistBookshelf($queryParams)){ // 已加入书架  则取消加入
+
+                return $this->del($queryParams);
+            }
+            // 开始加入书架
+            $this->Entity->setAttributes($queryParams->where);
+
+            return $this->save();
         }catch (\Exception $exception){
             return self::setAndReturn(ErrorCode::BOOKSHELF_SAVE_FAIL);
         }

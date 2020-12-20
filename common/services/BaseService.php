@@ -7,6 +7,7 @@ use app\common\entity\BookClassEntity;
 use app\common\repository\BaseRepository;
 use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\error\ErrorTrain;
+use app\common\utTrait\QueryParams;
 
 class BaseService
 {
@@ -23,7 +24,7 @@ class BaseService
 
     /**
      * 获取分类 适合简单的查询
-     * @param $queryParams
+     * @param QueryParams $queryParams
      * @return array|bool|\yii\db\ActiveRecord[]
      */
     public function getItem($queryParams)
@@ -61,5 +62,20 @@ class BaseService
             return self::setAndReturn(ErrorCode::SYSTEM_ERROR, $e->getMessage());
         }
     }
+
+    /**
+     * 统一的删除方法
+     * @param QueryParams $queryParams
+     * @return bool
+     */
+    public function del($queryParams)
+    {
+        try {
+            return $this->_baseRepository->del($queryParams, $this->Entity);
+        } catch (\Exception $e) {
+            return self::setAndReturn(ErrorCode::SYSTEM_ERROR, $e->getMessage());
+        }
+    }
+
 
 }

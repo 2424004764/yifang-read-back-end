@@ -75,7 +75,7 @@ class BaseRepository
     /**
      * 修改
      * @param BaseAR $entity
-     * @return bool|string
+     * @return bool
      * @throws \Exception
      */
     public function save(BaseAR $entity)
@@ -101,5 +101,16 @@ class BaseRepository
     public function isExist($queryParams, $entity)
     {
         return $entity::find()->where($queryParams->where)->exists();
+    }
+
+    /**
+     * 统一的删除方法
+     * @param QueryParams $queryParams
+     * @param BaseAR $entity
+     * @return bool
+     */
+    public function del($queryParams, $entity)
+    {
+        return $entity::deleteAll($queryParams->where);
     }
 }
