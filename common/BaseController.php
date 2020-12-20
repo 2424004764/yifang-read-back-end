@@ -21,6 +21,8 @@ class BaseController extends Controller
     public bool $isNowReturn = false; // 是否立即返回数据到浏览器 比如某些错误信息要直接返回
     public utilValidatorsForm $_utilValidators; // 效验器|验证器
 
+    public $enableCsrfValidation = false;
+
     public function __construct($id, $module, $config = [])
     {
         parent::__construct($id, $module, $config);

@@ -17,7 +17,6 @@ use yii\filters\VerbFilter;
 class BookUserController extends BaseController
 {
 
-    public $enableCsrfValidation = false;
 
     private BookUserService $_bookUserService; //服务对应的操作数据库的类
 
