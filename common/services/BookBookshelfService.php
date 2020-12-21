@@ -83,7 +83,7 @@ class BookBookshelfService extends BaseService
                 'book_id'   =>  $book->book_id
             ];
             $book = $book->toArray();
-            $book['detail'] = $bookService->getItem($queryParams);
+            $book['detail'] = $bookService->getItem($queryParams)[0];
         }
 
         return $raw_data;
