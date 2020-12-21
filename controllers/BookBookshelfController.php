@@ -70,7 +70,10 @@ class BookBookshelfController extends BaseController
         return $this->uniReturnJson($data);
     }
 
-    // 获取书籍列表
+    /**
+     * 获取收藏的书籍列表
+     * @return array
+     */
     public function actionGetList()
     {
         $ps = $this->uniGetPaging(1, 20);
@@ -83,7 +86,7 @@ class BookBookshelfController extends BaseController
             'user_id'   =>  $params['user_id']
         ]);
 
-        return $this->uniReturnJson($this->_bookBookShelfService->getItem($queryParams));
+        return $this->uniReturnJson($this->_bookBookShelfService->getBookshelfList($queryParams));
     }
 
 }

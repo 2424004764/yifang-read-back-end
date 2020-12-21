@@ -64,4 +64,28 @@ class BookBookshelfService extends BaseService
             return self::setAndReturn(ErrorCode::BOOKSHELF_SAVE_FAIL);
         }
     }
+
+    /**
+     * @param QueryParams $queryParams
+     * @return BookBookshelfEntity[]
+     */
+    public function getBookshelfList(QueryParams $queryParams)
+    {
+        /** @var BookBookshelfEntity[] $raw_data */
+        $queryParams->select = 'book_id';
+        $raw_data = $this->getItem($queryParams);
+
+        /** @var BookBookService $bookService */
+        $bookService = \Yii::createObject(BookBookService::class);
+        foreach ($raw_data as &$book){
+            $queryParams->select = 'book_name, book_cover_imgs';
+            $queryParams->where = [
+                'book_id'   =>  $book->book_id
+            ];
+            $book = $book->toArray();
+            $book['detail'] = $bookService->getItem($queryParams);
+        }
+
+        return $raw_data;
+    }
 }
