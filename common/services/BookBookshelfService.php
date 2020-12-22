@@ -72,12 +72,16 @@ class BookBookshelfService extends BaseService
     public function getBookshelfList(QueryParams $queryParams)
     {
         /** @var BookBookshelfEntity[] $raw_data */
-        $queryParams->select = 'book_id';
+        $queryParams->select = 'book_id, create_on';
+        $queryParams->orderBy = 'create_on desc';
         $raw_data = $this->getItem($queryParams);
 
         /** @var BookBookService $bookService */
         $bookService = \Yii::createObject(BookBookService::class);
         foreach ($raw_data as &$book){
+            // 去掉加入书架时间
+            unset($book['create_on']);
+            $queryParams = new QueryParams();
             $queryParams->select = 'book_name, book_cover_imgs';
             $queryParams->where = [
                 'book_id'   =>  $book->book_id
