@@ -140,7 +140,10 @@ class BookChapterContentController extends BaseController
     }
 
 
-
+    /**
+     * 获取章节内容详情
+     * @return array
+     */
     public function actionGetChapterContent()
     {
         $params = $this->getRequestParams(['chapter_id'=>"bookId"]);

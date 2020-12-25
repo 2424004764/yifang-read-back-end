@@ -53,11 +53,12 @@ class utilValidatorsForm
     {
         return [
             'int'   =>  [
-                ['integer'],
-                ['filter', 'filter' => 'intval', 'message'  =>  '格式错误~']
+                ['integer', 'message'  =>  '非整型~'],
+                // intval 会将null、‘’转换为0
+                ['filter', 'filter' => 'intval', 'message'  =>  '格式错误1~']
             ],
-            'bookId'   =>  [
-                ['required'], ['integer',  'message'  =>  '格式错误~'],
+            'bookId'   =>  [ // 整数型都可以用这个效验规则
+                ['required'], ['integer',  'message'  =>  '格式错误2~'],
                 ['filter', 'filter' => function($attribute){
                     $attribute = trim($attribute);
                     $attribute = intval($attribute);
@@ -167,40 +168,47 @@ class utilValidatorsForm
             return $model->toArray();
         };
 
-        foreach ($fields as $field => &$value){
-            // 如果使用 ParamValidateType 指定了共用的效验字段
-            if($value instanceof ParamValidateType){
-                $rule = self::getRulesName()[$value->type];
-                // 如果规则不存在  则不效验
-                if(empty($rule))continue;
-                $value = $value->value;
-                // 有公用效验字段的规则需要不同的效验方法
-                // $validateType 如 int、bookId
-                foreach ($rule as $validateType){
-                    $getRule = function () use ($validateType) {
-                        // 单独进行效验
-                        $tem_rules = [];
-                        // $index 并不是索引
-                        foreach ($validateType as $index => $option){
-                            if(is_numeric($index)){
-                                $tem_rules[] = $option;
-                            }else{
-                                $tem_rules[$index] = $option;
+        /**
+         * @var  $field
+         * @var ParamValidateType[] $rules
+         */
+        foreach ($fields as $field => $rules){
+            /** @var ParamValidateType $value */
+            foreach ($rules as &$value){
+                // 如果使用 ParamValidateType 指定了共用的效验字段
+                if($value instanceof ParamValidateType){
+                    $rule = self::getRulesName()[$value->rule];
+                    // 如果规则不存在  则不效验
+                    if(empty($rule))continue;
+                    $value = $value->value;
+                    // 有公用效验字段的规则需要不同的效验方法
+                    // $validateType 如 int、bookId、ONLY_EMAIL等
+                    foreach ($rule as $validateType){
+                        $getRule = function () use ($validateType) {
+                            // 单独进行效验
+                            $tem_rules = [];
+                            // $index 并不是索引
+                            foreach ($validateType as $index => $option){
+                                if(is_numeric($index)){
+                                    $tem_rules[] = $option;
+                                }else{
+                                    $tem_rules[$index] = $option;
+                                }
                             }
+                            return $tem_rules;
+                        };
+                        $rules = [
+                            [[$field], ]
+                        ];
+                        $rules[0] = array_merge($rules[0], $getRule());
+                        $data = [$field => $value];
+                        $result = $validateResult($data, $rules);
+                        if(!$result){
+                            return  false;
                         }
-                        return $tem_rules;
-                    };
-                    $rules = [
-                        [[$field], ]
-                    ];
-                    $rules[0] = array_merge($rules[0], $getRule());
-                    $data = [$field => $value];
-                    $result = $validateResult($data, $rules);
-                    if(!$result){
-                        return  false;
+                        // 结果过滤 因为 'filter' 需要覆盖原数据
+                        $fields = array_merge($fields, $result);
                     }
-                    // 因为 'filter' => 'intval' 的需要覆盖原数据
-                    $fields = array_merge($fields, $result);
                 }
             }
         }

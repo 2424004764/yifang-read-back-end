@@ -95,8 +95,13 @@ class BaseController extends Controller
      * 获取参数并验证
      * @param array $paramsField 值需要在
      * \app\common\utilValidatorsForm::$RULES_NAME中定义名字和效验规则
-     * 格式：['page'=>'int']  效验page参数的格式为int，而int被定义为['integer']
-     * 支持 ['book_id'=>"book_id", 'name'=>'', 'age'] 自动识别
+     *  参数格式：[
+     *  'book_id'   =>  ['bookId'],
+     *  'user_id    => ['bookId'],
+     *  // 也可以指定多个验证规则
+     *  'sex'       =>  ['SEX', 'int']
+     * ]
+     * 规则可以是数组，也可以是字符 如'sex'       =>  'SEX'
      * @param string $method 请求方式
      * @return array
      */
@@ -115,17 +120,28 @@ class BaseController extends Controller
 
         $params = [];
         // 获取指定的参数
-        foreach ($paramsField as $field => $type){
+        foreach ($paramsField as $field => $rule){
             if('get' === $method){
                 $value = \Yii::$app->request->get($field);
             }else{
                 $value = \Yii::$app->request->post($field);
             }
 
-            if(!empty($type)){
+            if(!empty($rule)){
                 // 类型不为空  说明需要使用共用效验字段
-                $value = new ParamValidateType($value, $type, $field);
+                if(is_array($rule)){
+                    $values = [];
+                    // todo 这里我像如果rule如果是个数组，则￥value 也是一个数组组成的效验规则集合
+                    foreach ($rule as $rule_name){
+                        $values[] = new ParamValidateType($value, $rule_name, $field);
+                    }
+                    $value = $values;
+                }else{
+                    // 单效验规则也使用数组形式
+                    $value = [new ParamValidateType($value, $rule, $field)];
+                }
             }
+
             $params[$field] = $value;
             unset($value);
         }
