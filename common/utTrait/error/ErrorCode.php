@@ -38,6 +38,9 @@ class ErrorCode
      */
     const USER_DISABLE = 4000; // 用户已被禁用
     const USER_ACCOUNT_NOT_EXIST = 4001; // 用户不存在
+    const USER_PASSWORD_DIFF_FAIL = 4002; // 两次密码比对错误
+    const USER_NICKNAME_FORMAT_ERROR = 4003; // 昵称不符格式~ 可能是包含特殊字符~
+    const USER_ACCOUNT_NO_BOOK_ID_NO_EMAIL = 4004; // 你输入的账号和密码肯定有问题~
 
     /**
      * bookShelf 6000 ~ 6199

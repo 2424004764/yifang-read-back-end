@@ -13,6 +13,7 @@ namespace app\common;
 use app\common\entity\BookBookshelfEntity;
 use app\common\entity\BookUserEntity;
 use app\common\utTrait\error\ErrorCode;
+use app\common\utTrait\error\ErrorInfo;
 use app\common\utTrait\error\ErrorTrain;
 use yii\base\DynamicModel;
 use yii\validators\EmailValidator;
@@ -53,12 +54,12 @@ class utilValidatorsForm
     {
         return [
             'int'   =>  [
-                ['integer', 'message'  =>  '非整型~'],
+                ['integer', 'message'  =>  '参数非整型~'],
                 // intval 会将null、‘’转换为0
-                ['filter', 'filter' => 'intval', 'message'  =>  '格式错误1~']
+                ['filter', 'filter' => 'intval', 'message'  =>  '格式错误~']
             ],
             'bookId'   =>  [ // 整数型都可以用这个效验规则
-                ['required'], ['integer',  'message'  =>  '格式错误2~'],
+                ['required'], ['integer',  'message'  =>  '格式错误~'],
                 ['filter', 'filter' => function($attribute){
                     $attribute = trim($attribute);
                     $attribute = intval($attribute);
@@ -74,7 +75,7 @@ class utilValidatorsForm
                 [function($attribute, $params){
                     // 验证姓名有效性
                     if(!UtilValidate::checkNameAllowSpace($this->$attribute)){
-                        $this->addError($attribute, '昵称不符格式~ 可能是包含特殊字符~');
+                        $this->addError($attribute, ErrorInfo::getECAEMBEC(ErrorCode::USER_NICKNAME_FORMAT_ERROR));
                     }
                 }],
                 // 昵称唯一 不为空时才效验
@@ -108,7 +109,8 @@ class utilValidatorsForm
                 ['required'],
                 [function($attribute, $params){
                     if($this->$attribute != utilValidatorsForm::$temp_var['password']){
-                        $this->addError($attribute, '两次密码对比不匹配~');
+                        $this->addError($attribute,
+                            ErrorInfo::getECAEMBEC(ErrorCode::USER_PASSWORD_DIFF_FAIL));
                     }
                 }]
             ],
