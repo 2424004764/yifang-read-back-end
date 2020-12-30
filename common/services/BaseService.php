@@ -25,12 +25,13 @@ class BaseService
     /**
      * 获取分类 适合简单的查询
      * @param QueryParams $queryParams
+     * @param bool $isGetOne 是否只获取一条数据
      * @return array|bool|\yii\db\ActiveRecord[]
      */
-    public function getItem($queryParams)
+    public function getItem($queryParams, $isGetOne = false)
     {
         try {
-            return $this->_baseRepository->getItem($queryParams, $this->Entity);
+            return $this->_baseRepository->getItem($queryParams, $this->Entity, $isGetOne);
         } catch (\Exception $e) {
             return self::setAndReturn(ErrorCode::SYSTEM_ERROR, $e->getMessage());
         }

@@ -49,9 +49,10 @@ class BaseAR extends ActiveRecord
      * 可复用的查找方法
      *  @param $queryParams QueryParams 查询条件
      * @param $queryEntity BaseAR 要查询的Entity
+     * @param $isGetOne bool 是否只获取一条数据
      * @return array|ActiveRecord[]
      */
-    public function getItem($queryParams, $queryEntity)
+    public function getItem($queryParams, $queryEntity, $isGetOne)
     {
         $query = $queryEntity::find();
         if($queryParams->where)$query->where($queryParams->where);
@@ -66,7 +67,7 @@ class BaseAR extends ActiveRecord
         if($queryParams->orderBy)$query->orderBy($queryParams->orderBy);
         if($queryParams->offset)$query->offset(($queryParams->offset - 1) * $queryParams->limit);
         if($queryParams->limit)$query->limit($queryParams->limit);
-        return $query->all();
+        return $isGetOne ? $query->one() : $query->all();
     }
 
 

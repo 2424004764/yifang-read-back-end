@@ -34,7 +34,8 @@ class ErrorMsg
         ErrorCode::USER_PASSWORD_DIFF_FAIL => '两次密码比对错误',
         ErrorCode::USER_NICKNAME_FORMAT_ERROR => '昵称不符格式~ 可能是包含特殊字符~',
         ErrorCode::USER_ACCOUNT_NO_BOOK_ID_NO_EMAIL => '你输入的账号和密码肯定有问题~',
-    ];
+
+  ];
 
     /**
      * 只能根据错误码获取错误描述信息

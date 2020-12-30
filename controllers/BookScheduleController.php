@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\common\services\BookScheduleService;
 use Yii;
 use app\common\entity\BookScheduleEntity;
 use app\common\searchs\BookScheduleSearch;
@@ -15,6 +16,15 @@ use yii\filters\VerbFilter;
  */
 class BookScheduleController extends BaseController
 {
+
+    private BookScheduleService $_bookScheduleService;
+
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->_bookScheduleService = new BookScheduleService;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -124,5 +134,21 @@ class BookScheduleController extends BaseController
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
+     * 保存|更新 阅读进度
+     */
+    public function actionAddSchedule()
+    {
+        $params = $this->getRequestParams([
+            'user_id'   =>  ['bookId'],
+            'book_id'   =>  ['bookId'],
+            'chapter_id'   =>  ['bookId'],
+            'schedule'   =>  ['STRING'],
+        ], 'post');
+
+        return $this->uniReturnJson($this->_bookScheduleService
+            ->addSchedule($params));
     }
 }

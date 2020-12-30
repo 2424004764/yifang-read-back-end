@@ -66,6 +66,12 @@ class utilValidatorsForm
                     return $attribute;
                 },]
             ],
+            'STRING'    =>  [ // 字符串
+                ['filter', 'filter' => function($attribute){
+                    $attribute = trim($attribute);
+                    return $attribute;
+                },]
+            ],
             // 往后统一使用大写的形式
             'NICKNAME'  =>  [ // 昵称
                 ['string', 'length' => [1, 20], 'tooLong' => '昵称长度最大为20个字符~'],

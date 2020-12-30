@@ -43,13 +43,14 @@ class BaseRepository
     /**
      * @param $QueryParams QueryParams 查询条件
      * @param $queryEntity BaseAR 要查询的Entity
+     * @param $isGetOne bool 是否只获取一条数据
      * @return array|\yii\db\ActiveRecord[]
      * @throws \Exception
      */
-    public function getItem($QueryParams, $queryEntity)
+    public function getItem($QueryParams, $queryEntity, $isGetOne = false)
     {
         try {
-            return $this->_baseEntity->getItem($QueryParams, $queryEntity);
+            return $this->_baseEntity->getItem($QueryParams, $queryEntity, $isGetOne);
         }catch (\Exception $exception){
             throw new \Exception($exception->getMessage());
         }
