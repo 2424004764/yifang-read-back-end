@@ -42,7 +42,8 @@ class BookScheduleService extends BaseService
                 'chapter_id'=>  $params['chapter_id'],
             ]);
 
-            if($this->Entity = $this->getItem($query, true)){
+            if($bookScheduleItem = $this->getItem($query, true)){
+                $this->Entity = $bookScheduleItem;
                 // 已存在进度 需要更改
                 $this->Entity->schedule = $params['schedule'];
             }else{
