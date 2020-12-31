@@ -33,27 +33,32 @@ class BookScheduleService extends BaseService
      */
     public function addSchedule($params)
     {
-        // 无则加 有则该
-        $query = new QueryParams();
-        $query->where([
-            'user_id'   =>  $params['user_id'],
-            'book_id'   =>  $params['book_id'],
-            'chapter_id'=>  $params['chapter_id'],
-        ]);
+        try{
+            // 无则加 有则该
+            $query = new QueryParams();
+            $query->where([
+                'user_id'   =>  $params['user_id'],
+                'book_id'   =>  $params['book_id'],
+                'chapter_id'=>  $params['chapter_id'],
+            ]);
 
-        /** @var BookScheduleEntity $bookScheduleEntity */
-        $bookScheduleEntity = new BookScheduleEntity();
+            /** @var BookScheduleEntity $bookScheduleEntity */
+            $bookScheduleEntity = new BookScheduleEntity();
 
-        if($bookScheduleItem = $this->getItem($query, true)){
-            // 已存在进度 需要更改
-            $bookScheduleEntity = $bookScheduleItem;
-            $bookScheduleEntity->schedule = empty($params['schedule']) ? : $params['schedule'];
-        }else{
+            if($bookScheduleItem = $this->getItem($query, true)){
+                // 已存在进度 需要更改
+                $bookScheduleEntity = $bookScheduleItem;
+                $bookScheduleEntity->schedule = empty($params['schedule']) ? : $params['schedule'];
+            }else{
 //            需要新增进度
-            $bookScheduleEntity->setAttributes($params);
+                $bookScheduleEntity->setAttributes($params);
+            }
+
+            return $bookScheduleEntity->save();
+        }catch (\Exception $exception){
+            return self::setAndReturn($exception->getCode(), $exception->getMessage());
         }
 
-        return $bookScheduleEntity->save();
     }
 
 }
