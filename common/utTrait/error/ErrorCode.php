@@ -45,6 +45,6 @@ class ErrorCode
     /**
      * bookShelf 6000 ~ 6199
      */
-    const BOOKSHELF_IS_EXIST = 6000; // 已加入书架
+    const BOOKSHELF_IS_EXIST = 6000; // 已加入书架12
     const BOOKSHELF_SAVE_FAIL = 6001; // 保存书架失败
 }
