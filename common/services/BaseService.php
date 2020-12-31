@@ -26,7 +26,7 @@ class BaseService
      * 获取分类 适合简单的查询
      * @param QueryParams $queryParams
      * @param bool $isGetOne 是否只获取一条数据
-     * @return array|bool|\yii\db\ActiveRecord[]
+     * @return array|bool|\yii\db\ActiveRecord[]|BaseAR|BaseAR[]
      */
     public function getItem($queryParams, $isGetOne = false)
     {

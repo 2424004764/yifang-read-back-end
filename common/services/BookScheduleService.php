@@ -42,19 +42,15 @@ class BookScheduleService extends BaseService
                 'chapter_id'=>  $params['chapter_id'],
             ]);
 
-            /** @var BookScheduleEntity $bookScheduleEntity */
-            $bookScheduleEntity = new BookScheduleEntity();
-
-            if($bookScheduleItem = $this->getItem($query, true)){
+            if($this->Entity = $this->getItem($query, true)){
                 // 已存在进度 需要更改
-                $bookScheduleEntity = $bookScheduleItem;
-                $bookScheduleEntity->schedule = empty($params['schedule']) ? : $params['schedule'];
+                $this->Entity->schedule = empty($params['schedule']) ? : $params['schedule'];
             }else{
 //            需要新增进度
-                $bookScheduleEntity->setAttributes($params);
+                $this->Entity->setAttributes($params);
             }
 
-            return $bookScheduleEntity->save();
+            return $this->save();
         }catch (\Exception $exception){
             return self::setAndReturn($exception->getCode(), $exception->getMessage());
         }
