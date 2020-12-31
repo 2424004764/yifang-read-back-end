@@ -67,8 +67,10 @@ class utilValidatorsForm
                 },]
             ],
             'STRING'    =>  [ // 字符串
+                ['default', 'value' => '0'],
                 ['filter', 'filter' => function($attribute){
                     $attribute = trim($attribute);
+                    $attribute = (string)$attribute;
                     return $attribute;
                 },]
             ],
