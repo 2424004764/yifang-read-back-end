@@ -147,6 +147,7 @@ class BookScheduleController extends BaseController
             'book_id'   =>  ['bookId'],
             'chapter_id'   =>  ['bookId'],
             'schedule'   =>  ['STRING'],
+            'is_first'   =>  ['BOOL'],
         ], 'post');
 
         return $this->uniReturnJson($this->_bookScheduleService

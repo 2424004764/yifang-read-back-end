@@ -45,7 +45,8 @@ class BookScheduleService extends BaseService
                 $this->Entity = $bookScheduleItem;
                 // 已存在进度 需要更改
                 $this->Entity->chapter_id = $params['chapter_id'];
-                $this->Entity->schedule = $params['schedule'];
+                // 不是首次保存 才需要修改进度
+                empty($params['is_first']) && $this->Entity->schedule = $params['schedule'];
             }else{
 //            需要新增进度
                 $this->Entity->setAttributes($params);

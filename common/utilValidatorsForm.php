@@ -153,7 +153,10 @@ class utilValidatorsForm
                     'targetClass' => BookBookshelfEntity::class,
                     'targetAttribute' => 'book_id'
                 ]
-            ]
+            ],
+            'BOOL'  =>  [
+                ['boolean']
+            ],
         ];
     }
 
