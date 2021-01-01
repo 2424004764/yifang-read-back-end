@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\common\services\BookScheduleService;
+use app\common\utTrait\QueryParams;
 use Yii;
 use app\common\entity\BookScheduleEntity;
 use app\common\searchs\BookScheduleSearch;
@@ -150,5 +151,23 @@ class BookScheduleController extends BaseController
 
         return $this->uniReturnJson($this->_bookScheduleService
             ->addSchedule($params));
+    }
+
+    /**
+     * 获取某本书保存的章节信息
+     */
+    public function actionGetSchedule()
+    {
+        $params = $this->getRequestParams([
+            'user_id'   =>  ['bookId'],
+            'book_id'   =>  ['bookId'],
+        ]);
+
+        $query = New QueryParams();
+        $query->select = 'user_id, book_id, chapter_id, schedule';
+        $query->where($params);
+
+        return $this->uniReturnJson($this->_bookScheduleService
+            ->getItem($query, true));
     }
 }
