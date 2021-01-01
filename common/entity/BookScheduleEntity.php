@@ -32,7 +32,7 @@ class BookScheduleEntity extends \app\common\BaseAR
         return [
             [['user_id', 'book_id', 'chapter_id'], 'integer'],
             [['create_on'], 'safe'],
-            [['schedule'], 'string', 'max' => 10],
+            [['schedule'], 'string', 'max' => 100],
         ];
     }
 
@@ -46,7 +46,7 @@ class BookScheduleEntity extends \app\common\BaseAR
             'user_id'   =>  '用户id',
             'book_id' => '书籍id',
             'chapter_id' => '书籍的章节id',
-            'schedule' => '进度 某一个章节的进度百分比 还是 某个章节读到多少字了',
+            'schedule' => '进度',
             'create_on' => '进度添加时间',
         ];
     }
