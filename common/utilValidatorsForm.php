@@ -154,7 +154,8 @@ class utilValidatorsForm
                     'targetAttribute' => 'book_id'
                 ]
             ],
-            'BOOL'  =>  [
+            'BOOL'  =>  [ // 1 or 0
+                ['default', 'value' => '0'],
                 ['boolean']
             ],
         ];
