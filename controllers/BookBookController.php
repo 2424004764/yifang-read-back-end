@@ -155,7 +155,8 @@ class BookBookController extends BaseController
             'is_hot'    =>  $params['is_hot']
         ]);
 
-        return $this->uniReturnJson($this->_bookBookService->getItem($queryParams));
+        return $this->uniReturnJson($this->_bookBookService
+            ->getItem($queryParams));
     }
 
     /**
