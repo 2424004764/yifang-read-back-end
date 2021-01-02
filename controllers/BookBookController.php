@@ -143,9 +143,9 @@ class BookBookController extends BaseController
      */
     public function actionGetBookList()
     {
-        $ps = $this->uniGetPaging(1, 50);
+//        $ps = $this->uniGetPaging(1, 50);
         $params = $this->getRequestParams([
-            'is_hot' => "BOOL"
+            'is_hot' => ["BOOL", 'int'],
         ]);
 
         $queryParams = new QueryParams();

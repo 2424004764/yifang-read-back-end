@@ -166,7 +166,6 @@ class utilValidatorsForm
      * @see \yii\base\Model::rules
      * @param array $fields 需要效验的字段
      * @return int|array
-     * @throws \yii\base\InvalidConfigException
      */
     public static function validateParams($fields = [])
     {
@@ -182,27 +181,28 @@ class utilValidatorsForm
             return $model->toArray();
         };
 
+        $fieldsResult = []; // 经过效验、过滤后的结果
         /**
          * @var  $field
-         * @var ParamValidateType[] $rules
+         * @var ParamValidateType[] $paramValidates
          */
-        foreach ($fields as $field => $rules){
-            /** @var ParamValidateType $value */
-            foreach ($rules as &$value){
+        foreach ($fields as $field => $paramValidates){
+            /** @var ParamValidateType $paramValidateItem */
+            foreach ($paramValidates as $paramValidateItem){
                 // 如果使用 ParamValidateType 指定了共用的效验字段
-                if($value instanceof ParamValidateType){
-                    $rule = self::getRulesName()[$value->rule];
+                if($paramValidateItem instanceof ParamValidateType){
+                    $rule = self::getRulesName()[$paramValidateItem->rule];
                     // 如果规则不存在  则不效验
                     if(empty($rule))continue;
-                    $value = $value->value;
+                    $_value = $paramValidateItem->value;
                     // 有公用效验字段的规则需要不同的效验方法
-                    // $validateType 如 int、bookId、ONLY_EMAIL等
-                    foreach ($rule as $validateType){
-                        $getRule = function () use ($validateType) {
+                    // $validatorRule 如 int、bookId、ONLY_EMAIL等
+                    foreach ($rule as $validatorRule){
+                        $getRule = function () use ($validatorRule) {
                             // 单独进行效验
                             $tem_rules = [];
                             // $index 并不是索引
-                            foreach ($validateType as $index => $option){
+                            foreach ($validatorRule as $index => $option){
                                 if(is_numeric($index)){
                                     $tem_rules[] = $option;
                                 }else{
@@ -215,19 +215,19 @@ class utilValidatorsForm
                             [[$field], ]
                         ];
                         $rules[0] = array_merge($rules[0], $getRule());
-                        $data = [$field => $value];
+                        $data = [$field => $_value];
                         $result = $validateResult($data, $rules);
                         if(!$result){
                             return  false;
                         }
                         // 结果过滤 因为 'filter' 需要覆盖原数据
-                        $fields = array_merge($fields, $result);
+                        $fieldsResult = array_merge($fieldsResult, $result);
                     }
                 }
             }
         }
 
-        return $fields;
+        return $fieldsResult;
     }
 
 
