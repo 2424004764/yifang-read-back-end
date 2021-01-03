@@ -43,12 +43,26 @@ class BookUserSettingController extends BaseController
     {
         $params = $this->getRequestParams([
             'user_id'   =>  ['bookId'],
-            'name'   =>  ['STRING'],
+            'name'   =>  ['bookId'],
             'value'   =>  ['STRING'],
         ], 'post');
 
         return $this->uniReturnJson($this->_bookUserSettingService
         ->addSetting($params));
+    }
+
+    /**
+     * 可同时获取多个配置  没定义的配置不会返回
+     */
+    public function actionGetSetting()
+    {
+        $params = $this->getRequestParams([
+            'user_id'   =>  ['bookId'],
+            'name'   =>  ['STRING'], // 多配置以逗号分隔
+        ]);
+
+        return $this->uniReturnJson($this->_bookUserSettingService
+            ->getSetting($params));
     }
 
 }

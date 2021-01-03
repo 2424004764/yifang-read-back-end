@@ -19,12 +19,15 @@ class BookUserSettingService extends BaseService
 {
     private BookUserSettingRepository $_bookUserSettingRepository;
 
+    const READ_FONT_SIZE = 1; // 阅读时的字体大小 px
+    const READ_BG_COLOR = 2; // 阅读页的背景颜色 十六进制
+
     /**
      * @var array|string[] 配置的说明集合
      */
     public static array $SETTINGS = [
-        'read-font-size', // 阅读时的字体大小 px
-        'read-bg-color', // 阅读页的背景颜色
+        self::READ_FONT_SIZE,
+        self::READ_BG_COLOR,
     ];
 
     public function __construct()
@@ -47,7 +50,8 @@ class BookUserSettingService extends BaseService
             'name'      =>  $params['name'],
         ]);
 
-        if(!in_array($params['name'], BookUserSettingService::$SETTINGS)){
+        // 未定义的配置 不允许操作
+        if(!in_array($params['name'], BookUserSettingService::$SETTINGS, true)){
             return self::setAndReturn(ErrorCode::SETTING_NAME_NO_EXIST);
         }
 
@@ -60,5 +64,52 @@ class BookUserSettingService extends BaseService
         }
 
         return $this->save();
+    }
+
+    /**
+     * @param $params
+     * @return array|bool
+     */
+    public function getSetting($params)
+    {
+        $query = new QueryParams();
+        $query->where([
+            'user_id'   =>  $params['user_id'],
+        ]);
+
+        // 过滤
+        $settings = explode(",", $params['name']);
+        foreach ($settings as $index => &$name) {
+            // 未定义的配置名 不允许操作
+            $name = intval($name);
+            if (!in_array($name, BookUserSettingService::$SETTINGS, true)) {
+                unset($settings[$index]);
+            }
+        }
+
+        $result = []; // 结果
+        if (empty($settings)) {
+            return $result;
+        }
+
+        $query->andWhere([
+            'name'      =>  $settings,
+        ]);
+        $query->select = 'name, value';
+        $items = $this->getItem($query);
+
+        if (empty($items)) {
+            return $result;
+        }
+
+        /** @var BookUserSettingEntity $setting */
+        foreach ($items as $setting) {
+            $result[] = [
+                'name'  =>  intval($setting->name),
+                'value' =>  $setting->value,
+            ];
+        }
+
+        return $result;
     }
 }

@@ -31,7 +31,7 @@ class BookUserSettingEntity extends \app\common\BaseAR
         return [
             [['user_id'], 'integer'],
             [['create_on'], 'safe'],
-            [['name'], 'string', 'max' => 100],
+            [['name'], 'integer'],
             [['value'], 'string', 'max' => 255],
         ];
     }
