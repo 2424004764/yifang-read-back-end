@@ -12,11 +12,19 @@ namespace app\common\services;
 
 use app\common\entity\BookUserSettingEntity;
 use app\common\repository\BookUserSettingRepository;
+use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\QueryParams;
 
 class BookUserSettingService extends BaseService
 {
     private BookUserSettingRepository $_bookUserSettingRepository;
+
+    /**
+     * @var array|string[] 配置的说明集合
+     */
+    public static array $SETTINGS = [
+        'read-font-size', // 阅读时的字体大小 px
+    ];
 
     public function __construct()
     {
@@ -37,6 +45,10 @@ class BookUserSettingService extends BaseService
             'user_id'   =>  $params['user_id'],
             'name'      =>  $params['name'],
         ]);
+
+        if(!in_array($params['name'], BookUserSettingService::$SETTINGS)){
+            return self::setAndReturn(ErrorCode::SETTING_NAME_NO_EXIST);
+        }
 
         if($item = $this->getItem($query, true)){
             // 有记录 则更新

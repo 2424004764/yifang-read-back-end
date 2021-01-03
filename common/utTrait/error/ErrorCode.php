@@ -47,4 +47,9 @@ class ErrorCode
      */
     const BOOKSHELF_IS_EXIST = 6000; // 已加入书架
     const BOOKSHELF_SAVE_FAIL = 6001; // 保存书架失败
+
+    /**
+     * user-setting 6200 ~ 6399
+     */
+    const SETTING_NAME_NO_EXIST = 6200; // 配置名不存在
 }
