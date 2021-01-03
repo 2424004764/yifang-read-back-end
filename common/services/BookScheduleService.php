@@ -19,6 +19,8 @@ class BookScheduleService extends BaseService
 
     private BookScheduleRepository $_bookScheduleRepository;
 
+    const READ_FONT_SIZE = 'read-font-size'; // 阅读时的字体大小
+
     public function __construct()
     {
         parent::__construct();
