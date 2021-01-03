@@ -24,6 +24,7 @@ class BookUserSettingService extends BaseService
      */
     public static array $SETTINGS = [
         'read-font-size', // 阅读时的字体大小 px
+        'read-bg-color', // 阅读页的背景颜色
     ];
 
     public function __construct()
