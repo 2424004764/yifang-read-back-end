@@ -29,6 +29,7 @@ class BookUserSettingService extends BaseService
     public static array $SETTINGS = [
         self::READ_FONT_SIZE,
         self::READ_BG_COLOR,
+        self::READ_FONT_COLOR,
     ];
 
     public function __construct()
