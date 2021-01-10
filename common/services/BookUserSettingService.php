@@ -22,6 +22,8 @@ class BookUserSettingService extends BaseService
     const READ_FONT_SIZE = 1; // 阅读时的字体大小 px
     const READ_BG_COLOR = 2; // 阅读页的背景颜色 十六进制
     const READ_FONT_COLOR = 3; // 阅读页字体颜色 仅支持 #ffffff 和 #000000
+    const READ_letter_spacing = 4; // 阅读页字间距
+    const READ_line_height = 5; // 阅读页行间距
 
     /**
      * @var array|string[] 配置的说明集合
@@ -30,6 +32,8 @@ class BookUserSettingService extends BaseService
         self::READ_FONT_SIZE,
         self::READ_BG_COLOR,
         self::READ_FONT_COLOR,
+        self::READ_letter_spacing,
+        self::READ_line_height,
     ];
 
     public function __construct()
