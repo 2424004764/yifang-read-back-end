@@ -1,0 +1,26 @@
+{
+    "name": "rych/phpass",
+    "type": "library",
+    "description": "PHP Password Library: Easy, secure password management for PHP",
+    "keywords": ["cryptography", "password"],
+    "homepage": "http://rchouinard.github.com/phpass",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ryan Chouinard",
+            "email": "rchouinard@gmail.com",
+            "homepage": "http://ryanchouinard.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.7"
+    },
+    "suggest": {
+        "ext-hash": "Enabling the hash extension allows you to combine the included hash adapters with HMAC for an extra layer of security."
+    },
+    "autoload": {
+        "psr-0" : {
+            "Phpass" : "library/"
+        }
+    }
+}
