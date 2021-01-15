@@ -13,6 +13,7 @@ namespace app\common\services;
 use app\common\entity\BookBookEntity;
 use app\common\repository\BookBookRepository;
 use app\common\utTrait\error\ErrorCode;
+use app\common\utTrait\QueryParams;
 
 class BookBookService extends BaseService
 {
@@ -56,11 +57,13 @@ class BookBookService extends BaseService
     public function getItemDetail($id)
     {
         try {
-            $where = [
+            $query = new QueryParams;
+            $query->where([
                 'book_id'       =>  $id
-            ];
-            $book =  $this->_bookBookRepository->getItemDetail($where, $this->Entity);
+            ]);
 
+            /** @var BookBookEntity $book */
+            $book =  $this->_bookBookRepository->getItem($query, $this->Entity, true);
             $with_data = [
                 'book_detail'       =>  $book->detail, // 关联书籍详情
                 'author_detail'     =>  $book->authorDetail, // 关联作者i详情
