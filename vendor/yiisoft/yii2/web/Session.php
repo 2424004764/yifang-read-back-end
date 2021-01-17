@@ -101,7 +101,6 @@ class Session extends Component implements \IteratorAggregate, \ArrayAccess, \Co
      */
     public function init()
     {
-        ini_set('session.auto_start', 0);
         parent::init();
         register_shutdown_function([$this, 'close']);
         if ($this->getIsActive()) {
@@ -525,7 +524,6 @@ class Session extends Component implements \IteratorAggregate, \ArrayAccess, \Co
      */
     public function openSession($savePath, $sessionName)
     {
-        ini_set('session.auto_start', 0);
         return true;
     }
 
