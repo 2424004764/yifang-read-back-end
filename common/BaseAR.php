@@ -17,7 +17,13 @@ class BaseAR extends ActiveRecord
         if($this->isNewRecord){
             // 自动生成时间
             $this->create_on = date("Y-m-d H:i:s", time());
+        }else{
+            // 自动更改 时间字段
+            if($this->hasAttribute('update_on')){
+                $this->update_on = date("Y-m-d H:i:s", time());
+            }
         }
+
         return parent::beforeSave($insert);
     }
 

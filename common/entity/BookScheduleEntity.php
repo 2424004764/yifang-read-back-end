@@ -13,6 +13,7 @@ use Yii;
  * @property int $chapter_id 书籍的章节id
  * @property string $schedule 进度 某一个章节的进度百分比 还是 某个章节读到多少字了
  * @property string $create_on 进度添加时间
+ * @property string $update_on 进度修改时间
  */
 class BookScheduleEntity extends \app\common\BaseAR
 {
@@ -31,7 +32,7 @@ class BookScheduleEntity extends \app\common\BaseAR
     {
         return [
             [['user_id', 'book_id', 'chapter_id'], 'integer'],
-            [['create_on'], 'safe'],
+            [['create_on', 'update_on'], 'safe'],
             [['schedule'], 'string', 'max' => 100],
         ];
     }
@@ -48,6 +49,7 @@ class BookScheduleEntity extends \app\common\BaseAR
             'chapter_id' => '书籍的章节id',
             'schedule' => '进度',
             'create_on' => '进度添加时间',
+            'update_on' => '进度修改时间',
         ];
     }
 }
