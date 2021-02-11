@@ -15,7 +15,9 @@ use app\common\repository\BookUserRepository;
 use app\common\UtilFunction;
 use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\QueryParams;
-use Hautelook\Phpass\PasswordHash; // 使用 https://packagist.org/packages/hautelook/phpass
+use Hautelook\Phpass\PasswordHash;
+
+// 使用 https://packagist.org/packages/hautelook/phpass
 
 class BookUserService extends BaseService
 {
@@ -40,7 +42,8 @@ class BookUserService extends BaseService
      * 生成默认头像
      * @return string
      */
-    public function generateDefaultAvatar(){
+    public function generateDefaultAvatar()
+    {
         // 根据域名拼接本地图片文件
 //        return UtilFunction::getDomain().$this->default_head_img;
 
@@ -55,7 +58,7 @@ class BookUserService extends BaseService
     public function register($params)
     {
 
-        $passwordHasher = new PasswordHash(8,false);
+        $passwordHasher = new PasswordHash(8, false);
         $password = $passwordHasher->HashPassword($params['password']); // 生成密码
 
         $this->Entity->user_nickname = $params['nickname'];
@@ -66,10 +69,10 @@ class BookUserService extends BaseService
 
         // 是否需要自动生成昵称
         /** @var BookUserEntity|null $user 创建之后的user entity */
-        if( false !== ($user = parent::insert($this->Entity)) ){
+        if (false !== ($user = parent::insert($this->Entity))) {
             // 如果昵称为空  则自动生成昵称
-            if(empty($params['nickname'])){
-                $nickname = $this->name_prefix.$user->user_id;
+            if (empty($params['nickname'])) {
+                $nickname = $this->name_prefix . $user->user_id;
                 $this->Entity->user_nickname = $nickname;
                 $user = false !== $this->save() ? $this->Entity : false;
             }
@@ -98,22 +101,22 @@ class BookUserService extends BaseService
     public function login(array $params)
     {
         $user = null;
-        $passwordHasher = new PasswordHash(8,false);
+        $passwordHasher = new PasswordHash(8, false);
         $queryParams = new QueryParams();
         $queryParams->select = 'user_id, user_nickname, user_headimg, sex, status, birthday, password, bind_email, create_on';
-        switch (AdditionalCacheData::$ID_OR_EMAIL){
+        switch (AdditionalCacheData::$ID_OR_EMAIL) {
             case 1:
                 // uid 登录
                 $queryParams->andWhere([
-                    'user_id'   =>  $params['idOrEmail']
+                    'user_id' => $params['idOrEmail']
                 ]);
                 break;
             case 2:
                 // email 登录
                 $queryParams->andWhere([
-                    'bind_email'   =>  $params['idOrEmail']
+                    'bind_email' => $params['idOrEmail']
                 ]);
-            break;
+                break;
             default:
                 return self::setAndReturn(ErrorCode::SYSTEM_ERROR);
         }
@@ -121,11 +124,11 @@ class BookUserService extends BaseService
         /** @var BookUserEntity $user */
         $user = isset($user[0]) ? $user[0] : false;
 
-        if($user){
-            if($user->status == self::$STATUS_DISABLE){
+        if ($user) {
+            if ($user->status == self::$STATUS_DISABLE) {
                 return self::setAndReturn(ErrorCode::USER_DISABLE);
             }
-            if(!$passwordHasher->CheckPassword($params['password'], $user->password)){
+            if (!$passwordHasher->CheckPassword($params['password'], $user->password)) {
                 return self::setAndReturn(ErrorCode::USER_ACCOUNT_NOT_EXIST);
             }
             // 如果用户头像为空  则返回一张默认头像图片地址
@@ -136,6 +139,15 @@ class BookUserService extends BaseService
         }
 
         return $user;
+    }
+
+    /**
+     * 修改用户信息
+     * @param $params array
+     */
+    public function updateUsrInfo($params)
+    {
+
     }
 
 }

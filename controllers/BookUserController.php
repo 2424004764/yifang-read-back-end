@@ -176,4 +176,15 @@ class BookUserController extends BaseController
 
         return $this->uniReturnJson($result);
     }
+
+    /**
+     * 修改用户信息
+     */
+    public function actionUpdateUsrInfo(){
+        $params = $this->getRequestParams([
+            'fields'    =>  'STRING'
+        ]);
+
+        $this->_bookUserService->updateUsrInfo($params);
+    }
 }

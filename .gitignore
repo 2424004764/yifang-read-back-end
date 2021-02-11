@@ -49,3 +49,5 @@ phpunit.phar
 
 
 Jenkins.md
+ErrorFiles/
+u.php
