@@ -152,7 +152,7 @@ class BookBookController extends BaseController
         $queryParams->limit($ps['size']);
         $queryParams->offset($ps['page']);
         $queryParams->where([
-            'is_hot'    =>  $params['is_hot']
+            'is_hot' => $params['is_hot']
         ]);
 
         return $this->uniReturnJson($this->_bookBookService
@@ -165,7 +165,7 @@ class BookBookController extends BaseController
      */
     public function actionGetBookDetailById()
     {
-        $params = $this->getRequestParams(['book_id'=>"bookId"]);
+        $params = $this->getRequestParams(['book_id' => "bookId"]);
         return $this->uniReturnJson($this->_bookBookService->getItemDetail($params['book_id']));
     }
 

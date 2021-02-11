@@ -146,10 +146,10 @@ class BookChapterContentController extends BaseController
      */
     public function actionGetChapterContent()
     {
-        $params = $this->getRequestParams(['chapter_id'=>"bookId"]);
+        $params = $this->getRequestParams(['chapter_id' => "bookId"]);
         $queryParams = new QueryParams();
         $queryParams->where([
-            'chapter_id'   =>  $params['chapter_id']
+            'chapter_id' => $params['chapter_id']
         ]);
 
         return $this->uniReturnJson($this->_bookChapterContentService->getItem($queryParams));

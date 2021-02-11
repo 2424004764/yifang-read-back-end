@@ -143,11 +143,11 @@ class BookScheduleController extends BaseController
     public function actionAddSchedule()
     {
         $params = $this->getRequestParams([
-            'user_id'   =>  ['bookId'],
-            'book_id'   =>  ['bookId'],
-            'chapter_id'   =>  ['bookId'],
-            'schedule'   =>  ['STRING'],
-            'is_first'   =>  ['BOOL'],
+            'user_id' => ['bookId'],
+            'book_id' => ['bookId'],
+            'chapter_id' => ['bookId'],
+            'schedule' => ['STRING'],
+            'is_first' => ['BOOL'],
         ], 'post');
 
         return $this->uniReturnJson($this->_bookScheduleService
@@ -160,11 +160,11 @@ class BookScheduleController extends BaseController
     public function actionGetSchedule()
     {
         $params = $this->getRequestParams([
-            'user_id'   =>  ['bookId'],
-            'book_id'   =>  ['bookId'],
+            'user_id' => ['bookId'],
+            'book_id' => ['bookId'],
         ]);
 
-        $query = New QueryParams();
+        $query = new QueryParams();
         $query->select = 'user_id, book_id, chapter_id, schedule';
         $query->where($params);
 

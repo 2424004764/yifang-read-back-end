@@ -54,20 +54,20 @@ class BookUserSettingService extends BaseService
     {
         $query = new QueryParams();
         $query->where([
-            'user_id'   =>  $params['user_id'],
-            'name'      =>  $params['name'],
+            'user_id' => $params['user_id'],
+            'name' => $params['name'],
         ]);
 
         // 未定义的配置 不允许操作
-        if(!in_array($params['name'], BookUserSettingService::$SETTINGS, true)){
+        if (!in_array($params['name'], BookUserSettingService::$SETTINGS, true)) {
             return self::setAndReturn(ErrorCode::SETTING_NAME_NO_EXIST);
         }
 
-        if($item = $this->getItem($query, true)){
+        if ($item = $this->getItem($query, true)) {
             // 有记录 则更新
             $this->Entity = $item;
             $this->Entity->value = $params['value'];
-        }else{
+        } else {
             $this->Entity->setAttributes($params);
         }
 
@@ -82,7 +82,7 @@ class BookUserSettingService extends BaseService
     {
         $query = new QueryParams();
         $query->where([
-            'user_id'   =>  $params['user_id'],
+            'user_id' => $params['user_id'],
         ]);
 
         // 过滤
@@ -101,7 +101,7 @@ class BookUserSettingService extends BaseService
         }
 
         $query->andWhere([
-            'name'      =>  $settings,
+            'name' => $settings,
         ]);
         $query->select = 'name, value';
         $items = $this->getItem($query);
@@ -113,8 +113,8 @@ class BookUserSettingService extends BaseService
         /** @var BookUserSettingEntity $setting */
         foreach ($items as $setting) {
             $result[] = [
-                'name'  =>  intval($setting->name),
-                'value' =>  $setting->value,
+                'name' => intval($setting->name),
+                'value' => $setting->value,
             ];
         }
 

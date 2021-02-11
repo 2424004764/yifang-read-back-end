@@ -142,12 +142,51 @@ class BookUserService extends BaseService
     }
 
     /**
+     * 用户能修改的字段
+     */
+    public function getCanUpdateFields()
+    {
+        $fields = $this->Entity->attributes();
+
+        $not_update_fields = ['user_id', 'status', 'password_salt', 'password', 'create_on',
+            'bind_email']; // 不能修改的字段
+
+        foreach ($fields as $index => $field) {
+            if (in_array($field, $not_update_fields)) {
+                unset($fields[$index]);
+            }
+        }
+
+        return array_values($fields);
+    }
+
+    /**
      * 修改用户信息
      * @param $params array
+     * @return bool
      */
     public function updateUsrInfo($params)
     {
+        $canUpdateFields = $this->getCanUpdateFields();
 
+        $queryParams = new QueryParams();
+        $queryParams->where([
+            'user_id' => $params['user_id']
+        ]);
+        $this->Entity = $this->getItem($queryParams, true);
+
+        if (empty($this->Entity)) {
+            return self::setAndReturn(ErrorCode::USER_ACCOUNT_NOT_EXIST);
+        }
+
+        foreach ($canUpdateFields as $field) {
+            if (!empty($params[$field])) {
+                $this->Entity->$field = $params[$field];
+            }
+        }
+
+        // 保存字段
+        return $this->save();
     }
 
 }

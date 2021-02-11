@@ -37,7 +37,7 @@ class BookBookshelfService extends BaseService
     {
         try {
             return (int)$this->_bookBookshelfRepository->isExist($queryParams, $this->Entity);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return self::setAndReturn(ErrorCode::SYSTEM_ERROR,
                 $exception->getMessage());
         }
@@ -52,7 +52,7 @@ class BookBookshelfService extends BaseService
     public function joinBookShelf($queryParams)
     {
         try {
-            if($this->isExistBookshelf($queryParams)){ // 已加入书架  则取消加入
+            if ($this->isExistBookshelf($queryParams)) { // 已加入书架  则取消加入
 
                 return $this->del($queryParams);
             }
@@ -60,7 +60,7 @@ class BookBookshelfService extends BaseService
             $this->Entity->setAttributes($queryParams->where);
 
             return $this->save();
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return self::setAndReturn(ErrorCode::BOOKSHELF_SAVE_FAIL);
         }
     }
@@ -78,13 +78,13 @@ class BookBookshelfService extends BaseService
 
         /** @var BookBookService $bookService */
         $bookService = \Yii::createObject(BookBookService::class);
-        foreach ($raw_data as &$book){
+        foreach ($raw_data as &$book) {
             // 去掉加入书架时间
             unset($book['create_on']);
             $queryParams = new QueryParams();
             $queryParams->select = 'book_name, book_cover_imgs';
             $queryParams->where = [
-                'book_id'   =>  $book->book_id
+                'book_id' => $book->book_id
             ];
             $book = $book->toArray();
             $book['detail'] = $bookService->getItem($queryParams)[0];

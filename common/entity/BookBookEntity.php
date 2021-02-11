@@ -73,7 +73,7 @@ class BookBookEntity extends \app\common\BaseAR
      */
     public function getDetail()
     {
-        return $this->hasOne(BookDetailEntity::class, ['book_id'  =>  'book_id']);
+        return $this->hasOne(BookDetailEntity::class, ['book_id' => 'book_id']);
     }
 
     /**
@@ -82,7 +82,7 @@ class BookBookEntity extends \app\common\BaseAR
      */
     public function getAuthorDetail()
     {
-        return $this->hasOne(BookAuthorDetailEntity::class, ['book_id'  =>  'book_id']);
+        return $this->hasOne(BookAuthorDetailEntity::class, ['book_id' => 'book_id']);
     }
 
     /**
@@ -91,6 +91,6 @@ class BookBookEntity extends \app\common\BaseAR
      */
     public function getClassDetail()
     {
-        return $this->hasOne(BookClassEntity::class, ['book_class_id'   =>  'book_class_id']);
+        return $this->hasOne(BookClassEntity::class, ['book_class_id' => 'book_class_id']);
     }
 }

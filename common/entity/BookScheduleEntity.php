@@ -44,7 +44,7 @@ class BookScheduleEntity extends \app\common\BaseAR
     {
         return [
             'schedule_id' => '书籍章节进度表id主键',
-            'user_id'   =>  '用户id',
+            'user_id' => '用户id',
             'book_id' => '书籍id',
             'chapter_id' => '书籍的章节id',
             'schedule' => '进度',

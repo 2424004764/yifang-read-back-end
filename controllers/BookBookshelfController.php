@@ -51,7 +51,8 @@ class BookBookshelfController extends BaseController
      * @return array
      * @throws \Exception
      */
-    public function actionIsJoinBookShelf(){
+    public function actionIsJoinBookShelf()
+    {
         // 只验证是否必填、整型、函数过滤
         $params = $this->getRequestParams([
             'book_id' => "bookId",
@@ -63,7 +64,7 @@ class BookBookshelfController extends BaseController
         $result = $this->_bookBookShelfService->isExistBookshelf($queryParams);
 
         $data = [];
-        if(is_numeric($result)){
+        if (is_numeric($result)) {
             $data['is_join'] = $result;
         }
 
@@ -83,7 +84,7 @@ class BookBookshelfController extends BaseController
 
         $params = $this->getRequestParams(['user_id' => "bookId"]);
         $queryParams->where([
-            'user_id'   =>  $params['user_id']
+            'user_id' => $params['user_id']
         ]);
 
         return $this->uniReturnJson($this->_bookBookShelfService->getBookshelfList($queryParams));

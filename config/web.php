@@ -9,7 +9,7 @@ $config = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
         'request' => [
@@ -45,12 +45,12 @@ $config = [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class'     =>  'yii\log\FileTarget',
-                    'levels'    =>  ['error', 'warning','info'],
-                    'logVars'   =>  [],
-                    'categories'=>  ['yii\db\*','app\models\*'],
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning', 'info'],
+                    'logVars' => [],
+                    'categories' => ['yii\db\*', 'app\models\*'],
                     //表示写入到文件
-                    'logFile'=>'@runtime/../runtime/logs/YIISQL_'.date('y_m_d').'.log',
+                    'logFile' => '@runtime/../runtime/logs/YIISQL_' . date('y_m_d') . '.log',
                 ]
             ],
         ],

@@ -49,11 +49,11 @@ class BaseController extends Controller
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $result = array(
-            'code'  =>  $code,
-            'data'  =>  $data,
-            'msg'   =>  $msg
+            'code' => $code,
+            'data' => $data,
+            'msg' => $msg
         );
-        if($this->isNowReturn){
+        if ($this->isNowReturn) {
             \Yii::$app->response->data = $result;
             \yii::$app->response->send();
             exit();
@@ -70,8 +70,8 @@ class BaseController extends Controller
     public function soSuccess($data = [], $code = 200)
     {
         \feehi\swoole\Util::dump(json_encode([
-            'code'  =>  $code,
-            'data'  =>  $data
+            'code' => $code,
+            'data' => $data
         ]));
     }
 
@@ -109,34 +109,34 @@ class BaseController extends Controller
     {
 //        效验请求方式  只支持get、post
         $method = strtolower($method);
-        if(!in_array($method, ['get', 'post'])){
+        if (!in_array($method, ['get', 'post'])) {
             $this->setIsNowReturn(true);
             return $this->outPutJson([], ErrorCode::REQUEST_METHOD_FAIL,
-                ErrorMsg::getErrMsg(ErrorCode::REQUEST_METHOD_FAIL)." 仅支持get、post");
+                ErrorMsg::getErrMsg(ErrorCode::REQUEST_METHOD_FAIL) . " 仅支持get、post");
         }
-        if(empty($paramsField)){
+        if (empty($paramsField)) {
             return [];
         }
 
         $params = [];
         // 获取指定的参数
-        foreach ($paramsField as $field => $rule){
-            if('get' === $method){
+        foreach ($paramsField as $field => $rule) {
+            if ('get' === $method) {
                 $value = \Yii::$app->request->get($field);
-            }else{
+            } else {
                 $value = \Yii::$app->request->post($field);
             }
 
-            if(!empty($rule)){
+            if (!empty($rule)) {
                 // 类型不为空  说明需要使用共用效验字段
-                if(is_array($rule)){
+                if (is_array($rule)) {
                     $values = [];
                     // todo 这里我像如果rule如果是个数组，则￥value 也是一个数组组成的效验规则集合
-                    foreach ($rule as $rule_name){
+                    foreach ($rule as $rule_name) {
                         $values[] = new ParamValidateType($value, $rule_name, $field);
                     }
                     $value = $values;
-                }else{
+                } else {
                     // 单效验规则也使用数组形式
                     $value = [new ParamValidateType($value, $rule, $field)];
                 }
@@ -168,7 +168,7 @@ class BaseController extends Controller
      */
     public function uniReturnJson($data = [])
     {
-        if(false === $data){
+        if (false === $data) {
             // 说明有错误
             return $this->outPutJson([], self::getErrCode(), self::getErrMsg());
         }

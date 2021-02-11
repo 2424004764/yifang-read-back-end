@@ -158,6 +158,11 @@ class utilValidatorsForm
                 ['default', 'value' => '0'],
                 ['boolean']
             ],
+
+            // 网络 FILE
+            'NET-FILE' => [ // 网络文件
+                ['url']
+            ]
         ];
     }
 

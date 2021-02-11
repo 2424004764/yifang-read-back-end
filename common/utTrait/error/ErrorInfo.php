@@ -51,32 +51,33 @@ class ErrorInfo
     /**
      * 设置返回内容
      * @param int $errCode 错误码
-     * @param string $msg  自定义错误信息 如果为空  则去错误码对应的错误消息
+     * @param string $msg 自定义错误信息 如果为空  则去错误码对应的错误消息
      * @param string $logMsg 日志信息内容
      * @return boolean
      */
-    public static function setAndReturn($errCode,  $msg = NULL, $logMsg = NULL)
+    public static function setAndReturn($errCode, $msg = NULL, $logMsg = NULL)
     {
         self::$errCode = $errCode;
-        self::$logMsg = 'errorCode:'.$errCode.','.$logMsg;
+        self::$logMsg = 'errorCode:' . $errCode . ',' . $logMsg;
         if (isset(ErrorMsg::$errMsg[$errCode])) {
             if (empty($msg)) {
                 self::$errMsg = ErrorMsg::$errMsg[$errCode];
-            }else{
+            } else {
                 self::$errMsg = $msg;
             }
 
         } else {
-            if(empty($logMsg) && empty($msg)){
+            if (empty($logMsg) && empty($msg)) {
                 self::$errMsg = ErrorMsg::getDefaultMsg();
-            }else{
+            } else {
                 self::$errMsg = empty($msg) ? $logMsg : $msg;
             }
         }
         return false;
     }
 
-    public static function cleanErrorInfo(){
+    public static function cleanErrorInfo()
+    {
         self::$errCode = "";
         self::$errMsg = "";
         self::$logMsg = "";
@@ -89,7 +90,8 @@ class ErrorInfo
      * @return string
      *  getErrorCodeAndErrorMsgByErrorCode 这是原函数名 取大写
      */
-    public static function getECAEMBEC($errorCode){
-        return $errorCode.' '.ErrorMsg::$errMsg[$errorCode];
+    public static function getECAEMBEC($errorCode)
+    {
+        return $errorCode . ' ' . ErrorMsg::$errMsg[$errorCode];
     }
 }

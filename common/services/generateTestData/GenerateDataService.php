@@ -9,6 +9,7 @@
  */
 
 namespace app\common\services\GenerateTestData;
+
 use app\common\entity\BookAuthorDetailEntity;
 use app\common\entity\BookChapterContentEntity;
 use app\common\entity\BookChapterEntity;
@@ -31,9 +32,9 @@ class GenerateDataService extends BaseService
      * 外层控制器调用
      * 负责处理生成测试数据逻辑
      * 涉及到的表：book_book 书籍主表
-    * book_author_detail 书籍作者
-    * book_detail 书籍描述
-    * book_score 书籍评分
+     * book_author_detail 书籍作者
+     * book_detail 书籍描述
+     * book_score 书籍评分
      * @param int $generateNumber 需要生成到的次数
      */
     public function dealGenerateTestData($generateNumber = 1)
@@ -48,15 +49,15 @@ class GenerateDataService extends BaseService
             // 获取所有分类
             $allClass = $classRepository->getAllClass();
             $classLength = count($allClass);
-            for ($i = 0; $i < $generateNumber; $i++){
-    //            $string = $generateService->getStrings();
-    //            $l = strlen($string);
+            for ($i = 0; $i < $generateNumber; $i++) {
+                //            $string = $generateService->getStrings();
+                //            $l = strlen($string);
                 //        1、首先构建书籍主表  这是一切的开始
                 $bookBookEntry = new BookBookEntity();
                 $bookBookEntry->book_name = $generateService->getStrings(5, 10);
                 $bookBookEntry->book_cover_imgs = $generateService->getImages(3);
                 $result = $baseRepository->add($bookBookEntry);
-                if(!($result instanceof $bookBookEntry)){
+                if (!($result instanceof $bookBookEntry)) {
                     throw new Exception(ErrorInfo::getErrMsg());
                 }
                 /** TODO 这个属性待定 **/
@@ -88,17 +89,17 @@ class GenerateDataService extends BaseService
                         ->add($BookDetailEntity)
                         ->add($BookScoreEntity);
                     $transaction->commit();
-                }catch (\Exception $exception){
+                } catch (\Exception $exception) {
                     $bookBookEntry->delete();
                     $transaction->rollBack();
                     return self::setAndReturn(ErrorInfo::getErrCode(), ErrorInfo::getErrMsg());
                 }
             }
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             ++$error_count;
             return self::setAndReturn(ErrorInfo::getErrCode(), ErrorInfo::getErrMsg());
         }
-        return ['total' => $generateNumber, 'error_count'   =>  $error_count];
+        return ['total' => $generateNumber, 'error_count' => $error_count];
     }
 
     /**
@@ -110,7 +111,7 @@ class GenerateDataService extends BaseService
     {
         $baseRepository = new BaseRepository();
         $generateService = new generateTestData();
-        for ($i = 0; $i < $generateNumber; $i++){
+        for ($i = 0; $i < $generateNumber; $i++) {
             $BookUserEntity = new BookUserEntity();
             $BookUserEntity->user_nikename = $generateService->getStrings(3, 10);
             $BookUserEntity->user_headimg = json_decode($generateService->getImages(), true)[0];
@@ -118,18 +119,18 @@ class GenerateDataService extends BaseService
             $BookUserEntity->birthday = $generateService->getRandomDate();
             $BookUserEntity->birthday_type = mt_rand(1, 2);
             $BookUserEntity->password_salt = $generateService->getRandomStrings();
-            $BookUserEntity->password = md5('123456'.$BookUserEntity->password_salt);
+            $BookUserEntity->password = md5('123456' . $BookUserEntity->password_salt);
             $BookUserEntity->bind_email = $generateService->getRandomEmail();
             $transaction = \Yii::$app->db->beginTransaction();
             try {
                 $baseRepository->add($BookUserEntity);
                 $transaction->commit();
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 $transaction->rollBack();
                 return self::setAndReturn(ErrorInfo::getErrCode(), ErrorInfo::getErrMsg());
             }
         }
-        return ['msg'=>'success'];
+        return ['msg' => 'success'];
     }
 
 
@@ -156,8 +157,8 @@ class GenerateDataService extends BaseService
         $baseRepository = new BaseRepository();
 
         // 一本书籍有多个章节
-        for ($book_id = $book_id_min; $book_id <= $book_id_max; $book_id++){
-            for ($i = 0; $i < $generate_count; $i++){
+        for ($book_id = $book_id_min; $book_id <= $book_id_max; $book_id++) {
+            for ($i = 0; $i < $generate_count; $i++) {
                 $BookChapterEntity = new BookChapterEntity();
                 $BookChapterEntity->book_id = $book_id;
                 $BookChapterEntity->chapter_name = $generateService->getStrings(3, 10);
@@ -169,7 +170,7 @@ class GenerateDataService extends BaseService
             }
         }
 
-        return ['msg'=>'success'];
+        return ['msg' => 'success'];
     }
 
     // 目前暂定一本书是固定15个章节左右  后续可以为特定的一本书添加章节
@@ -185,9 +186,9 @@ class GenerateDataService extends BaseService
             ->limit(100)
             ->offset($each_total)
             ->where(['>', 'chapter_id', 6528])
-            ->all()){
+            ->all()) {
             $each_total += 100;
-            foreach ($chapterData as $index => $chapterEntity){
+            foreach ($chapterData as $index => $chapterEntity) {
                 $BookChapterContentEntity = new BookChapterContentEntity();
                 $BookChapterContentEntity->chapter_id = $chapterEntity->chapter_id;
                 $BookChapterContentEntity->chapter_content = $generateService->getStrings(1000, 3000);

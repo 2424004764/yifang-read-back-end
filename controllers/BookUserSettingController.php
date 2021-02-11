@@ -42,13 +42,13 @@ class BookUserSettingController extends BaseController
     public function actionAddSetting()
     {
         $params = $this->getRequestParams([
-            'user_id'   =>  ['bookId'],
-            'name'   =>  ['bookId'],
-            'value'   =>  ['STRING'],
+            'user_id' => ['bookId'],
+            'name' => ['bookId'],
+            'value' => ['STRING'],
         ], 'post');
 
         return $this->uniReturnJson($this->_bookUserSettingService
-        ->addSetting($params));
+            ->addSetting($params));
     }
 
     /**
@@ -57,8 +57,8 @@ class BookUserSettingController extends BaseController
     public function actionGetSetting()
     {
         $params = $this->getRequestParams([
-            'user_id'   =>  ['bookId'],
-            'name'   =>  ['STRING'], // 多配置以逗号分隔
+            'user_id' => ['bookId'],
+            'name' => ['STRING'], // 多配置以逗号分隔
         ]);
 
         return $this->uniReturnJson($this->_bookUserSettingService

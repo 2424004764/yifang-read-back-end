@@ -8,6 +8,7 @@
  */
 
 namespace app\common\repository;
+
 use app\common\BaseAR;
 use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\QueryParams;
@@ -51,7 +52,7 @@ class BaseRepository
     {
         try {
             return $this->_baseEntity->getItem($QueryParams, $queryEntity, $isGetOne);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
     }
@@ -68,7 +69,7 @@ class BaseRepository
         try {
             // 组装查询条件
             return $this->_baseEntity->getItemDetail($where, $queryEntity);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
     }
@@ -82,13 +83,13 @@ class BaseRepository
     public function save(BaseAR $entity)
     {
         try {
-            if(!$entity->save()){
+            if (!$entity->save()) {
                 // 保存失败
                 return self::setAndReturn(ErrorCode::SYSTEM_ERROR,
                     current($entity->getFirstErrors()));
             }
             return true;
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
     }

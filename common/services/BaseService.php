@@ -1,4 +1,5 @@
 <?php
+
 namespace app\common\services;
 
 use app\common\BaseAR;

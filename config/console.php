@@ -10,7 +10,7 @@ $config = [
     'controllerNamespace' => 'app\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
         '@tests' => '@app/tests',
     ],
     'components' => [
@@ -25,12 +25,12 @@ $config = [
                     'levels' => ['error', 'warning'],
                 ],
                 [
-                    'class'     =>  'yii\log\FileTarget',
-                    'levels'    =>  ['error', 'warning','info'],
-                    'logVars'   =>  [],
-                    'categories'=>  ['yii\db\*','app\models\*'],
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning', 'info'],
+                    'logVars' => [],
+                    'categories' => ['yii\db\*', 'app\models\*'],
                     //表示写入到文件
-                    'logFile'=>'@runtime/../runtime/logs/YIISQL_'.date('y_m_d').'.log',
+                    'logFile' => '@runtime/../runtime/logs/YIISQL_' . date('y_m_d') . '.log',
                 ]
             ],
         ],
@@ -44,17 +44,17 @@ $config = [
         ],
     ],
     */
-    'controllerMap' =>  [
+    'controllerMap' => [
         'swoole-backend' => [
             'class' => feehi\console\SwooleController::className(),
-            'rootDir' => __DIR__.'/..',//yii2项目根路径
+            'rootDir' => __DIR__ . '/..',//yii2项目根路径
             'app' => '',
             'host' => '0.0.0.0',
             'port' => 9998,
             'web' => 'web',//默认为web。rootDir app web目的是拼接yii2的根目录，如果你的应用为basic，那么app为空即可。
             'debug' => true,//默认开启debug，上线应置为false
             'env' => 'dev',//默认为dev，上线应置为prod
-            'type'  =>  'basic',
+            'type' => 'basic',
             'swooleConfig' => [
                 'reactor_num' => 2,
                 'worker_num' => 4,

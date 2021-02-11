@@ -1,5 +1,7 @@
 <?php
+
 namespace app\controllers\generateTestData;
+
 use app\common\BaseController;
 use app\common\services\GenerateTestData\GenerateDataService;
 use app\common\train\error\ErrorInfo;
@@ -34,7 +36,7 @@ class GenerateDataController extends BaseController
     {
         $generate_count = (int)\Yii::$app->request->get('generate_count', 1);
         $data = $this->generateTestDataService->dealGenerateTestData($generate_count);
-        if(false == $data){
+        if (false == $data) {
             return $this->outPutJson([], ErrorInfo::getErrCode(), ErrorInfo::getErrMsg());
         }
         return $this->outPutJson($data, 200, '成功');
@@ -49,7 +51,7 @@ class GenerateDataController extends BaseController
     {
         $generate_count = (int)\Yii::$app->request->get('generate_count', 1);
         $data = $this->generateTestDataService->GenerateTestUser($generate_count);
-        if(false == $data){
+        if (false == $data) {
             return $this->outPutJson([], ErrorInfo::getErrCode(), ErrorInfo::getErrMsg());
         }
         return $this->outPutJson($data, 200, '成功');
@@ -64,7 +66,7 @@ class GenerateDataController extends BaseController
     {
         $generate_count = (int)\Yii::$app->request->get('generate_count', 1);
         $data = $this->generateTestDataService->GenerateTestChapter($generate_count);
-        if(false == $data){
+        if (false == $data) {
             return $this->outPutJson([], ErrorInfo::getErrCode(), ErrorInfo::getErrMsg());
         }
         return $this->outPutJson($data, 200, '成功');
@@ -74,7 +76,7 @@ class GenerateDataController extends BaseController
     {
         $generate_count = (int)\Yii::$app->request->get('generate_count', 1);
         $data = $this->generateTestDataService->GenerateTestChapterContent($generate_count);
-        if(false == $data){
+        if (false == $data) {
             return $this->outPutJson([], ErrorInfo::getErrCode(), ErrorInfo::getErrMsg());
         }
         return $this->outPutJson($data, 200, '成功');

@@ -5,6 +5,7 @@
  */
 
 namespace app\common;
+
 use app\common\utTrait\QueryParams;
 use yii\db\ActiveRecord;
 
@@ -14,12 +15,12 @@ class BaseAR extends ActiveRecord
 
     public function beforeSave($insert)
     {
-        if($this->isNewRecord){
+        if ($this->isNewRecord) {
             // 自动生成时间
             $this->create_on = date("Y-m-d H:i:s", time());
-        }else{
+        } else {
             // 自动更改 时间字段
-            if($this->hasAttribute('update_on')){
+            if ($this->hasAttribute('update_on')) {
                 $this->update_on = date("Y-m-d H:i:s", time());
             }
         }
@@ -35,17 +36,17 @@ class BaseAR extends ActiveRecord
      */
     public static function add(BaseAR $entity)
     {
-        if(!($entity instanceof BaseAR)){
+        if (!($entity instanceof BaseAR)) {
             throw new \Exception("提交的Entity父类必须是BaseAR");
         }
-        if(!$entity->validate(null, false)){
+        if (!$entity->validate(null, false)) {
             $error = $entity->getFirstErrors();
             // 返回第一条字段效验失败到的提示
             throw new \Exception(array_values($error)[0]);
         }
         try {
             $entity->save();
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
         return $entity;
@@ -53,7 +54,7 @@ class BaseAR extends ActiveRecord
 
     /**
      * 可复用的查找方法
-     *  @param $queryParams QueryParams 查询条件
+     * @param $queryParams QueryParams 查询条件
      * @param $queryEntity BaseAR 要查询的Entity
      * @param $isGetOne bool 是否只获取一条数据
      * @return array|ActiveRecord[]
@@ -61,18 +62,18 @@ class BaseAR extends ActiveRecord
     public function getItem($queryParams, $queryEntity, $isGetOne)
     {
         $query = $queryEntity::find();
-        if($queryParams->where)$query->where($queryParams->where);
-        if($queryParams->select){
+        if ($queryParams->where) $query->where($queryParams->where);
+        if ($queryParams->select) {
             $field = $queryParams->select;
-        }else{
+        } else {
             // 如果没有指定要返回的字段 则使用entity 的 attributeLabels
             // 避免select *
             $field = join(", ", array_keys($queryEntity->getAttributes()));
         }
         $query->select($field);
-        if($queryParams->orderBy)$query->orderBy($queryParams->orderBy);
-        if($queryParams->offset)$query->offset(($queryParams->offset - 1) * $queryParams->limit);
-        if($queryParams->limit)$query->limit($queryParams->limit);
+        if ($queryParams->orderBy) $query->orderBy($queryParams->orderBy);
+        if ($queryParams->offset) $query->offset(($queryParams->offset - 1) * $queryParams->limit);
+        if ($queryParams->limit) $query->limit($queryParams->limit);
         return $isGetOne ? $query->one() : $query->all();
     }
 

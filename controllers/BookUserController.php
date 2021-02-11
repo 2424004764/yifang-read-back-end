@@ -144,17 +144,17 @@ class BookUserController extends BaseController
     public function actionRegister()
     {
         $params = $this->getRequestParams([
-            "nickname"     =>  "NICKNAME",
-            'email'         =>  'ONLY_EMAIL',
-            'password'      =>  'PASSWORD',
-            'againPassword' =>  'CONFIRM_PASSWORD',
-            'birthday'      =>  'DATE',
-            'sex'           =>  'SEX'
+            "nickname" => "NICKNAME",
+            'email' => 'ONLY_EMAIL',
+            'password' => 'PASSWORD',
+            'againPassword' => 'CONFIRM_PASSWORD',
+            'birthday' => 'DATE',
+            'sex' => 'SEX'
         ], 'post');
         // 数据验证后
         /** @var BookUserEntity $user */
         $user = $this->_bookUserService->register($params);
-        if(false === $user){
+        if (false === $user) {
             return $this->uniReturnJson($user);
         }
 
@@ -169,8 +169,8 @@ class BookUserController extends BaseController
     public function actionLogin()
     {
         $params = $this->getRequestParams([
-            'idOrEmail' =>  'ID_OR_EMAIL',
-            'password'  =>  'PASSWORD'
+            'idOrEmail' => 'ID_OR_EMAIL',
+            'password' => 'PASSWORD'
         ], 'post');
         $result = $this->_bookUserService->login($params);
 
@@ -179,12 +179,19 @@ class BookUserController extends BaseController
 
     /**
      * 修改用户信息
+     * 可以只传一个要改的字段 也可以传多个
      */
-    public function actionUpdateUsrInfo(){
+    public function actionUpdateUserInfo()
+    {
         $params = $this->getRequestParams([
-            'fields'    =>  'STRING'
-        ]);
+            'user_id' => 'bookId', // 必传
+            'user_nickname' => 'NICKNAME',
+            'user_headimg' => 'NET-FILE',
+            'sex' => 'SEX',
+            'birthday' => 'DATE',
+            'birthday_type' => 'SEX'
+        ], 'post');
 
-        $this->_bookUserService->updateUsrInfo($params);
+        return $this->uniReturnJson($this->_bookUserService->updateUsrInfo($params));
     }
 }

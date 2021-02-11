@@ -39,7 +39,7 @@ class BookBookService extends BaseService
     public function getItem($queryParams, $isGetOne = false)
     {
         // 设置初始条件
-        if(!isset($queryParams->where['book_status'])){
+        if (!isset($queryParams->where['book_status'])) {
             $queryParams->where['book_status'] = self::$BOOK_STATUS_ON; // 必需是已经上架的
         }
 
@@ -59,15 +59,15 @@ class BookBookService extends BaseService
         try {
             $query = new QueryParams;
             $query->where([
-                'book_id'       =>  $id
+                'book_id' => $id
             ]);
 
             /** @var BookBookEntity $book */
-            $book =  $this->_bookBookRepository->getItem($query, $this->Entity, true);
+            $book = $this->_bookBookRepository->getItem($query, $this->Entity, true);
             $with_data = [
-                'book_detail'       =>  $book->detail, // 关联书籍详情
-                'author_detail'     =>  $book->authorDetail, // 关联作者i详情
-                'class_detail'      =>  $book->classDetail, // 关联分类
+                'book_detail' => $book->detail, // 关联书籍详情
+                'author_detail' => $book->authorDetail, // 关联作者i详情
+                'class_detail' => $book->classDetail, // 关联分类
             ];
 
             return array_merge($book->toArray(), $with_data);

@@ -10,20 +10,24 @@
 /**
  * todo 只能用该trait声明错误
  */
+
 namespace app\common\utTrait\error;
-trait ErrorTrain{
+trait ErrorTrain
+{
     /**
      * @param string $errCode 错误码
      * @param string $errMessage 重写提示信息，用于直接返回前端信息
      * @param string $logMessage 日志信息
      * @return bool
      */
-    public static function setAndReturn($errCode, $errMessage='', $logMessage = '') {
+    public static function setAndReturn($errCode, $errMessage = '', $logMessage = '')
+    {
         ErrorInfo::setAndReturn($errCode, $errMessage, $logMessage);
         return false;
     }
 
-    public static function getErrCode() {
+    public static function getErrCode()
+    {
         $errCode = ErrorInfo::getErrCode();
         if (empty($errCode)) {
             $errCode = ErrorCode::SUCCESS;
@@ -32,22 +36,26 @@ trait ErrorTrain{
         return $errCode;
     }
 
-    public static function getErrMsg() {
+    public static function getErrMsg()
+    {
         return ErrorInfo::getErrMsg();
     }
 
-    public static function getLogMsg() {
+    public static function getLogMsg()
+    {
         return ErrorInfo::getLogMsg();
     }
 
-    public function getAllFirstErrorMessage(){
-        if(empty($this->firstErrors)){
+    public function getAllFirstErrorMessage()
+    {
+        if (empty($this->firstErrors)) {
             return '';
         }
         return implode(';', $this->firstErrors);
     }
 
-    public static function cleanErrorInfo(){
+    public static function cleanErrorInfo()
+    {
         ErrorInfo::cleanErrorInfo();
     }
 

@@ -38,7 +38,7 @@ class UtilFunction
      */
     public static function getDomain()
     {
-        return $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'];
+        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'];
     }
 
     /**
@@ -50,17 +50,17 @@ class UtilFunction
     public static function toEmailSend($toEmail, $subject, $content)
     {
         try {
-            $from   =   \Yii::$app->getComponents()['mailer']['transport']['username'];
-            $body   =   $content;
-            $mailer =   \Yii::$app->mailer->compose();
+            $from = \Yii::$app->getComponents()['mailer']['transport']['username'];
+            $body = $content;
+            $mailer = \Yii::$app->mailer->compose();
 
             $mailer->setFrom($from);
             $mailer->setTo($toEmail);
             $mailer->setSubject($subject);
             $mailer->setHtmlBody($body);
             $mailer->send();
-        }catch (\Exception $exception){
-            \Yii::warning("给 {$toEmail} 发送邮箱失败：".$exception->getMessage());
+        } catch (\Exception $exception) {
+            \Yii::warning("给 {$toEmail} 发送邮箱失败：" . $exception->getMessage());
         }
     }
 }

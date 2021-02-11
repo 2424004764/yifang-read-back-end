@@ -33,26 +33,26 @@ class BookScheduleService extends BaseService
      */
     public function addSchedule($params)
     {
-        try{
+        try {
             // 无则加 有则该
             $query = new QueryParams();
             $query->where([
-                'user_id'   =>  $params['user_id'],
-                'book_id'   =>  $params['book_id'],
+                'user_id' => $params['user_id'],
+                'book_id' => $params['book_id'],
             ]);
 
-            if($bookScheduleItem = $this->getItem($query, true)){
+            if ($bookScheduleItem = $this->getItem($query, true)) {
                 $this->Entity = $bookScheduleItem;
                 // 已存在进度 需要更改
                 $this->Entity->chapter_id = $params['chapter_id'];
                 $this->Entity->schedule = $params['schedule'];
-            }else{
+            } else {
 //            需要新增进度
                 $this->Entity->setAttributes($params);
             }
 
             return $this->save();
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return self::setAndReturn($exception->getCode(), $exception->getMessage());
         }
 

@@ -35,14 +35,15 @@ class ErrorMsg
         ErrorCode::USER_NICKNAME_FORMAT_ERROR => '昵称不符格式~ 可能是包含特殊字符~',
         ErrorCode::USER_ACCOUNT_NO_BOOK_ID_NO_EMAIL => '你输入的账号和密码肯定有问题~',
         ErrorCode::SETTING_NAME_NO_EXIST => '配置名不存在',
-  ];
+    ];
 
     /**
      * 只能根据错误码获取错误描述信息
      * @param $errCode
      * @return string
      */
-    public static function getErrMsg($errCode) {
+    public static function getErrMsg($errCode)
+    {
         return isset(self::$errMsg[$errCode]) ? self::$errMsg[$errCode] : self::getDefaultMsg();
     }
 
@@ -50,7 +51,8 @@ class ErrorMsg
      * 获取默认的错误描述信息
      * @return string
      */
-    public static function getDefaultMsg() {
+    public static function getDefaultMsg()
+    {
         return '服务器错误 500';
     }
 }

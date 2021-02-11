@@ -19,6 +19,7 @@ class BookClassController extends BaseController
 {
 
     private BookClassService $_bookClassService; // 控制器对应的服务类
+
     public function __construct($id, $module, $config = [])
     {
         parent::__construct($id, $module, $config);
