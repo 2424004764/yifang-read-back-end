@@ -189,7 +189,8 @@ class BookUserController extends BaseController
             'user_headimg' => 'NET-FILE',
             'sex' => 'SEX',
             'birthday' => 'DATE',
-            'birthday_type' => 'SEX'
+            'birthday_type' => 'SEX',
+            'bind_email' => 'EMAIL_SURE_EMPTY',
         ], 'post');
 
         return $this->uniReturnJson($this->_bookUserService->updateUsrInfo($params));

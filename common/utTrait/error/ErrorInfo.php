@@ -87,11 +87,13 @@ class ErrorInfo
      * 根据错误码返回错误码和错误信息
      * 如 $errorCode = PARAM_EMPTY, 则结果返回 '1 参数错误'
      * @param $errorCode integer 错误码
+     * @param $returnErrorCode bool 是否返回错误码 默认返回
      * @return string
      *  getErrorCodeAndErrorMsgByErrorCode 这是原函数名 取大写
      */
-    public static function getECAEMBEC($errorCode)
+    public static function getECAEMBEC($errorCode, $returnErrorCode = true)
     {
-        return $errorCode . ' ' . ErrorMsg::$errMsg[$errorCode];
+        $_errorCode = $returnErrorCode ? $errorCode . ' '  : '';
+        return $_errorCode. ErrorMsg::$errMsg[$errorCode];
     }
 }

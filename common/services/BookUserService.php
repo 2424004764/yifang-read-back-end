@@ -14,6 +14,7 @@ use app\common\entity\BookUserEntity;
 use app\common\repository\BookUserRepository;
 use app\common\UtilFunction;
 use app\common\utTrait\error\ErrorCode;
+use app\common\utTrait\error\ErrorInfo;
 use app\common\utTrait\QueryParams;
 use Hautelook\Phpass\PasswordHash;
 
@@ -148,8 +149,7 @@ class BookUserService extends BaseService
     {
         $fields = $this->Entity->attributes();
 
-        $not_update_fields = ['user_id', 'status', 'password_salt', 'password', 'create_on',
-            'bind_email']; // 不能修改的字段
+        $not_update_fields = ['user_id', 'status', 'password_salt', 'password', 'create_on']; // 不能修改的字段
 
         foreach ($fields as $index => $field) {
             if (in_array($field, $not_update_fields)) {
@@ -180,8 +180,9 @@ class BookUserService extends BaseService
         }
 
         foreach ($canUpdateFields as $field) {
-            if (!empty($params[$field])) {
-                $this->Entity->$field = empty($params[$field]) ? '' : $params[$field];
+            $paramValue = (string)$params[$field];
+            if ('' != $paramValue) {
+                $this->Entity->$field = $paramValue;
             }
         }
 

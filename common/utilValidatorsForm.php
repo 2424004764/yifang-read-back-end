@@ -95,6 +95,9 @@ class utilValidatorsForm
                 ['required'],
                 ['email', 'message' => '邮箱地址无效~']
             ],
+            'EMAIL_SURE_EMPTY' => [ // 邮箱 可为空
+                ['email', 'message' => '邮箱地址无效~']
+            ],
             'ONLY_EMAIL' => [ // 在用户表唯一邮箱
                 ['required', 'message' => '邮箱不能为空！'],
                 ['email', 'message' => '邮箱地址无效~'],
