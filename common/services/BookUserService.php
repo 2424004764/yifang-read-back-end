@@ -181,7 +181,7 @@ class BookUserService extends BaseService
 
         foreach ($canUpdateFields as $field) {
             if (!empty($params[$field])) {
-                $this->Entity->$field = $params[$field];
+                $this->Entity->$field = empty($params[$field]) ? '' : $params[$field];
             }
         }
 
