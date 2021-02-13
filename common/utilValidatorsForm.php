@@ -59,7 +59,7 @@ class utilValidatorsForm
                 ['filter', 'filter' => 'intval', 'message' => '格式错误~']
             ],
             'bookId' => [ // 整数型都可以用这个效验规则
-                ['required'], ['integer', 'message' => '格式错误~'],
+                ['required'],
                 ['filter', 'filter' => function ($attribute) {
                     $attribute = trim($attribute);
                     $attribute = intval($attribute);
