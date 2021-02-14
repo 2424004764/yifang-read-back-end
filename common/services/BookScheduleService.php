@@ -58,4 +58,20 @@ class BookScheduleService extends BaseService
 
     }
 
+    /**
+     * 获取阅读进度
+     * @param $user_id
+     * @param $book_id
+     * @return \app\common\BaseAR|\app\common\BaseAR[]|array|bool
+     */
+    public function getSchedule($user_id, $book_id)
+    {
+        $query = new QueryParams();
+        $query->where([
+            'user_id'   =>  $user_id,
+            'book_id'   =>  $book_id
+        ]);
+
+        return $this->getItem($query, true);
+    }
 }

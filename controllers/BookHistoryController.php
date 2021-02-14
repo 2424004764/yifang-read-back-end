@@ -135,4 +135,19 @@ class BookHistoryController extends BaseController
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    /**
+     * 添加阅读记录
+     * @return array
+     */
+    public function actionAddHistory()
+    {
+        $params = $this->getRequestParams([
+            'user_id' => ["bookId"],
+            'book_id' => ["bookId"],
+            'chapter_id' => ['bookId']
+        ], 'post');
+
+        return $this->uniReturnJson($this->_bookHistoryService->addHistory($params));
+    }
 }
