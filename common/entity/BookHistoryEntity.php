@@ -10,6 +10,7 @@ use Yii;
  * @property int $history_id 书籍查阅历史表主键
  * @property int $user_id 用户id
  * @property int $book_id 书籍id
+ * @property string $schedule 整本书的阅读进度  如：16%
  * @property int $status 状态 0正常 1删除
  * @property string $create_on 添加时间
  */
@@ -30,7 +31,7 @@ class BookHistoryEntity extends \app\common\BaseAR
     {
         return [
             [['user_id', 'book_id', 'status'], 'integer'],
-            [['create_on'], 'safe'],
+            [['create_on', 'schedule'], 'safe'],
         ];
     }
 
@@ -43,6 +44,7 @@ class BookHistoryEntity extends \app\common\BaseAR
             'history_id' => '书籍查阅历史表主键',
             'user_id' => '用户id',
             'book_id' => '书籍id',
+            'schedule' => '整本书的阅读进度  如：16%',
             'status' => '状态 0正常 1删除',
             'create_on' => '添加时间',
         ];

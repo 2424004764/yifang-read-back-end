@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\common\services\BookHistoryService;
 use Yii;
 use app\common\entity\BookHistoryEntity;
 use app\common\searchs\BookHistorySearch;
@@ -15,6 +16,15 @@ use yii\filters\VerbFilter;
  */
 class BookHistoryController extends BaseController
 {
+
+    private BookHistoryService $_bookHistoryService;
+
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->_bookHistoryService = new BookHistoryService();
+    }
+
     /**
      * {@inheritdoc}
      */
