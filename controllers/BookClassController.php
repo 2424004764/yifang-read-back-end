@@ -145,8 +145,7 @@ class BookClassController extends BaseController
     {
         $ps = $this->uniGetPaging(1, 19);
         $queryParams = new QueryParams();
-        $queryParams->limit($ps['size']);
-        $queryParams->offset($ps['page']);
+        $queryParams->loadPageSize($ps);
         return $this->uniReturnJson($this->_bookClassService->getItem($queryParams));
     }
 }

@@ -11,9 +11,7 @@ namespace app\common\services;
 
 
 use app\common\entity\BookHistoryEntity;
-use app\common\entity\BookScheduleEntity;
 use app\common\repository\BookHistoryRepository;
-use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\QueryParams;
 use yii\base\InvalidConfigException;
 use yii\db\Exception;
@@ -43,9 +41,9 @@ class BookHistoryService extends BaseService
         /** @var BookChapterService $chapterService */
         $chapterService = \Yii::createObject(BookChapterService::class);
         $percentage = $chapterService->getPercentageByChapter($book_id, $chapter_id);
-        if(isset($percentage['chapter_count']) && isset($percentage['chapter_current'])){
+        if (isset($percentage['chapter_count']) && isset($percentage['chapter_current'])) {
             return round($percentage['chapter_current'] / $percentage['chapter_count'], 2) * 100;
-        }else{
+        } else {
             return '0';
         }
     }
@@ -59,20 +57,45 @@ class BookHistoryService extends BaseService
     {
         $query = new QueryParams();
         $query->where([
-            'user_id'   =>  $params['user_id'],
-            'book_id'   =>  $params['book_id']
+            'user_id' => $params['user_id'],
+            'book_id' => $params['book_id']
         ]);
 
-        if($item = $this->getItem($query, true)){
+        if ($item = $this->getItem($query, true)) {
             $this->Entity = $item;
             // 有阅读记录 计算书籍的阅读进度
-            $this->Entity->schedule = $params['schedule'].'%';
-        }else{
+            $this->Entity->schedule = $params['schedule'] . '%';
+        } else {
             $this->Entity->user_id = $params['user_id'];
             $this->Entity->book_id = $params['book_id'];
             $this->Entity->schedule = '0%';
         }
 
         return $this->save();
+    }
+
+    /**
+     * 获取阅读历史  分页
+     * @param $ps array 分页参数
+     * @param $params array 查询参数
+     */
+    public function getHistoryList($ps, $params)
+    {
+        $query = new QueryParams();
+        $query->where([
+            'user_id'   =>  $params['user_id']
+        ]);
+        $query->loadPageSize($ps)
+            ->orderBy([
+                'history_id'    =>  SORT_DESC
+            ]);
+
+        $count = $this->count($query);
+        $data = $this->getItem($query);
+
+        return [
+            'count' =>  $count,
+            'list'  =>  $data
+        ];
     }
 }

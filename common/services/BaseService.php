@@ -79,5 +79,17 @@ class BaseService
         }
     }
 
-
+    /**
+     * 根据条件计算数据总和
+     * @param $queryParams
+     * @return bool
+     */
+    public function count($queryParams)
+    {
+        try {
+            return $this->_baseRepository->count($queryParams, $this->Entity);
+        } catch (\Exception $e) {
+            return self::setAndReturn(ErrorCode::SYSTEM_ERROR, $e->getMessage());
+        }
+    }
 }

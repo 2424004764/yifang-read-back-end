@@ -115,4 +115,13 @@ class BaseRepository
     {
         return $entity::deleteAll($queryParams->where);
     }
+
+    /**
+     * 根据条件计算总和
+     * @param $queryParams QueryParams
+     * @param $entity BaseAR
+     */
+    public function count($queryParams, $entity){
+        return $entity::find()->where($queryParams->where)->count();
+    }
 }

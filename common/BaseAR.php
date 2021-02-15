@@ -72,8 +72,15 @@ class BaseAR extends ActiveRecord
         }
         $query->select($field);
         if ($queryParams->orderBy) $query->orderBy($queryParams->orderBy);
-        if ($queryParams->offset) $query->offset(($queryParams->offset - 1) * $queryParams->limit);
-        if ($queryParams->limit) $query->limit($queryParams->limit);
+        // page 、 size 计算 limit、offset
+        if ($queryParams->size) {
+            $query->limit($queryParams->size);
+
+            if ($queryParams->page) {
+                $query->offset(($queryParams->page - 1) * $queryParams->size);
+            }
+        }
+
         return $isGetOne ? $query->one() : $query->all();
     }
 

@@ -72,15 +72,14 @@ class BookBookshelfController extends BaseController
     }
 
     /**
-     * 获取收藏的书籍列表
+     * 获取书架的书籍列表
      * @return array
      */
     public function actionGetList()
     {
         $ps = $this->uniGetPaging(1, 20);
         $queryParams = new QueryParams();
-        $queryParams->limit($ps['size']);
-        $queryParams->offset($ps['page']);
+        $queryParams->loadPageSize($ps);
 
         $params = $this->getRequestParams(['user_id' => "bookId"]);
         $queryParams->where([

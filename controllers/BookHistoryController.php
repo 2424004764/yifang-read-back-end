@@ -150,4 +150,20 @@ class BookHistoryController extends BaseController
 
         return $this->uniReturnJson($this->_bookHistoryService->addHistory($params));
     }
+
+    /**
+     * 获取阅读历史
+     * @return array
+     */
+    public function actionGetHistoryList()
+    {
+        $ps = $this->uniGetPaging(1, 50);
+        $params = $this->getRequestParams([
+            'user_id' => ["bookId"],
+        ]);
+
+        return $this->uniReturnJson($this
+            ->_bookHistoryService
+            ->getHistoryList($ps, $params));
+    }
 }

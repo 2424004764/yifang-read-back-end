@@ -149,10 +149,12 @@ class BookBookController extends BaseController
         ]);
 
         $queryParams = new QueryParams();
-        $queryParams->limit($ps['size']);
-        $queryParams->offset($ps['page']);
+        $queryParams->loadPageSize($ps);
         $queryParams->where([
             'is_hot' => $params['is_hot']
+        ]);
+        $queryParams->orderBy([
+            'book_id'   =>  SORT_DESC
         ]);
 
         return $this->uniReturnJson($this->_bookBookService
