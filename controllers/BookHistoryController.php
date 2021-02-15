@@ -154,10 +154,11 @@ class BookHistoryController extends BaseController
     /**
      * 获取阅读历史
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionGetHistoryList()
     {
-        $ps = $this->uniGetPaging(1, 50);
+        $ps = $this->uniGetPaging(1, 30);
         $params = $this->getRequestParams([
             'user_id' => ["bookId"],
         ]);
@@ -165,5 +166,20 @@ class BookHistoryController extends BaseController
         return $this->uniReturnJson($this
             ->_bookHistoryService
             ->getHistoryList($ps, $params));
+    }
+
+    /**
+     * 删除一条阅读记录
+     * @return array
+     */
+    public function actionDelHistory()
+    {
+        $params = $this->getRequestParams([
+            'history_id' => ["bookId"],
+        ], 'post');
+
+        return $this->uniReturnJson($this
+            ->_bookHistoryService
+            ->delHistory($params));
     }
 }

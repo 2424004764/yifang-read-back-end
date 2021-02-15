@@ -10,11 +10,14 @@
 namespace app\common\services;
 
 
+use app\common\entity\BookBookEntity;
 use app\common\entity\BookHistoryEntity;
 use app\common\repository\BookHistoryRepository;
+use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\QueryParams;
 use yii\base\InvalidConfigException;
 use yii\db\Exception;
+use yii\helpers\ArrayHelper;
 
 class BookHistoryService extends BaseService
 {
@@ -70,6 +73,7 @@ class BookHistoryService extends BaseService
             $this->Entity->book_id = $params['book_id'];
             $this->Entity->schedule = '0%';
         }
+        $this->Entity->update_on = date("Y-m-d H:i:s", time());
 
         return $this->save();
     }
@@ -78,24 +82,73 @@ class BookHistoryService extends BaseService
      * 获取阅读历史  分页
      * @param $ps array 分页参数
      * @param $params array 查询参数
+     * @return array
+     * @throws InvalidConfigException
      */
     public function getHistoryList($ps, $params)
     {
         $query = new QueryParams();
         $query->where([
-            'user_id'   =>  $params['user_id']
+            'user_id' => $params['user_id']
         ]);
+        $query->select = 'history_id, book_id, schedule, create_on';
         $query->loadPageSize($ps)
-            ->orderBy([
-                'history_id'    =>  SORT_DESC
-            ]);
+            ->orderBy('update_on desc, history_id desc');
 
         $count = $this->count($query);
+        /** @var BookHistoryEntity[]|null $data */
         $data = $this->getItem($query);
+        if (!empty($data)) {
+            $book_ids = $this->getBookIdByEntitys($data); // 需要查询的book_id集合
+            // 批量获取书籍详情
+            /** @var BookBookService $bookService */
+            $bookService = \Yii::createObject(BookBookService::class);
+            /** @var BookBookEntity[]|null $book_items */
+            $book_items = ArrayHelper::index($bookService->getBookListByBookIds($book_ids), 'book_id');
+            foreach ($data as &$history){
+                $history = $history->toArray();
+                $history['book_name'] = $book_items[$history['book_id']]['book_name'];
+                $history['book_cover_imgs'] = $book_items[$history['book_id']]['book_cover_imgs'];
+            }
+        }
 
         return [
-            'count' =>  $count,
-            'list'  =>  $data
+            'count' => $count,
+            'list' => $data
         ];
+    }
+
+    /**
+     * 根据查询出来的entity 获取这里面所有的book_id集合
+     * @param $Entitys BookHistoryEntity[]
+     * @return array
+     */
+    public function getBookIdByEntitys($Entitys){
+        $book_ids = [];
+        foreach ($Entitys as $history) {
+            $book_ids[] = $history->book_id;
+        }
+
+        return $book_ids;
+    }
+
+    /**
+     * 删除一条阅读记录
+     * @param $params
+     * @return array|bool
+     */
+    public function delHistory($params)
+    {
+        $query = new QueryParams();
+        $query->where([
+            'history_id'    =>  $params
+        ]);
+
+        $item = $this->getItem($query);
+        if(empty($item)){
+            return self::setAndReturn(ErrorCode::SYSTEM_ERROR);
+        }
+
+        return $this->del($query);
     }
 }

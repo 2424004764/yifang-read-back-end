@@ -72,4 +72,18 @@ class BookBookService extends BaseService
             return self::setAndReturn(ErrorCode::SYSTEM_ERROR, $e->getMessage());
         }
     }
+
+    /**
+     * 根据bookids 批量获取书籍详情
+     * @param $bookIds
+     * @return array|bool|\yii\db\ActiveRecord[]
+     */
+    public function getBookListByBookIds($bookIds){
+        $bookQuery = new QueryParams();
+        $bookQuery->select('book_id, book_name, book_cover_imgs')->where([
+            'book_id' => $bookIds
+        ]);
+
+        return $this->getItem($bookQuery);
+    }
 }

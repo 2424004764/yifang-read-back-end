@@ -24,6 +24,12 @@ class QueryParams
      */
     public string $select = '';
 
+    public function select($select)
+    {
+        $this->select = $select;
+        return $this;
+    }
+
     /**
      * @var int 页码
      */
