@@ -145,7 +145,7 @@ class BookHistoryController extends BaseController
         $params = $this->getRequestParams([
             'user_id' => ["bookId"],
             'book_id' => ["bookId"],
-            'chapter_id' => ['bookId']
+            'schedule' => ['bookId'],
         ], 'post');
 
         return $this->uniReturnJson($this->_bookHistoryService->addHistory($params));
