@@ -10,7 +10,9 @@
 namespace app\common\services;
 
 
+use app\common\entity\BookBookEntity;
 use app\common\entity\BookBookshelfEntity;
+use app\common\entity\BookHistoryEntity;
 use app\common\repository\BookBookshelfRepository;
 use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\QueryParams;
@@ -66,15 +68,24 @@ class BookBookshelfService extends BaseService
     }
 
     /**
-     * @param QueryParams $queryParams
+     * 获取书架列表
+     * @param $params array 前端传递的参数
+     * @param $ps array 分页参数
      * @return BookBookshelfEntity[]
      */
-    public function getBookshelfList(QueryParams $queryParams)
+    public function getBookshelfList($params, $ps)
     {
+        $queryParams = new QueryParams();
+        $queryParams->loadPageSize($ps);
+        $queryParams->where([
+            'user_id' => $params['user_id']
+        ]);
+
         /** @var BookBookshelfEntity[] $raw_data */
         $queryParams->select = 'book_id';
         $queryParams->orderBy = 'bookshelf_id desc';
         $raw_data = $this->getItem($queryParams);
+        $count = $this->count($queryParams);
 
         /** @var BookBookService $bookService */
         $bookService = \Yii::createObject(BookBookService::class);
@@ -87,8 +98,24 @@ class BookBookshelfService extends BaseService
             ];
             $book = $book->toArray();
             $book['detail'] = $bookService->getItem($queryParams, true);
+
+            // 获取书籍阅读进度
+            /** @var BookHistoryService $historyService */
+            $historyService = \Yii::createObject(BookHistoryService::class);
+            /** @var BookHistoryEntity $schedule */
+            $schedule = $historyService->getReadHistory($params['user_id'], $book['book_id']);
+            if(!empty($schedule)){
+                $book['read_schedule'] = $schedule->schedule;
+            }else{
+                $book['read_schedule'] = '未阅读';
+            }
         }
 
-        return $raw_data;
+        return [
+            'pageSize'  =>  $ps['size'],
+            'pageIndex' =>  $ps['page'],
+            'list'      =>  $raw_data,
+            'total'     =>  $count,
+        ];
     }
 }

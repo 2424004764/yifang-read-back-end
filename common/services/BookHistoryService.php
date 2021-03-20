@@ -1,5 +1,6 @@
 <?php
 /**
+ * 用户阅读的书籍历史 以及阅读进度 总的进度（按章节数算，如果100个章节，阅读到第二章，那么进度就是2%）
  * Created by PhpStorm.
  * User: yifang
  * Email：2424004764@qq.com
@@ -150,5 +151,22 @@ class BookHistoryService extends BaseService
         }
 
         return $this->del($query);
+    }
+
+    /**
+     * 获取一条书籍阅读进度
+     * @param $user_id
+     * @param $book_id
+     * @return \app\common\BaseAR|\app\common\BaseAR[]|array|bool|\yii\db\ActiveRecord[]
+     */
+    public function getReadHistory($user_id, $book_id)
+    {
+        $query = new QueryParams();
+        $query->where([
+            'user_id'   =>  $user_id,
+            'book_id'   =>  $book_id,
+        ]);
+
+        return $this->getItem($query, true);
     }
 }

@@ -17,7 +17,6 @@ use yii\filters\VerbFilter;
 class BookUserController extends BaseController
 {
 
-
     private BookUserService $_bookUserService; //服务对应的操作数据库的类
 
     public function __construct($id, $module, $config = [])

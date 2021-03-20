@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\common\services\BookSystemConfigService;
 use Yii;
 use app\common\entity\BookSystemConfigEntity;
 use app\common\searchs\BookSystemConfigSearch;
@@ -15,6 +16,15 @@ use yii\filters\VerbFilter;
  */
 class BookSystemConfigController extends BaseController
 {
+
+    private BookSystemConfigService $_bookSystemConfigService;
+
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->_bookSystemConfigService = new BookSystemConfigService;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -125,4 +135,13 @@ class BookSystemConfigController extends BaseController
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    /**
+     * 获取小程序首页轮播图
+     */
+    public function actionGetSwiperImages()
+    {
+        return $this->uniReturnJson($this->_bookSystemConfigService->getSwiperImages());
+    }
+    
 }

@@ -78,15 +78,9 @@ class BookBookshelfController extends BaseController
     public function actionGetList()
     {
         $ps = $this->uniGetPaging(1, 20);
-        $queryParams = new QueryParams();
-        $queryParams->loadPageSize($ps);
-
         $params = $this->getRequestParams(['user_id' => "bookId"]);
-        $queryParams->where([
-            'user_id' => $params['user_id']
-        ]);
 
-        return $this->uniReturnJson($this->_bookBookShelfService->getBookshelfList($queryParams));
+        return $this->uniReturnJson($this->_bookBookShelfService->getBookshelfList($params, $ps));
     }
 
 }
