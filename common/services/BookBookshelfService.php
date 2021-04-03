@@ -137,7 +137,7 @@ class BookBookshelfService extends BaseService
             ->innerJoin(BookBookEntity::tableName() . ' bk', 'bs.book_id = bk.book_id')
             ->leftJoin(BookHistoryEntity::tableName() . ' bh', 'bk.book_id = bh.book_id')
             ->orderBy('bh.update_on DESC,bs.bookshelf_id');
-        $sql = $query->createCommand()->getRawSql(); // 生成SQL语句
+//        $sql = $query->createCommand()->getRawSql(); // 生成SQL语句
         $count = $query->count();
         $raw_data = $query->limit($ps['size'])
             ->offset(($ps['page'] - 1) * $ps['size'])
@@ -146,8 +146,11 @@ class BookBookshelfService extends BaseService
 
         foreach ($raw_data as &$item) {
             if (empty($item['schedule'])) {
-                $item['schedule'] = '未阅读';
+                $item['read_schedule'] = '未阅读';
+            } else {
+                $item['read_schedule'] = $item['schedule'];
             }
+            unset($item['schedule']);
         }
 
         return [
