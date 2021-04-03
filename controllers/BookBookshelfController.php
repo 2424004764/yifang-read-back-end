@@ -74,6 +74,7 @@ class BookBookshelfController extends BaseController
     /**
      * 获取书架的书籍列表
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionGetList()
     {
@@ -81,6 +82,20 @@ class BookBookshelfController extends BaseController
         $params = $this->getRequestParams(['user_id' => "bookId"]);
 
         return $this->uniReturnJson($this->_bookBookShelfService->getBookshelfList($params, $ps));
+    }
+
+    /**
+     * 获取书架的书籍列表
+     * 直接一条通过SQL获取按阅读时间倒序的书籍列表
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function actionGetListV2()
+    {
+        $ps = $this->uniGetPaging(1, 20);
+        $params = $this->getRequestParams(['user_id' => "bookId"]);
+
+        return $this->uniReturnJson($this->_bookBookShelfService->getBookshelfListV2($params, $ps));
     }
 
 }

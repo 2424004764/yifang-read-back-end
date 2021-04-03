@@ -72,6 +72,7 @@ class BookBookshelfService extends BaseService
      * @param $params array 前端传递的参数
      * @param $ps array 分页参数
      * @return BookBookshelfEntity[]
+     * @throws \yii\base\InvalidConfigException
      */
     public function getBookshelfList($params, $ps)
     {
@@ -104,18 +105,58 @@ class BookBookshelfService extends BaseService
             $historyService = \Yii::createObject(BookHistoryService::class);
             /** @var BookHistoryEntity $schedule */
             $schedule = $historyService->getReadHistory($params['user_id'], $book['book_id']);
-            if(!empty($schedule)){
+            if (!empty($schedule)) {
                 $book['read_schedule'] = $schedule->schedule;
-            }else{
+            } else {
                 $book['read_schedule'] = '未阅读';
             }
         }
 
         return [
-            'pageSize'  =>  $ps['size'],
-            'pageIndex' =>  $ps['page'],
-            'list'      =>  $raw_data,
-            'total'     =>  $count,
+            'pageSize' => $ps['size'],
+            'pageIndex' => $ps['page'],
+            'list' => $raw_data,
+            'total' => $count,
         ];
     }
+
+    /**
+     * 获取书架列表
+     * 直接一条通过SQL获取按阅读时间倒序的书籍列表
+     * @param $params array 前端传递的参数
+     * @param $ps array 分页参数
+     * @return BookBookshelfEntity[]
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getBookshelfListV2($params, $ps)
+    {
+        $query = $this->Entity::find()
+            ->from($this->Entity::tableName() . ' bs') // 为当前表加别名
+            ->select('bs.book_id,bk.book_name,bk.book_cover_imgs,bh.`schedule`')
+            ->where(['bs.user_id' => $params['user_id']])
+            ->innerJoin(BookBookEntity::tableName() . ' bk', 'bs.book_id = bk.book_id')
+            ->leftJoin(BookHistoryEntity::tableName() . ' bh', 'bk.book_id = bh.book_id')
+            ->orderBy('bh.update_on DESC,bs.bookshelf_id');
+        $sql = $query->createCommand()->getRawSql(); // 生成SQL语句
+        $count = $query->count();
+        $raw_data = $query->limit($ps['size'])
+            ->offset(($ps['page'] - 1) * $ps['size'])
+            ->asArray()
+            ->all();
+
+        foreach ($raw_data as &$item) {
+            if (empty($item['schedule'])) {
+                $item['schedule'] = '未阅读';
+            }
+        }
+
+        return [
+            'pageSize' => $ps['size'],
+            'pageIndex' => $ps['page'],
+            'list' => $raw_data,
+            'total' => $count,
+        ];
+    }
+
+
 }
