@@ -1,0 +1,10 @@
+2021-09-25 20:27:11: Expanded 'file:///%GSDISK%/dev/php/yifang-read-back-end' to 'file:///C:/dev/php/yifang-read-back-end'
+2021-09-25 20:27:15: FTP: Server rejected UTF-8 that it promised us: Unknown command
+2021-09-25 20:27:16: -- 分析开始 On File Change, After Delay
+2021-09-25 20:27:16: 变更：2， 冲突：0， 复制时间：0， 复制状态：0， 错误： 0, All: 7379
+2021-09-25 20:27:16: Left to Right: Copy File: 2 
+2021-09-25 20:27:16: == 同步开始由 On File Change, After Delay
+2021-09-25 20:27:17: 覆盖复制 'C:/dev/php/yifang-read-back-end/common/repository/BaseRepository.php' -> 'ftp://81.69.170.64:21/common/repository/BaseRepository.php' (3,754)
+2021-09-25 20:27:17: 覆盖复制 'C:/dev/php/yifang-read-back-end/common/services/BaseService.php' -> 'ftp://81.69.170.64:21/common/services/BaseService.php' (3,060)
+2021-09-25 20:27:19: == 同步完成. 历时: 00:00:09, 速度: 8.57 KB/s, 完成: 2, 错误: 0
+2021-09-25 20:27:19: 

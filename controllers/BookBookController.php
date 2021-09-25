@@ -154,11 +154,17 @@ class BookBookController extends BaseController
             'is_hot' => $params['is_hot']
         ]);
         $queryParams->orderBy([
-            'book_id'   =>  SORT_DESC
+            'book_id' => SORT_DESC
         ]);
 
-        return $this->uniReturnJson($this->_bookBookService
-            ->getItem($queryParams));
+        $data = [
+            'list' => $this->_bookBookService->getItem($queryParams),
+            'page' => $ps['page'],
+            'size' => $ps['size'],
+            'count' => $this->_bookBookService->getCount($queryParams),
+        ];
+
+        return $this->uniReturnJson($data);
     }
 
     /**

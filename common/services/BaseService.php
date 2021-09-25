@@ -39,6 +39,20 @@ class BaseService
     }
 
     /**
+     * 获取查询的数量
+     * @param $queryParams
+     * @return array|bool|\yii\db\ActiveRecord[]
+     */
+    public function getCount($queryParams)
+    {
+        try {
+            return $this->_baseRepository->getCount($queryParams, $this->Entity);
+        } catch (\Exception $e) {
+            return self::setAndReturn(ErrorCode::SYSTEM_ERROR, $e->getMessage());
+        }
+    }
+
+    /**
      * 统一的添加方法
      * @param BaseAR $entity 填充好数据的entity
      * @return BaseAR|bool

@@ -58,6 +58,22 @@ class BaseRepository
     }
 
     /**
+     * 获取查询的数量
+     * @param $QueryParams
+     * @param $queryEntity
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getCount($QueryParams, $queryEntity)
+    {
+        try {
+            return $this->_baseEntity->getCount($QueryParams, $queryEntity);
+        } catch (\Exception $exception) {
+            throw new \Exception($exception->getMessage());
+        }
+    }
+
+    /**
      * 根据条件查询一条记录
      * @param $where array 条件
      * @param $queryEntity
@@ -121,7 +137,8 @@ class BaseRepository
      * @param $queryParams QueryParams
      * @param $entity BaseAR
      */
-    public function count($queryParams, $entity){
+    public function count($queryParams, $entity)
+    {
         return $entity::find()->where($queryParams->where)->count();
     }
 }

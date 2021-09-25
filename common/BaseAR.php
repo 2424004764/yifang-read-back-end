@@ -52,14 +52,7 @@ class BaseAR extends ActiveRecord
         return $entity;
     }
 
-    /**
-     * 可复用的查找方法
-     * @param $queryParams QueryParams 查询条件
-     * @param $queryEntity BaseAR 要查询的Entity
-     * @param $isGetOne bool 是否只获取一条数据
-     * @return array|ActiveRecord[]
-     */
-    public function getItem($queryParams, $queryEntity, $isGetOne)
+    private function getQuery($queryParams, $queryEntity)
     {
         $query = $queryEntity::find();
         if ($queryParams->where) $query->where($queryParams->where);
@@ -72,6 +65,21 @@ class BaseAR extends ActiveRecord
         }
         $query->select($field);
         if ($queryParams->orderBy) $query->orderBy($queryParams->orderBy);
+
+        return $query;
+    }
+
+    /**
+     * 可复用的查找方法
+     * @param $queryParams QueryParams 查询条件
+     * @param $queryEntity BaseAR 要查询的Entity
+     * @param $isGetOne bool 是否只获取一条数据
+     * @return array|ActiveRecord[]
+     */
+    public function getItem($queryParams, $queryEntity, $isGetOne)
+    {
+        $query = $this->getQuery($queryParams, $queryEntity);
+
         // page 、 size 计算 limit、offset
         if ($queryParams->size) {
             $query->limit($queryParams->size);
@@ -81,9 +89,20 @@ class BaseAR extends ActiveRecord
             }
         }
 
-        $sql = $query->createCommand()->getRawSql();
+//        $sql = $query->createCommand()->getRawSql();
 
         return $isGetOne ? $query->one() : $query->all();
+    }
+
+    /**
+     * 获取数量
+     * @param $queryParams
+     * @param $queryEntity
+     * @return mixed
+     */
+    public function getCount($queryParams, $queryEntity)
+    {
+        return (int)$this->getQuery($queryParams, $queryEntity)->count();
     }
 
 

@@ -37,6 +37,10 @@ class RegisterListenersPass implements CompilerPassInterface
 
     public function __construct(string $dispatcherService = 'event_dispatcher', string $listenerTag = 'kernel.event_listener', string $subscriberTag = 'kernel.event_subscriber', string $eventAliasesParameter = 'event_dispatcher.event_aliases')
     {
+        if (0 < \func_num_args()) {
+            trigger_deprecation('symfony/event-dispatcher', '5.3', 'Configuring "%s" is deprecated.', __CLASS__);
+        }
+
         $this->dispatcherService = $dispatcherService;
         $this->listenerTag = $listenerTag;
         $this->subscriberTag = $subscriberTag;
@@ -83,7 +87,7 @@ class RegisterListenersPass implements CompilerPassInterface
             $noPreload = 0;
 
             foreach ($events as $event) {
-                $priority = isset($event['priority']) ? $event['priority'] : 0;
+                $priority = $event['priority'] ?? 0;
 
                 if (!isset($event['event'])) {
                     if ($container->getDefinition($id)->hasTag($this->subscriberTag)) {
@@ -149,7 +153,7 @@ class RegisterListenersPass implements CompilerPassInterface
                     continue;
                 }
 
-                $dispatcherDefinitions[] = $container->getDefinition($attributes['dispatcher']);
+                $dispatcherDefinitions[$attributes['dispatcher']] = $container->getDefinition($attributes['dispatcher']);
             }
 
             if (!$dispatcherDefinitions) {

@@ -1,0 +1,9 @@
+2021-09-25 20:28:38: Expanded 'file:///%GSDISK%/dev/php/yifang-read-back-end' to 'file:///C:/dev/php/yifang-read-back-end'
+2021-09-25 20:28:42: FTP: Server rejected UTF-8 that it promised us: Unknown command
+2021-09-25 20:28:43: -- 分析开始 User Command
+2021-09-25 20:28:48: 变更：1， 冲突：0， 复制时间：0， 复制状态：0， 错误： 0, All: 7379
+2021-09-25 20:28:48: Left to Right: Copy File: 1 
+2021-09-25 20:28:48: == 同步开始由 User Command
+2021-09-25 20:28:49: 覆盖复制 'C:/dev/php/yifang-read-back-end/controllers/BookBookController.php' -> 'ftp://81.69.170.64:21/controllers/BookBookController.php' (5,031)
+2021-09-25 20:28:50: == 同步完成. 历时: 00:00:12, 速度: 419.00/s, 完成: 1, 错误: 0
+2021-09-25 20:28:50: 

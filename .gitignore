@@ -20,7 +20,6 @@ Thumbs.db
 
 !vendor/yiisoft/yii2/base/Application.php
 !vendor/yiisoft/yii2-gii/src/generators/model/default/model.php
-!vendor/yiisoft/yii2-gii/src/generators/model/default/model.php
 
 # composer itself is not needed
 composer.phar
@@ -46,6 +45,8 @@ phpunit.phar
 
 # 配置文件
 /config
+
+/vendor
 
 
 Jenkins.md
