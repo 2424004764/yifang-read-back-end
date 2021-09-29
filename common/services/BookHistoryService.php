@@ -65,6 +65,10 @@ class BookHistoryService extends BaseService
             'book_id' => $params['book_id']
         ]);
 
+        if(empty($params['user_id']) || empty($params['book_id'])){
+            return self::setAndReturn(ErrorCode::PARAM_VALIDATE_FAIL, 'user_id or book_id empty!');
+        }
+
         if ($item = $this->getItem($query, true)) {
             $this->Entity = $item;
             // 有阅读记录 计算书籍的阅读进度

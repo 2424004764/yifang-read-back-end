@@ -12,6 +12,8 @@ namespace app\common\services;
 
 use app\common\entity\BookChapterContentEntity;
 use app\common\repository\BookChapterContentRepository;
+use app\common\utTrait\QueryParams;
+use phpDocumentor\Reflection\Types\This;
 
 class BookChapterContentService extends BaseService
 {
@@ -23,6 +25,19 @@ class BookChapterContentService extends BaseService
         parent::__construct();
         $this->_bookChapterContentRepository = new BookChapterContentRepository;
         $this->Entity = new BookChapterContentEntity;
+    }
+
+    public function update($params)
+    {
+        $queryParams = new QueryParams();
+        $queryParams->where([
+            'chapter_id' => $params['chapter_id']
+        ]);
+        $this->Entity = $this->getItem($queryParams, true);
+
+        $this->Entity->chapter_content = $params['chapter_content'];
+
+        return $this->save();
     }
 
 }

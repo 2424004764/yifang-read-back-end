@@ -152,6 +152,20 @@ class BookChapterContentController extends BaseController
             'chapter_id' => $params['chapter_id']
         ]);
 
-        return $this->uniReturnJson($this->_bookChapterContentService->getItem($queryParams));
+        return $this->uniReturnJson($this->_bookChapterContentService->getItem($queryParams, true));
+    }
+
+    /**
+     * 编辑
+     * @return array
+     */
+    public function actionEdit()
+    {
+        $params = $this->getRequestParams([
+            'chapter_id' => "bookId",
+            'chapter_content' => "STRING"
+        ], 'post');
+
+        return $this->uniReturnJson($this->_bookChapterContentService->update($params));
     }
 }

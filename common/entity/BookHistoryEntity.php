@@ -32,6 +32,7 @@ class BookHistoryEntity extends \app\common\BaseAR
     {
         return [
             [['user_id', 'book_id', 'status'], 'integer'],
+            [['user_id', 'book_id'], 'required'],
             [['create_on', 'schedule', 'update_on'], 'safe'],
         ];
     }
