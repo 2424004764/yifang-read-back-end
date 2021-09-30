@@ -133,7 +133,7 @@ class BookBookshelfService extends BaseService
         $query = $this->Entity::find()
             ->from($this->Entity::tableName() . ' bs') // 为当前表加别名
             ->select('bs.book_id,bk.book_name,bk.book_cover_imgs,bh.`schedule`')
-            ->where(['bs.user_id' => $params['user_id']])
+            ->where(['bs.user_id' => $params['user_id'], 'bh.user_id' => $params['user_id']])
             ->innerJoin(BookBookEntity::tableName() . ' bk', 'bs.book_id = bk.book_id')
             ->leftJoin(BookHistoryEntity::tableName() . ' bh', 'bk.book_id = bh.book_id')
             ->orderBy('bh.update_on DESC,bs.bookshelf_id');
