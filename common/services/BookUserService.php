@@ -104,7 +104,7 @@ class BookUserService extends BaseService
         $user = null;
         $passwordHasher = new PasswordHash(8, false);
         $queryParams = new QueryParams();
-        $queryParams->select = 'user_id, user_nickname, user_headimg, sex, status, birthday, password, bind_email, create_on';
+        $queryParams->select = 'user_id, user_nickname, user_headimg, sex, status, birthday, password, bind_email, create_on, read_auth';
         switch (AdditionalCacheData::$ID_OR_EMAIL) {
             case 1:
                 // uid 登录
@@ -137,6 +137,9 @@ class BookUserService extends BaseService
 
             // 将密码删除后返回
             unset($user->password);
+        } else {
+            // 用户不存在
+            return self::setAndReturn(ErrorCode::USER_ACCOUNT_NO_BOOK_ID_NO_EMAIL);
         }
 
         return $user;

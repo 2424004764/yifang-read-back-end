@@ -190,6 +190,7 @@ class BookUserController extends BaseController
             'birthday' => 'DATE',
             'birthday_type' => 'SEX',
             'bind_email' => 'EMAIL_SURE_EMPTY',
+            'read_auth' => 'bookId', // 是否有阅读权限
         ], 'post');
 
         return $this->uniReturnJson($this->_bookUserService->updateUsrInfo($params));
