@@ -36,6 +36,7 @@ class ErrorMsg
         ErrorCode::USER_ACCOUNT_NO_BOOK_ID_NO_EMAIL => '你的账号或密码错误~',
         ErrorCode::SETTING_NAME_NO_EXIST => '配置名不存在',
         ErrorCode::USER_FIELD_NOT_EDIT => '字段不可修改',
+        ErrorCode::BOOKSHELF_RECORD_NOT_FOUND => '书架记录不存在',
     ];
 
     /**

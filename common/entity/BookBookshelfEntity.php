@@ -11,6 +11,7 @@ use Yii;
  * @property int $user_id 用户id
  * @property int $book_id 书籍id
  * @property string $create_on 加入时间
+ * @property string $update_on 更新时间
  */
 class BookBookshelfEntity extends \app\common\BaseAR
 {
@@ -29,7 +30,7 @@ class BookBookshelfEntity extends \app\common\BaseAR
     {
         return [
             [['bookshelf_id', 'user_id', 'book_id'], 'integer'],
-            [['create_on'], 'safe'],
+            [['create_on', 'update_on'], 'safe'],
             [['bookshelf_id'], 'unique'],
         ];
     }
@@ -44,6 +45,7 @@ class BookBookshelfEntity extends \app\common\BaseAR
             'user_id' => 'User ID',
             'book_id' => 'Book ID',
             'create_on' => 'Create On',
+            'update_on' => 'Update On',
         ];
     }
 }

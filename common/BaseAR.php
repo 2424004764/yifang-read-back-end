@@ -16,8 +16,17 @@ class BaseAR extends ActiveRecord
     public function beforeSave($insert)
     {
         if ($this->isNewRecord) {
-            // 自动生成时间
-            $this->create_on = date("Y-m-d H:i:s", time());
+            $schema = static::getTableSchema();
+            // 要操作的表存在某个字段
+            if($schema->getColumn('create_on')){
+                // 自动创建时间
+                $this->create_on = date("Y-m-d H:i:s", time());
+            }
+            if($schema->getColumn('update_on')){
+                // 自动生成更新时间
+                $this->update_on = date("Y-m-d H:i:s", time());
+            }
+
         } else {
             // 自动更改 时间字段
             if ($this->hasAttribute('update_on')) {
@@ -74,7 +83,7 @@ class BaseAR extends ActiveRecord
      * @param $queryParams QueryParams 查询条件
      * @param $queryEntity BaseAR 要查询的Entity
      * @param $isGetOne bool 是否只获取一条数据
-     * @return array|ActiveRecord[]
+     * @return array|ActiveRecord[]|null
      */
     public function getItem($queryParams, $queryEntity, $isGetOne)
     {

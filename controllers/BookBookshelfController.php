@@ -98,4 +98,28 @@ class BookBookshelfController extends BaseController
         return $this->uniReturnJson($this->_bookBookShelfService->getBookshelfListV2($params, $ps));
     }
 
+
+    /**
+     * 获取书架的书籍列表
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function actionGetListV3()
+    {
+        $ps = $this->uniGetPaging(1, 20);
+        $params = $this->getRequestParams(['user_id' => "bookId"]);
+
+        return $this->uniReturnJson($this->_bookBookShelfService->getBookshelfListV3($params, $ps));
+    }
+
+    /**
+     * 更新加入书架的时间 update_on字段
+     */
+    public function actionUpdateJoinDate()
+    {
+        $params = $this->getRequestParams(['bookshelf_id' => "bookId"], 'post');
+
+        return $this->uniReturnJson($this->_bookBookShelfService->updateJoinDate($params));
+    }
+
 }

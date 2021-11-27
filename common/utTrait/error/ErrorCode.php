@@ -48,6 +48,7 @@ class ErrorCode
      */
     const BOOKSHELF_IS_EXIST = 6000; // 已加入书架
     const BOOKSHELF_SAVE_FAIL = 6001; // 保存书架失败
+    const BOOKSHELF_RECORD_NOT_FOUND = 6002; // 书架记录不存在
 
     /**
      * user-setting 6200 ~ 6399

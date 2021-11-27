@@ -26,7 +26,7 @@ class ErrorInfo
      */
     public static function getErrCode()
     {
-        return empty(self::$errCode) ? ErrorCode::SYSTEM_ERROR : self::$errMsg;
+        return empty(self::$errCode) ? ErrorCode::SYSTEM_ERROR : self::$errCode;
     }
 
     /**
