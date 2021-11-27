@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\common\services\BookBookService;
+use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\QueryParams;
 use Yii;
 use app\common\entity\BookBookEntity;
@@ -108,6 +109,22 @@ class BookBookController extends BaseController
     }
 
     /**
+     * 更新api接口
+     * @return array
+     * @throws NotFoundHttpException
+     */
+    public function actionUpdateApi()
+    {
+        $params = $this->getRequestParams([
+            'book_id' => "bookId",
+            'is_hot' => "SEX",
+            'book_status' => "SEX"
+        ], 'post');
+
+        return $this->uniReturnJson($this->_bookBookService->update($params));
+    }
+
+    /**
      * Deletes an existing BookBookEntity model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -146,12 +163,14 @@ class BookBookController extends BaseController
         $ps = $this->uniGetPaging(1, 50);
         $params = $this->getRequestParams([
             'is_hot' => ["BOOL", 'int'],
+            'book_status' => 'ARRAY'
         ]);
 
         $queryParams = new QueryParams();
         $queryParams->loadPageSize($ps);
         $queryParams->where([
-            'is_hot' => $params['is_hot']
+            'is_hot' => $params['is_hot'],
+            'book_status' => $params['book_status'],
         ]);
         $queryParams->orderBy([
             'book_id' => SORT_DESC

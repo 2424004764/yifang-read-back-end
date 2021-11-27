@@ -15,6 +15,7 @@ use app\common\entity\BookUserEntity;
 use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\error\ErrorInfo;
 use app\common\utTrait\error\ErrorTrain;
+use yii\base\BaseObject;
 use yii\base\DynamicModel;
 use yii\validators\EmailValidator;
 
@@ -165,6 +166,15 @@ class utilValidatorsForm
             // 网络 FILE
             'NET-FILE' => [ // 网络文件
                 ['url']
+            ],
+            'ARRAY' => [
+                ['default', 'value' => '0'],
+                [function ($attribute, $params) {
+                    if (!is_array($this->$attribute)) {
+                        $this->addError($attribute,
+                            ErrorInfo::getECAEMBEC(ErrorCode::DATA_FORMAT_ERROR));
+                    }
+                }],
             ]
         ];
     }

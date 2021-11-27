@@ -32,6 +32,7 @@ class ErrorCode
      * 系统范围的错误 2000 ~ 3999
      */
     const SYSTEM_ERROR = 1000; // 系统错误
+    const DATA_FORMAT_ERROR = 1001; // 数据格式错误
 
     /**
      * 用户相关错误  4000 ~ 5999
@@ -54,4 +55,9 @@ class ErrorCode
      * user-setting 6200 ~ 6399
      */
     const SETTING_NAME_NO_EXIST = 6200; // 配置名不存在
+
+    /**
+     * book 6400 ~ 6599
+     */
+    const BOOK_NOT_EXIST = 6400; // 数据不存在
 }

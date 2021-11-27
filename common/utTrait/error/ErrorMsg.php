@@ -37,6 +37,8 @@ class ErrorMsg
         ErrorCode::SETTING_NAME_NO_EXIST => '配置名不存在',
         ErrorCode::USER_FIELD_NOT_EDIT => '字段不可修改',
         ErrorCode::BOOKSHELF_RECORD_NOT_FOUND => '书架记录不存在',
+        ErrorCode::BOOK_NOT_EXIST => '书籍不存在',
+        ErrorCode::DATA_FORMAT_ERROR => '数据格式错误',
     ];
 
     /**

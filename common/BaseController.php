@@ -166,13 +166,13 @@ class BaseController extends Controller
      * @param $data array|false|BaseAR 需要返回的数据
      * @return array 构建好的返回数据
      */
-    public function uniReturnJson($data = [])
+    public function uniReturnJson($data = [], $code = ErrorCode::SUCCESS, $message = '')
     {
         if (false === $data) {
             // 说明有错误
             return $this->outPutJson([], self::getErrCode(), self::getErrMsg());
         }
         $data = ($data === true) ? [] : $data; // 兼容data为true的情况
-        return $this->outPutJson($data, ErrorCode::SUCCESS, ErrorMsg::$SUCCESS);
+        return $this->outPutJson($data, $code, $message);
     }
 }

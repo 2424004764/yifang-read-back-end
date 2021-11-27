@@ -11,7 +11,11 @@ namespace app\common\services;
 
 
 use app\common\entity\BookChapterContentEntity;
+use app\common\entity\BookChapterEntity;
 use app\common\repository\BookChapterContentRepository;
+use app\common\utTrait\error\ErrorCode;
+use app\common\utTrait\error\ErrorInfo;
+use app\common\utTrait\error\ErrorMsg;
 use app\common\utTrait\QueryParams;
 use phpDocumentor\Reflection\Types\This;
 
@@ -33,9 +37,16 @@ class BookChapterContentService extends BaseService
         $queryParams->where([
             'chapter_id' => $params['chapter_id']
         ]);
-        $this->Entity = $this->getItem($queryParams, true);
+        $entity = $this->getItem($queryParams, true);
+        if (empty($entity)) {
+            self::setAndReturn(ErrorCode::BOOK_NOT_EXIST);
+        }
+        $this->Entity = $entity;
 
-        $this->Entity->chapter_content = $params['chapter_content'];
+        isset($params['chapter_content']) && $this->Entity->chapter_content = $params['chapter_content'];
+
+        // 修改章节名
+        BookChapterEntity::updateAll(['chapter_name' => $params['chapter_name']], ['chapter_id' => $params['chapter_id']]);
 
         return $this->save();
     }

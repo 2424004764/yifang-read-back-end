@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\common\services\BookChapterContentService;
+use app\common\services\BookChapterService;
 use app\common\utTrait\QueryParams;
 use Yii;
 use app\common\entity\BookChapterContentEntity;
@@ -21,11 +22,13 @@ class BookChapterContentController extends BaseController
      * @var mixed
      */
     private BookChapterContentService $_bookChapterContentService;
+    private BookChapterService $_bookChapterService;
 
     public function __construct($id, $module, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->_bookChapterContentService = new BookChapterContentService;
+        $this->_bookChapterService = new BookChapterService;
     }
 
     /**
@@ -139,7 +142,6 @@ class BookChapterContentController extends BaseController
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-
     /**
      * 获取章节内容详情
      * @return array
@@ -151,8 +153,14 @@ class BookChapterContentController extends BaseController
         $queryParams->where([
             'chapter_id' => $params['chapter_id']
         ]);
+        $data = $this->_bookChapterContentService->getItem($queryParams, true)->toArray();
+        // 获取章节标题
+        $chapter_name = $this->_bookChapterService->getItem($queryParams, true);
+        if (!empty($chapter_name)) {
+            $data['chapter_name'] = $chapter_name->chapter_name;
+        }
 
-        return $this->uniReturnJson($this->_bookChapterContentService->getItem($queryParams, true));
+        return $this->uniReturnJson($data);
     }
 
     /**
@@ -163,7 +171,8 @@ class BookChapterContentController extends BaseController
     {
         $params = $this->getRequestParams([
             'chapter_id' => "bookId",
-            'chapter_content' => "STRING"
+            'chapter_content' => "STRING",
+            'chapter_name' => "STRING",
         ], 'post');
 
         return $this->uniReturnJson($this->_bookChapterContentService->update($params));

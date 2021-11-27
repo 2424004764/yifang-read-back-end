@@ -20,6 +20,7 @@ use Yii;
  * @property int $book_unit_count 书籍共多少章节
  * @property int $book_status 状态 0未上架 1已上架 2已禁用（无法操作上下架）
  * @property string $create_on 发布时间
+ * @property string $update_on 更新时间
  */
 class BookBookEntity extends \app\common\BaseAR
 {
@@ -38,7 +39,7 @@ class BookBookEntity extends \app\common\BaseAR
     {
         return [
             [['book_word_count', 'book_favorites_count', 'book_click_count', 'book_watch_count', 'book_class_id', 'book_current_read_count', 'book_unit_count', 'book_status'], 'integer'],
-            [['create_on'], 'safe'],
+            [['create_on', 'update_on'], 'safe'],
             [['book_name'], 'string', 'max' => 100],
             [['book_cover_imgs'], 'string', 'max' => 1500],
             [['book_desc'], 'string', 'max' => 255],
@@ -64,6 +65,7 @@ class BookBookEntity extends \app\common\BaseAR
             'book_unit_count' => '书籍共多少章节',
             'book_status' => '状态 0未上架 1已上架 2已禁用（无法操作上下架）',
             'create_on' => '发布时间',
+            'update_on' => '更新时间',
         ];
     }
 

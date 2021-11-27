@@ -121,6 +121,22 @@ class BookChapterController extends BaseController
         return $this->redirect(['index']);
     }
 
+
+    /**
+     * 删除 api
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionDeleteApi($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->uniReturnJson($data);
+    }
+
     /**
      * Finds the BookChapterEntity model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -153,5 +169,7 @@ class BookChapterController extends BaseController
 
         return $this->uniReturnJson($this->_bookChapterService->getItem($queryParams));
     }
+
+    
 
 }
