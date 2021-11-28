@@ -2,12 +2,16 @@
 
 namespace app\controllers;
 
+use app\common\entity\BookChapterContentEntity;
+use app\common\services\BookChapterContentService;
 use app\common\services\BookChapterService;
 use app\common\utTrait\QueryParams;
 use Yii;
 use app\common\entity\BookChapterEntity;
 use app\common\searchs\BookChapterSearch;
 use app\common\BaseController;
+use yii\base\BaseObject;
+use yii\helpers\StringHelper;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -19,11 +23,13 @@ class BookChapterController extends BaseController
 {
 
     private BookChapterService $_bookChapterService; //服务对应的操作数据库的类
+    private BookChapterContentService $_bookChapterContentService; //服务对应的操作数据库的类
 
     public function __construct($id, $module, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->_bookChapterService = new BookChapterService;
+        $this->_bookChapterContentService = new BookChapterContentService;
     }
 
     /**
@@ -166,10 +172,32 @@ class BookChapterController extends BaseController
         $queryParams->where([
             'book_id' => $params['book_id']
         ]);
+        $queryParams->orderBy('create_on desc');
 
         return $this->uniReturnJson($this->_bookChapterService->getItem($queryParams));
     }
 
-    
+    public function actionCreateApi()
+    {
+        $params = $this->getRequestParams([
+            'book_id' => "bookId",
+            'chapter_name' => "STRING",
+            'chapter_content' => "STRING",
+        ], 'post');
+
+        $chapterEntity = new BookChapterEntity();
+        $chapterEntity->book_id = $params['book_id']; // 不为空
+        $chapterEntity->chapter_name = $params['chapter_name']; // 不为空
+        $chapter = $this->_bookChapterService->insert($chapterEntity);
+
+        $chapterContentEntity = new BookChapterContentEntity();
+        $chapterContentEntity->chapter_id = $chapterEntity->chapter_id;
+        $chapterContentEntity->chapter_content = $params['chapter_content'];
+        $this->_bookChapterContentService->insert($chapterContentEntity);
+
+        return $this->uniReturnJson([
+            'chapter_id' => $chapterEntity->chapter_id
+        ]);
+    }
 
 }
