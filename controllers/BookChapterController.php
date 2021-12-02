@@ -166,13 +166,17 @@ class BookChapterController extends BaseController
     public function actionGetChapterList()
     {
         $ps = $this->uniGetPaging(1, 100);
-        $params = $this->getRequestParams(['book_id' => "bookId"]);
+        $params = $this->getRequestParams([
+            'book_id' => "bookId",
+            "order_type" => "STRING", // 排序方式  desc or asc(default)
+        ]);
         $queryParams = new QueryParams();
         $queryParams->loadPageSize($ps);
         $queryParams->where([
             'book_id' => $params['book_id']
         ]);
-        $queryParams->orderBy('chapter_id asc');
+        $order_type = empty($params['order_type']) ? 'asc' : 'desc';
+        $queryParams->orderBy("chapter_id {$order_type}");
 
         return $this->uniReturnJson($this->_bookChapterService->getItem($queryParams));
     }
