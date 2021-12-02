@@ -39,6 +39,8 @@ class ErrorMsg
         ErrorCode::BOOKSHELF_RECORD_NOT_FOUND => '书架记录不存在',
         ErrorCode::BOOK_NOT_EXIST => '书籍不存在',
         ErrorCode::DATA_FORMAT_ERROR => '数据格式错误',
+        ErrorCode::UPLOAD_FILE_ERROR => '上传的文件错误',
+        ErrorCode::UPLOAD_FILE_EMPTY => '上传的文件为空',
     ];
 
     /**

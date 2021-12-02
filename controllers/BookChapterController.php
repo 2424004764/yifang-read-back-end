@@ -172,7 +172,7 @@ class BookChapterController extends BaseController
         $queryParams->where([
             'book_id' => $params['book_id']
         ]);
-        $queryParams->orderBy('create_on desc');
+        $queryParams->orderBy('chapter_id asc');
 
         return $this->uniReturnJson($this->_bookChapterService->getItem($queryParams));
     }

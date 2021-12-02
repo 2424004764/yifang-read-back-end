@@ -27,6 +27,11 @@ class BaseController extends Controller
     {
         parent::__construct($id, $module, $config);
         $this->_utilValidators = new utilValidatorsForm;
+
+        $method = \Yii::$app->getRequest()->getMethod();
+        if (in_array(\Yii::$app->getRequest()->getMethod(), ['OPTIONS', 'options'])) {
+            \Yii::$app->end();
+        }
     }
 
     /**

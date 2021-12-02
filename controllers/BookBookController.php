@@ -2,6 +2,9 @@
 
 namespace app\controllers;
 
+use app\common\entity\BookAuthorDetailEntity;
+use app\common\entity\BookClassEntity;
+use app\common\services\BookBookAuthorDetailService;
 use app\common\services\BookBookService;
 use app\common\utTrait\error\ErrorCode;
 use app\common\utTrait\QueryParams;
@@ -20,11 +23,13 @@ class BookBookController extends BaseController
 {
 
     private BookBookService $_bookBookService; // 控制器对应的服务类
+    private BookBookAuthorDetailService $_bookBookAuthorService; // 控制器对应的服务类
 
     public function __construct($id, $module, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->_bookBookService = new BookBookService;
+        $this->_bookBookAuthorService = new BookBookAuthorDetailService;
     }
 
     /**
@@ -194,6 +199,35 @@ class BookBookController extends BaseController
     {
         $params = $this->getRequestParams(['book_id' => "bookId"]);
         return $this->uniReturnJson($this->_bookBookService->getItemDetail($params['book_id']));
+    }
+
+    public function actionCreateApi()
+    {
+        $params = $this->getRequestParams([
+            'book_name' => "STRING",
+            'book_author' => "STRING",
+            'class_id' => ["INT", 'STRING'],
+            'cover_img_url' => 'STRING',
+            'book_desc' => 'STRING',
+        ], 'post');
+
+        $bookEntity = new BookBookEntity;
+        $bookEntity->book_name = $params['book_name'];
+        $bookEntity->book_cover_imgs = json_encode([$params['cover_img_url']]);
+        $bookEntity->book_desc = $params['book_desc'];
+        $bookEntity->book_class_id = $params['class_id'];
+        /** @var BookBookEntity $book */
+        $book = $this->_bookBookService->insert($bookEntity);
+
+        $authorEntity = new BookAuthorDetailEntity;
+        $authorEntity->book_id = $book->book_id;
+        $authorEntity->book_author = $params['book_author'];
+        $authorEntity->book_author_desc = '';
+        $this->_bookBookAuthorService->insert($authorEntity);
+
+        return $this->uniReturnJson([
+            'book_id' => $book->book_id
+        ]);
     }
 
 }

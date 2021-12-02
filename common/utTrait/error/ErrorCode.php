@@ -33,6 +33,8 @@ class ErrorCode
      */
     const SYSTEM_ERROR = 1000; // 系统错误
     const DATA_FORMAT_ERROR = 1001; // 数据格式错误
+    const UPLOAD_FILE_ERROR = 1002; // 上传的文件错误
+    const UPLOAD_FILE_EMPTY = 1003; // 上传的文件为空
 
     /**
      * 用户相关错误  4000 ~ 5999

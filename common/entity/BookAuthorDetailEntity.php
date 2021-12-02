@@ -28,7 +28,7 @@ class BookAuthorDetailEntity extends \app\common\BaseAR
     public function rules()
     {
         return [
-            [['book_id', 'book_author_desc'], 'required'],
+            [['book_id'], 'required'],
             [['book_id'], 'integer'],
             [['book_author_desc'], 'string'],
             [['create_on'], 'safe'],
