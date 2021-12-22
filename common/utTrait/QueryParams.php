@@ -11,6 +11,7 @@
 namespace app\common\utTrait;
 
 
+use yii\db\ActiveRecord;
 use yii\db\QueryTrait;
 
 class QueryParams

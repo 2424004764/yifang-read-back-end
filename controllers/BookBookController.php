@@ -161,20 +161,21 @@ class BookBookController extends BaseController
 
     /**
      * 获取书籍列表
+     * todo 自己写的querywhere 还是不行，得用yii自带的查询 在做书籍姓名搜索、-
      * @return array
      */
     public function actionGetBookList()
     {
         $ps = $this->uniGetPaging(1, 50);
         $params = $this->getRequestParams([
-            'is_hot' => ["BOOL", 'int'],
+            'is_hot' => ['int'],
             'book_status' => 'ARRAY'
         ]);
 
         $queryParams = new QueryParams();
         $queryParams->loadPageSize($ps);
         $queryParams->where([
-            'is_hot' => $params['is_hot'],
+            'is_hot' => $params['is_hot'] == 2 ? 0 : $params['is_hot'],
             'book_status' => $params['book_status'],
         ]);
         $queryParams->orderBy([

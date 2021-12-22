@@ -98,7 +98,7 @@ class BaseAR extends ActiveRecord
             }
         }
 
-//        $sql = $query->createCommand()->getRawSql();
+        $sql = $query->createCommand()->getRawSql();
 
         return $isGetOne ? $query->one() : $query->all();
     }
