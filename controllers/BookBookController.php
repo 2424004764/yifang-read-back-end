@@ -169,24 +169,18 @@ class BookBookController extends BaseController
         $ps = $this->uniGetPaging(1, 50);
         $params = $this->getRequestParams([
             'is_hot' => ['int'],
-            'book_status' => 'ARRAY'
+            'book_status' => 'ARRAY',
+            'book_name' => 'STRING'
         ]);
+        $params['is_hot'] = $params['is_hot'] == 2 ? $params['is_hot'] = 0 : $params['is_hot'];
 
-        $queryParams = new QueryParams();
-        $queryParams->loadPageSize($ps);
-        $queryParams->where([
-            'is_hot' => $params['is_hot'] == 2 ? 0 : $params['is_hot'],
-            'book_status' => $params['book_status'],
-        ]);
-        $queryParams->orderBy([
-            'book_id' => SORT_DESC
-        ]);
+        list($count, $list) = $this->_bookBookService->getBookList($params, $ps);
 
         $data = [
-            'list' => $this->_bookBookService->getItem($queryParams),
+            'list' => $list,
             'page' => $ps['page'],
             'size' => $ps['size'],
-            'count' => $this->_bookBookService->getCount($queryParams),
+            'count' => (int)$count,
         ];
 
         return $this->uniReturnJson($data);

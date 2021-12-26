@@ -23,6 +23,9 @@ class BookBookService extends BaseService
     const BOOK_STATUS_OFF = 0; // 状态：下架|未上架
     const BOOK_STATUS_DISABLE = 2; // 状态：已禁用（无法操作上下架）
 
+    const BOOK_HOT_ON = 1; // 热门
+    const BOOK_HOT_NO = 0; // 非热门
+
 
     static $STATUS = [
         self::BOOK_STATUS_ON,
@@ -112,5 +115,38 @@ class BookBookService extends BaseService
         isset($params['book_status']) && $this->Entity->book_status = (int)$params['book_status'];
 
         return $this->save();
+    }
+
+    public function getListQuery($params)
+    {
+        $query = BookBookEntity::find()->where('1=1');
+        if (!empty($params['is_hot'])) {
+            $query->andWhere(['is_hot' => $params['is_hot']]);
+        }else{
+            // 非热门
+            $query->andWhere(['is_hot' => self::BOOK_HOT_NO]);
+        }
+        if (!empty($params['book_status'])) {
+            $query->andWhere(['book_status' => $params['book_status']]);
+        } else {
+            $query->andWhere(['book_status' => self::BOOK_STATUS_ON]);
+        }
+        if (!empty($params['book_name'])) {
+            $query->andWhere(['like', 'book_name', $params['book_name']]);
+        }
+
+        return $query;
+    }
+
+    public function getBookList($params, $ps)
+    {
+        $query = $this->getListQuery($params);
+        $sql = $query->createCommand()->getRawSql();
+
+        $count = $query->count();
+
+        $list = $query->limit($ps['size'])->offset(($ps['page'] - 1) * $ps['size'])->all();
+
+        return [$count, $list];
     }
 }
