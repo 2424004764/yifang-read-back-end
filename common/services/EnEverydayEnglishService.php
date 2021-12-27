@@ -34,6 +34,9 @@ class EnEverydayEnglishService extends BaseService
         if (!empty($params['created_on'])) {
             $query->andWhere(['like', 'created_on', $params['created_on']]);
         }
+        if (!empty($params['is_release'])) {
+            $query->andWhere(['is_release' => $params['is_release']]);
+        }
 
         return $query;
     }

@@ -40,6 +40,7 @@ class EnEverydayEnglishController extends BaseController
             'content' => "STRING",
             'translate' => "STRING",
             'created_on' => "STRING",
+            'is_release' => "STRING",
         ], 'get');
 
         list($count, $list) = (new EnEverydayEnglishService())->list($ps, $params);
