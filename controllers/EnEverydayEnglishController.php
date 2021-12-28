@@ -41,6 +41,7 @@ class EnEverydayEnglishController extends BaseController
             'translate' => "STRING",
             'created_on' => "STRING",
             'is_release' => "STRING",
+            'user_id'   => 'int'
         ], 'get');
 
         list($count, $list) = (new EnEverydayEnglishService())->list($ps, $params);
@@ -102,6 +103,7 @@ class EnEverydayEnglishController extends BaseController
     {
         $params = $this->getRequestParams([
             'en_id' => "STRING",
+            'user_id' => "STRING",
         ], 'get');
 
         if (empty($params['en_id'])) {

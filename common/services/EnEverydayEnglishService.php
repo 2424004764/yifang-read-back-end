@@ -11,6 +11,7 @@ namespace app\common\services;
 
 
 use app\common\entity\BookAuthorDetailEntity;
+use app\common\entity\EnCollectionEntity;
 use app\common\entity\EnEverydayEnglishEntity;
 use app\common\repository\BookBookAuthDetailRepository;
 use app\common\utTrait\error\ErrorCode;
@@ -47,11 +48,36 @@ class EnEverydayEnglishService extends BaseService
         $sql = $query->createCommand()->getRawSql();
 
         $count = $query->count();
+        if (empty($count)) {
+            return [0, []];
+        }
 
         $list = $query->limit($ps['size'])
             ->offset(($ps['page'] - 1) * $ps['size'])
             ->orderBy('created_on desc')
-            ->all();
+            ->asArray()->all();
+
+        if (!empty($params['user_id'])) {
+            // 是否收藏
+            $en_ids = array_column($list, 'en_id');
+            $collection_list = EnCollectionEntity::find()->where([
+                'en_id' => $en_ids,
+                'user_id' => $params['user_id'],
+            ])->asArray()->all();
+            foreach ($list as &$en) {
+                $en['is_collection'] = 0; // 默认未收藏
+                $en['is_release'] = (int)$en['is_release'];
+                foreach ($collection_list as $collection) {
+                    if (($collection['en_id'] == $en['en_id']) && ($collection['user_id'] == $params['user_id'])) {
+                        $en['is_collection'] = 1;
+                    }
+                }
+            }
+        }
+
+        foreach ($list as &$en) {
+            $en['is_release'] = (int)$en['is_release'];
+        }
 
         return [$count, $list];
     }
@@ -69,12 +95,12 @@ class EnEverydayEnglishService extends BaseService
             return self::setAndReturn(ErrorCode::PARAM_EMPTY);
         }
 
-        $item->content = $params['content'];
-        $item->cover_img = $params['cover_img'];
-        $item->translate = $params['translate'];
-        $item->source = $params['source'];
-        $item->release_date = $params['release_date'];
-        $item->is_release = $params['is_release'];
+        !empty($params['content']) && $item->content = $params['content'];
+        !empty($params['cover_img']) && $item->cover_img = $params['cover_img'];
+        !empty($params['translate']) && $item->translate = $params['translate'];
+        !empty($params['source']) && $item->source = $params['source'];
+        !empty($params['release_date']) && $item->release_date = $params['release_date'];
+        !empty($params['is_release']) && $item->is_release = $params['is_release'];
 
         return $item->save();
     }
@@ -93,9 +119,16 @@ class EnEverydayEnglishService extends BaseService
         return $item->save();
     }
 
-    public function detail($en_id)
+    public function detail($params)
     {
-        return EnEverydayEnglishEntity::find()->where(['en_id' => $en_id])->one();
+        $entity = EnEverydayEnglishEntity::find()->where(['en_id' => $params['en_id']])->asArray()->one();
+        if (!empty($params['user_id'])) {
+            // 是否收藏
+            $isCollection = (new EnCollectionService())->isCollection($params);
+            $entity['is_collection'] = (int)$isCollection;
+        }
+
+        return $entity;
     }
 
 }
