@@ -47,4 +47,20 @@ class EnCollectionController extends BaseController
         return $this->uniReturnJson($result ? 1 : 0);
     }
 
+    // 我的收藏列表
+    public function actionCollectionList()
+    {
+        $ps = $this->uniGetPaging(1, 10);
+        $params = $this->getRequestParams([
+            'user_id' => "int",
+        ], 'get');
+        if (empty($params['user_id'])) {
+            return $this->uniReturnJson([], ErrorInfo::getECAEMBEC(ErrorCode::PARAM_EMPTY, false));
+        }
+
+        $result = (new EnCollectionService())->collectionList($params, $ps);
+
+        return $this->uniReturnJson($result);
+    }
+
 }

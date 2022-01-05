@@ -143,5 +143,14 @@ class BookSystemConfigController extends BaseController
     {
         return $this->uniReturnJson($this->_bookSystemConfigService->getSwiperImages());
     }
+
+    /**
+     * 获取小程序首页轮播图
+     */
+    public function actionSystemConfig()
+    {
+        $data = BookSystemConfigEntity::find()->asArray()->all();
+        return $this->uniReturnJson($data);
+    }
     
 }

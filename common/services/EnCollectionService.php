@@ -121,4 +121,41 @@ class EnCollectionService extends BaseService
         return $this->detail($params);
     }
 
+    public function getCollectionListQuery($params)
+    {
+        return EnCollectionEntity::find()->where(['user_id' => $params]);
+    }
+
+    public function collectionList($params, $ps)
+    {
+        $query = $this->getCollectionListQuery($params);
+        $sql = $query->createCommand()->getRawSql();
+
+        $count = $query->count();
+        if (empty($count)) {
+            return [];
+        }
+
+        $list = $query->limit($ps['size'])->offset(($ps['page'] - 1) * $ps['size'])
+            ->orderBy('collection_id desc')->asArray()->all();
+        $en_id = array_column($list, 'en_id');
+        // 获取美句详情
+        $en_list = EnEverydayEnglishEntity::find()->where(['en_id' => $en_id])->asArray()->all();
+        foreach ($list as &$collection) {
+            foreach ($en_list as $en) {
+                if ($collection['en_id'] == $en['en_id']) {
+                    $collection['content'] = $en['content'];
+                    $collection['translate'] = $en['translate'];
+                }
+            }
+        }
+
+        return [
+            'list' => $list,
+            'page' => $ps['page'],
+            'size' => $ps['size'],
+            'count' => (int)$count,
+        ];
+    }
+
 }
